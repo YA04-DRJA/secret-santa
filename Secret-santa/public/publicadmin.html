@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Secret Santa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light p-5">
+    <div class="container bg-white p-5 rounded shadow" style="max-width: 600px;">
+        <h1 class="mb-4">🎅 Admin Panel</h1>
+        
+        <div class="alert alert-info">
+            For privacy, this page does not show the names. 
+            <br>Please check your <strong>JSONBin Dashboard</strong> to see who has signed up.
+        </div>
+
+        <hr class="my-4">
+
+        <div class="p-4 bg-danger bg-opacity-10 border border-danger rounded">
+            <h3 class="text-danger fw-bold">🚀 Perform Draw</h3>
+            <p>Ready to start? This will shuffle the names and email everyone their match immediately.</p>
+            
+            <div class="mb-3">
+                <label class="form-label fw-bold">Admin Password:</label>
+                <input type="password" id="adminPass" class="form-control" placeholder="Enter the password you set in Netlify">
+            </div>
+            
+            <button onclick="performDraw()" class="btn btn-danger w-100 fw-bold py-2">SHUFFLE AND SEND EMAILS</button>
+            
+            <div id="status" class="mt-3 fw-bold"></div>
+        </div>
+    </div>
+
+    <script>
+        async function performDraw() {
+            const pass = document.getElementById('adminPass').value;
+            const status = document.getElementById('status');
+            
+            if (!pass) {
+                alert("Please enter the admin password");
+                return;
+            }
+
+            if(!confirm("⚠️ ARE YOU SURE?\n\nThis will send emails to everyone on the list immediately.")) {
+                return;
+            }
+
+            status.innerHTML = '<span class="text-warning">⏳ Processing... please wait...</span>';
+
+            try {
+                const res = await fetch('/.netlify/functions/draw', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: pass })
+                });
+                
+                const data = await res.json();
+                
+                if (res.ok) {
+                    status.innerHTML = '<div class="alert alert-success">✅ SUCCESS! ' + data.count + ' emails have been sent.</div>';
+                } else {
+                    const errorMsg = data.error || 'Unknown error';
+                    status.innerHTML = '<div class="alert alert-danger">❌ Error: ' + errorMsg + '</div>';
+                }
+            } catch (e) {
+                status.innerHTML = '<div class="alert alert-danger">❌ Connection failed. Please check your internet.</div>';
+            }
+        }
+    </script>
+</body>
+</html>
