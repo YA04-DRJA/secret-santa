@@ -1,9 +1,0 @@
-{
-  "name": "secret-santa-office",
-  "version": "1.0.0",
-  "description": "Secret Santa App",
-  "dependencies": {
-    "nodemailer": "^6.9.0",
-    "node-fetch": "^2.6.7"
-  }
-}
