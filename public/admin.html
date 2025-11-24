@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Santa Admin</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <!-- Login Screen -->
+            <div id="loginScreen">
+                <h1>🔐 Admin Access</h1>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter admin password" required>
+                    </div>
+                    <button type="submit" class="btn-submit">Login</button>
+                </form>
+                <div id="loginError" class="message error" style="display: none;"></div>
+            </div>
+
+            <!-- Admin Dashboard -->
+            <div id="adminDashboard" style="display: none;">
+                <h1>🎅 Secret Santa Admin Dashboard</h1>
+                
+                <div class="admin-stats">
+                    <div class="stat-card">
+                        <h3 id="participantCount">0</h3>
+                        <p>Participants</p>
+                    </div>
+                    <div class="stat-card">
+                        <p id="drawStatus">Draw not completed</p>
+                    </div>
+                </div>
+
+                <div class="admin-actions">
+                    <button id="refreshBtn" class="btn-secondary">🔄 Refresh List</button>
+                    <button id="drawBtn" class="btn-submit">🎲 Draw Names & Send Emails</button>
+                </div>
+
+                <div id="adminMessage" class="message"></div>
+
+                <h2>📋 Participants</h2>
+                <div id="participantsList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ADMIN_PASSWORD = 'Aecon.Christmas2025';
+        let isAuthenticated = false;
+
+        // Login handling
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('loginError');
+            
+            if (password === ADMIN_PASSWORD) {
+                isAuthenticated = true;
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('adminDashboard').style.display = 'block';
+                loadParticipants();
+            } else {
+                errorDiv.textContent = '❌ Incorrect password';
+                errorDiv.style.display = 'block';
+            }
+        });
+
+        // Load participants
+        async function loadParticipants() {
+            if (!isAuthenticated) return;
+            
+            try {
+                const response = await fetch('/.netlify/functions/get-participants');
+                const data = await response.json();
+                
+                document.getElementById('participantCount').textContent = data.participants.length;
+                
+                const listDiv = document.getElementById('participantsList');
+                if (data.participants.length === 0) {
+                    listDiv.innerHTML = '<p>No participants yet.</p>';
+                } else {
+                    listDiv.innerHTML = data.participants.map(p => `
+                        <div class="participant-card">
+                            <h3>${p.name}</h3>
+                            <p><strong>Email:</strong> ${p.email}</p>
+                            <div class="preferences">
+                                <h4>Preferences:</h4>
+                                <p><strong>Collects/Loves:</strong> ${p.preferences.collectOrReceive}</p>
+                                <p><strong>Favorite Store:</strong> ${p.preferences.favoriteStore}</p>
+                                <p><strong>Coffee/Tea:</strong> ${p.preferences.coffeeTea}</p>
+                                <p><strong>Hobby:</strong> ${p.preferences.hobby}</p>
+                                <p><strong>Wishlist:</strong> ${p.preferences.wishlist}</p>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            } catch (error) {
+                console.error('Error loading participants:', error);
+            }
+        }
+
+        // Refresh button
+        document.getElementById('refreshBtn').addEventListener('click', loadParticipants);
+
+        // Draw names button
+        document.getElementById('drawBtn').addEventListener('click', async () => {
+            if (!isAuthenticated) return;
+            
+            if (!confirm('Are you sure you want to draw names and send emails to everyone? This can only be done once!')) {
+                return;
+            }
+            
+            const messageDiv = document.getElementById('adminMessage');
+            const drawBtn = document.getElementById('drawBtn');
+            
+            drawBtn.disabled = true;
+            drawBtn.textContent = '🎲 Drawing names...';
+            messageDiv.textContent = 'Drawing names and sending emails...';
+            messageDiv.className = 'message';
+            
+            try {
+                const response = await fetch('/.netlify/functions/draw', {
+                    method: 'POST'
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    messageDiv.textContent = '✅ ' + data.message;
+                    messageDiv.className = 'message success';
+                    document.getElementById('drawStatus').textContent = 'Draw completed!';
+                } else {
+                    messageDiv.textContent = '❌ ' + (data.error || 'Failed to draw names');
+                    messageDiv.className = 'message error';
+                    drawBtn.disabled = false;
+                    drawBtn.textContent = '🎲 Draw Names & Send Emails';
+                }
+            } catch (error) {
+                messageDiv.textContent = '❌ Network error. Please try again.';
+                messageDiv.className = 'message error';
+                drawBtn.disabled = false;
+                drawBtn.textContent = '🎲 Draw Names & Send Emails';
+            }
+        });
+    </script>
+</body>
+</html>
