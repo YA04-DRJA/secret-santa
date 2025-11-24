@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Santa 2024 🎅</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #1a472a; color: white; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+        .card { background: rgba(255, 255, 255, 0.95); color: #333; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .btn-santa { background-color: #d42426; color: white; font-weight: bold; }
+        .btn-santa:hover { background-color: #b01b1d; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container" style="max-width: 500px;">
+        <div class="card p-5 text-center">
+            <h1 class="mb-4">🎅 Secret Santa</h1>
+            <p class="mb-4">Enter your name and email to join the office draw!</p>
+            
+            <form id="signupForm">
+                <div class="mb-3 text-start">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" id="name" class="form-control" required placeholder="Santa Claus">
+                </div>
+                <div class="mb-3 text-start">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" id="email" class="form-control" required placeholder="santa@northpole.com">
+                </div>
+                <button type="submit" id="submitBtn" class="btn btn-santa w-100 py-2">Join the List</button>
+            </form>
+
+            <div id="message" class="mt-3 fw-bold"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            const msg = document.getElementById('message');
+            
+            // Disable button
+            btn.disabled = true;
+            btn.innerText = 'Sending to North Pole...';
+            msg.innerText = '';
+
+            const data = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value
+            };
+
+            try {
+                const response = await fetch('/.netlify/functions/signup', {
+                    method: 'POST',
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    msg.innerHTML = '<span class="text-success">✅ ' + result.message + '</span>';
+                    document.getElementById('signupForm').reset();
+                } else {
+                    msg.innerHTML = '<span class="text-danger">❌ ' + result.error + '</span>';
+                    btn.disabled = false;
+                    btn.innerText = 'Join the List';
+                }
+            } catch (error) {
+                msg.innerText = '❌ Something went wrong. Try again!';
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
