@@ -8,45 +8,39 @@
 </head>
 <body>
     <!-- Christmas Background -->
-    <div class="christmas-background">
-        <div class="snow"></div>
-        <div class="snow"></div>
-        <div class="snow"></div>
-        <div class="snow"></div>
-        <div class="snow"></div>
-        <div class="snow"></div>
-        <div class="snow"></div>
-        <div class="snow"></div>
-        <div class="snow"></div>
-        <div class="snow"></div>
-    </div>
+    <div class="christmas-bg"></div>
+    
+    <!-- Falling Snow -->
+    <div class="snow-container" id="snowContainer"></div>
+    
+    <!-- Christmas Trees -->
+    <div class="christmas-tree tree-left"></div>
+    <div class="christmas-tree tree-right"></div>
 
     <!-- Santa Animation -->
-    <div class="santa-animation" id="santaAnimation">🎅🛷</div>
+    <div class="santa-animation" id="santaAnimation">🎅🛷🎄</div>
 
     <div class="container">
         <!-- PASSWORD SCREEN -->
         <div class="card" id="passwordScreen">
             <div class="christmas-header">
-                🎄 I90 Deep Creek Holiday Gift Exchange 🎄
             </div>
 
             <div class="main-title">
                 <div class="title-primary">I90 Deep Creek</div>
                 <div class="title-secondary">
-                    <span class="santa-hat">🎅</span>
-                    Aecon Secret Santa 2025
+                    <span class="aecon-a"></span>econ Secret Santa 2025
                 </div>
-                <div class="title-tagline">Enter the password to join the Christmas fun!</div>
+                <div class="title-tagline">Enter the magic password to join the Christmas fun! 🎅</div>
             </div>
 
             <form id="passwordForm">
                 <div class="form-group">
-                    <label for="accessPassword">🎅 Secret Password</label>
-                    <input type="password" id="accessPassword" placeholder="Enter the magic word!" required>
+                    <label for="accessPassword">🔐 Secret Christmas Password</label>
+                    <input type="password" id="accessPassword" placeholder="What's the magic word?" required>
                 </div>
 
-                <button type="submit" class="btn-primary">🎁 Enter Christmas Party 🎁</button>
+                <button type="submit" class="btn-primary">🎁 ENTER CHRISTMAS PARTY 🎁</button>
 
                 <div id="passwordError" class="message message-error" style="display: none;"></div>
             </form>
@@ -55,67 +49,66 @@
         <!-- SIGNUP SCREEN -->
         <div class="card" id="signupCard" style="display: none;">
             <div class="christmas-header">
-                🎄 I90 Deep Creek Holiday Gift Exchange 🎄
+                🎄 I90 DEEP CREEK CHRISTMAS GIFT EXCHANGE 🎄
             </div>
 
             <div class="main-title">
                 <div class="title-primary">I90 Deep Creek</div>
                 <div class="title-secondary">
-                    <span class="santa-hat">🎅</span>
-                    Aecon Secret Santa 2025
+                    <span class="aecon-a"></span>econ Secret Santa 2025
                 </div>
-                <div class="title-tagline">Ho Ho Ho! Let's make this Christmas magical! 🎅</div>
+                <div class="title-tagline">Ho Ho Ho! Welcome to the most festive party of the year! 🎄</div>
             </div>
 
             <div class="participant-counter">
-                🎄 <span id="participantCount">0</span> Santas have joined so far!
+                🎅 <span id="participantCount">0</span> Christmas Elves Have Joined!
             </div>
 
             <div class="info-box">
-                <h3>🎁 How It Works:</h3>
+                <h3>🎁 How the Christmas Magic Works:</h3>
                 <ul>
-                    <li>✨ Enter your name and personal email below</li>
-                    <li>🎯 Answer quick questions to help your Secret Santa</li>
-                    <li>🎄 Once everyone signs up, names will be drawn</li>
-                    <li>📧 You'll get an email with your assigned person</li>
+                    <li>✨ Enter your details below to join Santa's list</li>
+                    <li>🎯 Help your Secret Santa by answering the questions</li>
+                    <li>🎄 Once everyone joins, we'll draw names automatically</li>
+                    <li>📧 You'll get a magical email with your assigned person!</li>
                 </ul>
             </div>
 
             <form id="signupForm">
                 <div class="form-group">
-                    <label for="name">Full Name</label>
+                    <label for="name">🎅 Your Full Name</label>
                     <input type="text" id="name" placeholder="Santa Claus" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="email">Personal Email</label>
+                    <label for="email">📧 Your Personal Email</label>
                     <input type="email" id="email" placeholder="santa@northpole.com" required>
-                    <small>Use personal email so you don't miss the assignment!</small>
+                    <small>Use your personal email so you don't miss the Christmas magic!</small>
                 </div>
 
-                <div class="form-divider">Help Your Secret Santa! 🎁</div>
+                <div class="form-divider">Help Your Secret Santa Choose the Perfect Gift! 🎁</div>
 
                 <div class="form-group">
-                    <label for="q1">What do you love to receive?</label>
-                    <input type="text" id="q1" placeholder="Candles, books, mugs..." required>
-                </div>
-
-                <div class="form-group">
-                    <label for="q2">Favorite store or brand?</label>
-                    <input type="text" id="q2" placeholder="Amazon, Starbucks..." required>
+                    <label for="q1">What would make you smile this Christmas?</label>
+                    <input type="text" id="q1" placeholder="Candles, books, cozy socks, mugs..." required>
                 </div>
 
                 <div class="form-group">
-                    <label for="q3">Favorite hobby or interest?</label>
-                    <input type="text" id="q3" placeholder="Reading, gaming..." required>
+                    <label for="q2">Favorite store or place to shop?</label>
+                    <input type="text" id="q2" placeholder="Amazon, local bookstore, coffee shop..." required>
                 </div>
 
                 <div class="form-group">
-                    <label for="q4">Wish list under $25? (Optional)</label>
-                    <input type="text" id="q4" placeholder="Specific ideas welcome!">
+                    <label for="q3">What do you love to do in your free time?</label>
+                    <input type="text" id="q3" placeholder="Reading, movies, cooking, sports..." required>
                 </div>
 
-                <button type="submit" class="btn-primary">🎄 Join Secret Santa! 🎄</button>
+                <div class="form-group">
+                    <label for="q4">Any specific Christmas wishes under $25?</label>
+                    <input type="text" id="q4" placeholder="Optional - specific items you'd love!">
+                </div>
+
+                <button type="submit" class="btn-primary">🎄 JOIN THE CHRISTMAS FUN! 🎄</button>
 
                 <div id="message" class="message" style="display: none;"></div>
             </form>
