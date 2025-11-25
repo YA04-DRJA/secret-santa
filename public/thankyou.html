@@ -1,79 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thank You – I90 Deep Creek Secret Santa</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Christmas Background -->
-    <div class="christmas-background">
-        <div class="snow"></div>
-        <div class="snow"></div>
-        <div class="snow"></div>
-        <div class="snow"></div>
-        <div class="snow"></div>
-        <div class="snow"></div>
-        <div class="snow"></div>
-        <div class="snow"></div>
-        <div class="snow"></div>
-        <div class="snow"></div>
-    </div>
+    <!-- CHRISTMAS LIGHTS AT TOP -->
+    <div class="lights"></div>
+
+    <!-- FALLING SNOW -->
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❅</div>
+    <div class="snowflake">❆</div>
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❅</div>
+    <div class="snowflake">❆</div>
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❅</div>
+    <div class="snowflake">❆</div>
+    <div class="snowflake">❄</div>
+
+    <!-- CHRISTMAS TREES -->
+    <div class="tree tree-left">🎄</div>
+    <div class="tree tree-right">🎄</div>
 
     <div class="container">
         <div class="card">
+            <div class="ribbon"></div>
+            
             <div class="christmas-header">
-                🎉 Thank You for Joining! 🎉
+                🎉 YOU'RE ON SANTA'S LIST! 🎉
             </div>
 
             <div class="main-title">
-                <div class="title-primary">I90 Deep Creek</div>
-                <div class="title-secondary">
-                    <span class="santa-hat">🎅</span>
-                    Aecon Secret Santa 2025
+                <div class="title-big">I90 DEEP CREEK</div>
+                <div class="title-small">
+                    <span class="santa-on-a">A</span>econ Secret Santa 2025
                 </div>
-                <div class="title-tagline">You're officially on Santa's nice list! 🎄</div>
+                <div class="tagline">Christmas magic is coming! 🎄</div>
             </div>
 
-            <p style="text-align: center; margin-bottom: 25px; line-height: 1.6;">
-                Your details have been sent to Santa's workshop! Once everyone signs up, 
-                you'll receive an email with your assigned person and their preferences. 
-                Keep an eye on your inbox for the big reveal!
+            <p style="text-align: center; margin-bottom: 30px; line-height: 1.8; font-size: 1.15em;">
+                Your details are with Santa! Once everyone joins, 
+                you'll get an email with your assigned person and their wishes. 
+                Watch your inbox for the big reveal!
             </p>
 
-            <!-- Event Details -->
-            <div class="event-details">
-                <h3>🎄 Mark Your Calendar! 🎄</h3>
+            <!-- EVENT DETAILS -->
+            <div class="event-box">
+                <h3>🎄 CHRISTMAS PARTY DETAILS 🎄</h3>
                 <div class="event-grid">
                     <div class="event-item">
-                        <strong>Date:</strong> December 19th, 2025
+                        <strong>📅 Date:</strong>
+                        December 19th, 2025
                     </div>
                     <div class="event-item">
-                        <strong>Time:</strong> 1:00 PM
+                        <strong>⏰ Time:</strong>
+                        1:00 PM
                     </div>
                     <div class="event-item">
-                        <strong>Location:</strong> Main Office
+                        <strong>📍 Location:</strong>
+                        Main Office
                     </div>
                     <div class="event-item">
-                        <strong>Budget:</strong> Around $25
+                        <strong>💰 Budget:</strong>
+                        Around $25
                     </div>
                 </div>
-                <div style="text-align: center; margin-top: 15px; font-style: italic;">
-                    🍕 Potluck style - bring a dish to share if you'd like!
+                <div style="text-align: center; margin-top: 20px; font-size: 1.15em;">
+                    🍕 Potluck - bring your favorite holiday treat!
                 </div>
             </div>
 
-            <!-- Countdown -->
-            <div class="countdown-section">
-                <div>Christmas Party Countdown:</div>
-                <div class="countdown-value">
-                    🎁 <span id="countdown">calculating...</span> 🎁
-                </div>
+            <!-- COUNTDOWN -->
+            <div class="countdown-box">
+                <div style="font-size: 1.3em; font-weight: bold;">⏳ COUNTDOWN TO CHRISTMAS PARTY:</div>
+                <div class="big-countdown" id="countdown">Loading...</div>
             </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // Countdown timer
+        function updateCountdown() {
+            const eventDate = new Date('December 19, 2025 13:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = eventDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+            document.getElementById('countdown').textContent = 
+                days + ' days, ' + hours + ' hours, ' + minutes + ' minutes';
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 60000);
+    </script>
 </body>
 </html>
