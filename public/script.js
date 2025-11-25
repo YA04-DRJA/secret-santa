@@ -1,11 +1,11 @@
 const PASSWORD = 'I90.SS2025';
 
-// Create snow that FALLS and responds to cursor - WORKING VERSION
+// Create GAME-LIKE interactive snow - push them away!
 function createInteractiveSnow() {
     const snowflakes = [];
     
-    // Create 50 snowflakes
-    for (let i = 0; i < 50; i++) {
+    // Create 60 snowflakes
+    for (let i = 0; i < 60; i++) {
         const snowflake = document.createElement('div');
         snowflake.className = 'snowflake';
         snowflake.textContent = ['❄', '❅', '❆'][Math.floor(Math.random() * 3)];
@@ -16,8 +16,8 @@ function createInteractiveSnow() {
             element: snowflake,
             x: Math.random() * window.innerWidth,
             y: Math.random() * window.innerHeight - window.innerHeight,
-            speedY: Math.random() * 1 + 0.5,
-            speedX: Math.random() * 0.5 - 0.25,
+            velocityX: 0,
+            velocityY: Math.random() * 1 + 0.5,
             size: Math.random() * 10 + 15
         };
         
@@ -34,46 +34,62 @@ function createInteractiveSnow() {
         mouseY = e.clientY;
     });
     
-    // Animation loop
+    // Animation loop - GAME STYLE
     function animate() {
         snowflakes.forEach(function(snow) {
-            // Fall down
-            snow.y += snow.speedY;
-            snow.x += snow.speedX;
-            
-            // Reset when off screen
-            if (snow.y > window.innerHeight) {
-                snow.y = -20;
-                snow.x = Math.random() * window.innerWidth;
-            }
-            
-            if (snow.x > window.innerWidth) {
-                snow.x = 0;
-            } else if (snow.x < 0) {
-                snow.x = window.innerWidth;
-            }
+            // Apply gravity (falling)
+            snow.velocityY += 0.05;
             
             // Calculate distance from mouse
             const dx = snow.x - mouseX;
             const dy = snow.y - mouseY;
             const distance = Math.sqrt(dx * dx + dy * dy);
             
-            let finalX = snow.x;
-            let finalY = snow.y;
-            
-            // Push away from cursor if close
-            if (distance < 100) {
-                const force = (100 - distance) / 100;
-                const pushX = (dx / distance) * force * 50;
-                const pushY = (dy / distance) * force * 50;
+            // PUSH AWAY from cursor like WIND - stronger force!
+            if (distance < 150 && distance > 0) {
+                const force = (150 - distance) / 150;
+                const pushStrength = force * 15; // Strong push!
                 
-                finalX += pushX;
-                finalY += pushY;
+                // Push in direction away from mouse
+                snow.velocityX += (dx / distance) * pushStrength;
+                snow.velocityY += (dy / distance) * pushStrength;
             }
             
+            // Apply friction to slow down over time
+            snow.velocityX *= 0.95;
+            snow.velocityY *= 0.98;
+            
             // Update position
-            snow.element.style.left = finalX + 'px';
-            snow.element.style.top = finalY + 'px';
+            snow.x += snow.velocityX;
+            snow.y += snow.velocityY;
+            
+            // Bounce off edges (so they don't disappear forever)
+            if (snow.x < 0) {
+                snow.x = 0;
+                snow.velocityX *= -0.5;
+            }
+            if (snow.x > window.innerWidth) {
+                snow.x = window.innerWidth;
+                snow.velocityX *= -0.5;
+            }
+            
+            // Reset when off bottom of screen - KEEP FALLING FROM TOP
+            if (snow.y > window.innerHeight + 50) {
+                snow.y = -20;
+                snow.x = Math.random() * window.innerWidth;
+                snow.velocityX = 0;
+                snow.velocityY = Math.random() * 1 + 0.5;
+            }
+            
+            // If pushed off top, bring back from top
+            if (snow.y < -50) {
+                snow.y = -20;
+                snow.velocityY = Math.random() * 1 + 0.5;
+            }
+            
+            // Update DOM position
+            snow.element.style.left = snow.x + 'px';
+            snow.element.style.top = snow.y + 'px';
         });
         
         requestAnimationFrame(animate);
