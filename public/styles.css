@@ -162,10 +162,9 @@ body {
 .info-box {
     background: #fff8dc;
     border: 5px solid #FFD700;
-    padding: 30px 40px;
+    padding: 30px 45px;
     border-radius: 15px;
     margin-bottom: 25px;
-    max-width: 100%;
 }
 
 .info-box h3 {
@@ -182,33 +181,9 @@ body {
 
 .info-box li {
     padding: 12px 0;
-    font-size: 1.05em;
+    font-size: 1em;
     color: #333;
-    line-height: 1.7;
-}
-
-.info-box li::before {
-    content: '✨ ';
-    margin-right: 10px;
-}
-
-.info-box h3 {
-    color: #ff0000;
-    margin-bottom: 20px;
-    font-size: 1.5em;
-    text-align: center;
-}
-
-.info-box ul {
-    list-style: none;
-    padding: 0;
-}
-
-.info-box li {
-    padding: 10px 0;
-    font-size: 1.05em;
-    color: #333;
-    line-height: 1.6;
+    line-height: 1.8;
 }
 
 .info-box li::before {
@@ -417,14 +392,3 @@ body {
         font-size: 150px;
     }
 }
-
-/* WIDER INFO BOX */
-.info-box {
-    padding: 30px 35px;
-}
-
-.info-box li {
-    font-size: 1em;
-    line-height: 1.8;
-}
-
