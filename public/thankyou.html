@@ -232,51 +232,75 @@
             </div>
 
             <!-- POTLUCK SECTION -->
-            <div class="potluck-section">
-                <h3>🍕 Potluck Contribution 🍕</h3>
-                <p style="text-align: center; font-size: 16px; margin-bottom: 20px;">
-                    We're having a potluck-style party on <strong>December 19th</strong>! To make sure we have a great variety of food, please let us know what type of dish you'd like to bring. This way, we won't end up with 10 desserts and no main courses! 😄
-                </p>
+<div class="potluck-section">
+    <h3>🍕 Potluck Contribution 🍕</h3>
+    <p style="text-align: center; font-size: 16px; margin-bottom: 20px;">
+        We're having a potluck-style party on <strong>December 19th</strong>! To make sure we have a great variety of food, please let us know what type of dish you'd like to bring. This way, we won't end up with 10 desserts and no main courses! 😄
+    </p>
 
-                <form id="potluckForm">
-                    <input type="hidden" id="potluckEmail" value="">
-                    
-                    <div class="food-options">
-                        <div class="food-option">
-                            <input type="radio" id="main" name="foodType" value="Main Course" required>
-                            <label for="main">🍗 Main Course</label>
-                        </div>
-                        <div class="food-option">
-                            <input type="radio" id="appetizer" name="foodType" value="Appetizer">
-                            <label for="appetizer">🥗 Appetizer</label>
-                        </div>
-                        <div class="food-option">
-                            <input type="radio" id="dessert" name="foodType" value="Dessert">
-                            <label for="dessert">🍰 Dessert</label>
-                        </div>
-                        <div class="food-option">
-                            <input type="radio" id="snacks" name="foodType" value="Snacks">
-                            <label for="snacks">🍿 Snacks</label>
-                        </div>
-                        <div class="food-option">
-                            <input type="radio" id="drinks" name="foodType" value="Drinks">
-                            <label for="drinks">🥤 Drinks</label>
-                        </div>
-                        <div class="food-option">
-                            <input type="radio" id="notbringing" name="foodType" value="Not Bringing Food">
-                            <label for="notbringing">❌ Can't Bring Food</label>
-                        </div>
-                    </div>
-
-                    <div style="text-align: center;">
-                        <button type="submit" class="submit-potluck-btn">🎉 SUBMIT MY CHOICE 🎉</button>
-                    </div>
-
-                    <div id="potluckSuccess" style="display: none; text-align: center; margin-top: 20px; color: #28a745; font-weight: bold;">
-                        ✅ Thank you! Your potluck choice has been saved!
-                    </div>
-                </form>
+    <form id="potluckForm">
+        <input type="hidden" id="potluckEmail" value="">
+        
+        <div class="food-options">
+            <div class="food-option" onclick="document.getElementById('main').checked = true;">
+                <input type="radio" id="main" name="foodType" value="Main Course" required>
+                <label for="main">🍗 Main Course</label>
+                <div class="percentage-bar">
+                    <div class="percentage-fill" id="percent-main" style="width: 0%"></div>
+                </div>
+                <small class="percentage-text" id="text-main">0%</small>
             </div>
+            <div class="food-option" onclick="document.getElementById('appetizer').checked = true;">
+                <input type="radio" id="appetizer" name="foodType" value="Appetizer">
+                <label for="appetizer">🥗 Appetizer</label>
+                <div class="percentage-bar">
+                    <div class="percentage-fill" id="percent-appetizer" style="width: 0%"></div>
+                </div>
+                <small class="percentage-text" id="text-appetizer">0%</small>
+            </div>
+            <div class="food-option" onclick="document.getElementById('dessert').checked = true;">
+                <input type="radio" id="dessert" name="foodType" value="Dessert">
+                <label for="dessert">🍰 Dessert</label>
+                <div class="percentage-bar">
+                    <div class="percentage-fill" id="percent-dessert" style="width: 0%"></div>
+                </div>
+                <small class="percentage-text" id="text-dessert">0%</small>
+            </div>
+            <div class="food-option" onclick="document.getElementById('snacks').checked = true;">
+                <input type="radio" id="snacks" name="foodType" value="Snacks">
+                <label for="snacks">🍿 Snacks</label>
+                <div class="percentage-bar">
+                    <div class="percentage-fill" id="percent-snacks" style="width: 0%"></div>
+                </div>
+                <small class="percentage-text" id="text-snacks">0%</small>
+            </div>
+            <div class="food-option" onclick="document.getElementById('drinks').checked = true;">
+                <input type="radio" id="drinks" name="foodType" value="Drinks">
+                <label for="drinks">🥤 Drinks</label>
+                <div class="percentage-bar">
+                    <div class="percentage-fill" id="percent-drinks" style="width: 0%"></div>
+                </div>
+                <small class="percentage-text" id="text-drinks">0%</small>
+            </div>
+            <div class="food-option" onclick="document.getElementById('notbringing').checked = true;">
+                <input type="radio" id="notbringing" name="foodType" value="Not Bringing Food">
+                <label for="notbringing">❌ Can't Bring Food</label>
+                <div class="percentage-bar">
+                    <div class="percentage-fill" id="percent-notbringing" style="width: 0%"></div>
+                </div>
+                <small class="percentage-text" id="text-notbringing">0%</small>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <button type="submit" class="submit-potluck-btn">🎉 SUBMIT MY CHOICE 🎉</button>
+        </div>
+
+        <div id="potluckSuccess" style="display: none; text-align: center; margin-top: 20px; color: #28a745; font-weight: bold;">
+            ✅ Thank you! Your potluck choice has been saved!
+        </div>
+    </form>
+</div>
 
             <!-- DRESS CODE -->
             <div class="dress-code-box">
@@ -465,4 +489,5 @@
     </script>
 </body>
 </html>
+
 
