@@ -425,7 +425,7 @@
             btn.textContent = 'Saving... 🎄';
 
             try {
-                const response = await fetch('/.netlify/functions/updatePotluck', {
+                const response = await fetch('/.netlify/functions/updatepotluck', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -542,3 +542,4 @@
     </script>
 </body>
 </html>
+
