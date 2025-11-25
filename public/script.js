@@ -1,71 +1,85 @@
 const PASSWORD = 'I90.SS2025';
 
-// Create snow that FALLS and responds to cursor
+// Create snow that FALLS and responds to cursor - WORKING VERSION
 function createInteractiveSnow() {
-    const container = document.getElementById('snowContainer');
     const snowflakes = [];
     
-    // Create 40 snowflakes
-    for (let i = 0; i < 40; i++) {
+    // Create 50 snowflakes
+    for (let i = 0; i < 50; i++) {
         const snowflake = document.createElement('div');
         snowflake.className = 'snowflake';
         snowflake.textContent = ['❄', '❅', '❆'][Math.floor(Math.random() * 3)];
         
-        const startX = Math.random() * 100;
-        snowflake.style.left = startX + '%';
-        snowflake.style.top = '-20px';
-        snowflake.style.fontSize = (Math.random() * 10 + 15) + 'px';
-        snowflake.style.animationDuration = (Math.random() * 5 + 8) + 's';
-        snowflake.style.animationDelay = (Math.random() * 5) + 's';
+        document.body.appendChild(snowflake);
         
-        container.appendChild(snowflake);
-        
-        snowflakes.push({
+        const snow = {
             element: snowflake,
-            startX: startX,
-            currentPushX: 0,
-            currentPushY: 0
-        });
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight - window.innerHeight,
+            speedY: Math.random() * 1 + 0.5,
+            speedX: Math.random() * 0.5 - 0.25,
+            size: Math.random() * 10 + 15
+        };
+        
+        snowflake.style.fontSize = snow.size + 'px';
+        snowflakes.push(snow);
     }
     
-    // Track mouse movement and push snow away
-    let mouseX = 50;
-    let mouseY = 50;
+    let mouseX = -1000;
+    let mouseY = -1000;
     
+    // Track mouse position
     document.addEventListener('mousemove', function(e) {
-        mouseX = (e.clientX / window.innerWidth) * 100;
-        mouseY = (e.clientY / window.innerHeight) * 100;
+        mouseX = e.clientX;
+        mouseY = e.clientY;
     });
     
-    // Update snow positions continuously
-    function updateSnow() {
+    // Animation loop
+    function animate() {
         snowflakes.forEach(function(snow) {
-            const rect = snow.element.getBoundingClientRect();
-            const snowX = (rect.left + rect.width / 2) / window.innerWidth * 100;
-            const snowY = (rect.top + rect.height / 2) / window.innerHeight * 100;
+            // Fall down
+            snow.y += snow.speedY;
+            snow.x += snow.speedX;
             
-            const dx = snowX - mouseX;
-            const dy = snowY - mouseY;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            // If cursor is within 15% distance, push snow away
-            if (distance < 15) {
-                const force = (15 - distance) / 15;
-                snow.currentPushX = dx * force * 80;
-                snow.currentPushY = dy * force * 80;
-            } else {
-                // Gradually return to normal position
-                snow.currentPushX *= 0.95;
-                snow.currentPushY *= 0.95;
+            // Reset when off screen
+            if (snow.y > window.innerHeight) {
+                snow.y = -20;
+                snow.x = Math.random() * window.innerWidth;
             }
             
-            snow.element.style.transform = `translate(${snow.currentPushX}px, ${snow.currentPushY}px)`;
+            if (snow.x > window.innerWidth) {
+                snow.x = 0;
+            } else if (snow.x < 0) {
+                snow.x = window.innerWidth;
+            }
+            
+            // Calculate distance from mouse
+            const dx = snow.x - mouseX;
+            const dy = snow.y - mouseY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            let finalX = snow.x;
+            let finalY = snow.y;
+            
+            // Push away from cursor if close
+            if (distance < 100) {
+                const force = (100 - distance) / 100;
+                const pushX = (dx / distance) * force * 50;
+                const pushY = (dy / distance) * force * 50;
+                
+                finalX += pushX;
+                finalY += pushY;
+            }
+            
+            // Update position
+            snow.element.style.left = finalX + 'px';
+            snow.element.style.top = finalY + 'px';
         });
         
-        requestAnimationFrame(updateSnow);
+        requestAnimationFrame(animate);
     }
     
-    updateSnow();
+    animate();
 }
 
 document.addEventListener('DOMContentLoaded', function() {
