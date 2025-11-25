@@ -1,28 +1,15 @@
 const PASSWORD = 'I90.SS2025';
 
-// Create GAME-LIKE interactive snow - push them away!
+// Create REALISTIC interactive snow
 function createInteractiveSnow() {
     const snowflakes = [];
+    const maxSnowflakes = 60;
     
-    // Create 60 snowflakes
-    for (let i = 0; i < 60; i++) {
-        const snowflake = document.createElement('div');
-        snowflake.className = 'snowflake';
-        snowflake.textContent = ['❄', '❅', '❆'][Math.floor(Math.random() * 3)];
-        
-        document.body.appendChild(snowflake);
-        
-        const snow = {
-            element: snowflake,
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight - window.innerHeight,
-            velocityX: 0,
-            velocityY: Math.random() * 1 + 0.5,
-            size: Math.random() * 10 + 15
-        };
-        
-        snowflake.style.fontSize = snow.size + 'px';
-        snowflakes.push(snow);
+    // Create snowflakes with STAGGERED start times
+    for (let i = 0; i < maxSnowflakes; i++) {
+        setTimeout(function() {
+            createSingleSnowflake(snowflakes);
+        }, i * 100); // Stagger by 100ms each
     }
     
     let mouseX = -1000;
@@ -34,57 +21,58 @@ function createInteractiveSnow() {
         mouseY = e.clientY;
     });
     
-    // Animation loop - GAME STYLE
+    // Animation loop - REALISTIC physics
     function animate() {
         snowflakes.forEach(function(snow) {
-            // Apply gravity (falling)
-            snow.velocityY += 0.05;
+            // Natural falling - gentle gravity
+            snow.velocityY += 0.02;
+            
+            // Gentle side-to-side drift
+            snow.x += Math.sin(snow.y * 0.01 + snow.offset) * 0.3;
             
             // Calculate distance from mouse
             const dx = snow.x - mouseX;
             const dy = snow.y - mouseY;
             const distance = Math.sqrt(dx * dx + dy * dy);
             
-            // PUSH AWAY from cursor like WIND - stronger force!
-            if (distance < 150 && distance > 0) {
-                const force = (150 - distance) / 150;
-                const pushStrength = force * 15; // Strong push!
+            // SMOOTH wind push - like real wind
+            if (distance < 120 && distance > 0) {
+                const force = (120 - distance) / 120;
+                const pushStrength = force * force * 8; // Smooth acceleration
                 
-                // Push in direction away from mouse
-                snow.velocityX += (dx / distance) * pushStrength;
-                snow.velocityY += (dy / distance) * pushStrength;
+                // Push away smoothly
+                snow.velocityX += (dx / distance) * pushStrength * 0.3;
+                snow.velocityY += (dy / distance) * pushStrength * 0.2;
             }
             
-            // Apply friction to slow down over time
-            snow.velocityX *= 0.95;
+            // Smooth friction - gradual slowdown
+            snow.velocityX *= 0.92;
             snow.velocityY *= 0.98;
+            
+            // Keep vertical speed reasonable
+            if (snow.velocityY > 3) snow.velocityY = 3;
+            if (snow.velocityY < 0.3) snow.velocityY = 0.3;
             
             // Update position
             snow.x += snow.velocityX;
             snow.y += snow.velocityY;
             
-            // Bounce off edges (so they don't disappear forever)
-            if (snow.x < 0) {
-                snow.x = 0;
-                snow.velocityX *= -0.5;
+            // Wrap around sides smoothly
+            if (snow.x < -20) {
+                snow.x = window.innerWidth + 20;
             }
-            if (snow.x > window.innerWidth) {
-                snow.x = window.innerWidth;
-                snow.velocityX *= -0.5;
+            if (snow.x > window.innerWidth + 20) {
+                snow.x = -20;
             }
             
-            // Reset when off bottom of screen - KEEP FALLING FROM TOP
-            if (snow.y > window.innerHeight + 50) {
-                snow.y = -20;
-                snow.x = Math.random() * window.innerWidth;
-                snow.velocityX = 0;
-                snow.velocityY = Math.random() * 1 + 0.5;
+            // Reset when off bottom - create new snowflake at top
+            if (snow.y > window.innerHeight + 20) {
+                resetSnowflake(snow);
             }
             
-            // If pushed off top, bring back from top
-            if (snow.y < -50) {
-                snow.y = -20;
-                snow.velocityY = Math.random() * 1 + 0.5;
+            // If pushed too far up, reset gently
+            if (snow.y < -100) {
+                resetSnowflake(snow);
             }
             
             // Update DOM position
@@ -96,6 +84,38 @@ function createInteractiveSnow() {
     }
     
     animate();
+}
+
+// Create a single snowflake
+function createSingleSnowflake(snowflakes) {
+    const snowflake = document.createElement('div');
+    snowflake.className = 'snowflake';
+    snowflake.textContent = ['❄', '❅', '❆'][Math.floor(Math.random() * 3)];
+    
+    document.body.appendChild(snowflake);
+    
+    const snow = {
+        element: snowflake,
+        x: Math.random() * window.innerWidth,
+        y: -20 - Math.random() * 100, // Start above screen at different heights
+        velocityX: 0,
+        velocityY: Math.random() * 0.5 + 0.5,
+        size: Math.random() * 10 + 15,
+        offset: Math.random() * 1000 // For natural drift
+    };
+    
+    snowflake.style.fontSize = snow.size + 'px';
+    snowflake.style.opacity = Math.random() * 0.4 + 0.6; // Varying opacity
+    snowflakes.push(snow);
+}
+
+// Reset snowflake to top
+function resetSnowflake(snow) {
+    snow.x = Math.random() * window.innerWidth;
+    snow.y = -20 - Math.random() * 50;
+    snow.velocityX = 0;
+    snow.velocityY = Math.random() * 0.5 + 0.5;
+    snow.offset = Math.random() * 1000;
 }
 
 document.addEventListener('DOMContentLoaded', function() {
