@@ -177,19 +177,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: JSON.stringify(data)
             });
             
-            const result = await response.json();
+            console.log('Response status:', response.status);
+            console.log('Response ok:', response.ok);
             
-            if (response.ok && result.message) {
-                // Success! Redirect to thank you page
+            const result = await response.json();
+            console.log('Result:', result);
+            
+            // Try redirect regardless if status is 200
+            if (response.status === 200) {
+                console.log('Redirecting to thank you page...');
                 window.location.href = '/thankyou.html';
-            } else {
-                // Show error message
-                signupError.textContent = result.error || 'Error! Try again.';
-                signupError.style.display = 'block';
-                btn.disabled = false;
-                btn.textContent = '🎄 JOIN THE CHRISTMAS FUN! 🎄';
+                return;
             }
+            
+            // Show error message
+            signupError.textContent = result.error || 'Error! Try again.';
+            signupError.style.display = 'block';
+            btn.disabled = false;
+            btn.textContent = '🎄 JOIN THE CHRISTMAS FUN! 🎄';
+            
         } catch (error) {
+            console.error('Catch error:', error);
             signupError.textContent = 'Network error! Try again.';
             signupError.style.display = 'block';
             btn.disabled = false;
