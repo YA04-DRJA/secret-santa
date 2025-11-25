@@ -1,120 +1,452 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>I90 Deep Creek – Aecon Secret Santa 2025</title>
-    <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-    <!-- Christmas Background -->
-    <div class="christmas-bg"></div>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    min-height: 100vh;
+    background: 
+        linear-gradient(135deg, #c41e3a 0%, #165b33 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ANIMATED SNOW - VISIBLE */
+.snowflake {
+    position: fixed;
+    top: -10px;
+    color: white;
+    font-size: 20px;
+    user-select: none;
+    z-index: 1;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh);
+    }
+}
+
+.snowflake:nth-child(1) { left: 10%; animation-duration: 10s; animation-delay: 0s; }
+.snowflake:nth-child(2) { left: 20%; animation-duration: 12s; animation-delay: 1s; }
+.snowflake:nth-child(3) { left: 30%; animation-duration: 8s; animation-delay: 2s; }
+.snowflake:nth-child(4) { left: 40%; animation-duration: 14s; animation-delay: 0.5s; }
+.snowflake:nth-child(5) { left: 50%; animation-duration: 11s; animation-delay: 1.5s; }
+.snowflake:nth-child(6) { left: 60%; animation-duration: 9s; animation-delay: 0.8s; }
+.snowflake:nth-child(7) { left: 70%; animation-duration: 13s; animation-delay: 2.5s; }
+.snowflake:nth-child(8) { left: 80%; animation-duration: 10s; animation-delay: 1.2s; }
+.snowflake:nth-child(9) { left: 90%; animation-duration: 12s; animation-delay: 0.3s; }
+.snowflake:nth-child(10) { left: 95%; animation-duration: 11s; animation-delay: 1.8s; }
+
+/* CHRISTMAS TREES - VISIBLE */
+.tree {
+    position: fixed;
+    bottom: 0;
+    font-size: 150px;
+    z-index: 1;
+    opacity: 0.3;
+}
+
+.tree-left {
+    left: 50px;
+}
+
+.tree-right {
+    right: 50px;
+}
+
+/* LIGHTS DECORATION - VISIBLE */
+.lights {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background: repeating-linear-gradient(
+        90deg,
+        #ff0000 0px,
+        #ff0000 20px,
+        #00ff00 20px,
+        #00ff00 40px,
+        #ffff00 40px,
+        #ffff00 60px,
+        #0000ff 60px,
+        #0000ff 80px
+    );
+    z-index: 10;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* CONTAINER */
+.container {
+    max-width: 650px;
+    width: 100%;
+    position: relative;
+    z-index: 5;
+}
+
+/* CARD */
+.card {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    border: 8px solid #FFD700;
+    position: relative;
+}
+
+/* RED RIBBON */
+.ribbon {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 120px;
+    background: #ff0000;
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
+    z-index: 10;
+}
+
+.ribbon::before {
+    content: '🎁';
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 40px;
+}
+
+/* HEADER */
+.christmas-header {
+    background: linear-gradient(90deg, #ff0000, #c41e3a);
+    color: white;
+    padding: 20px;
+    margin: -40px -40px 30px -40px;
+    border-radius: 20px 20px 0 0;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.3em;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* TITLE */
+.main-title {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.title-big {
+    font-size: 3.5em;
+    font-weight: 900;
+    color: #ff0000;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    text-shadow: 
+        3px 3px 0 #FFD700,
+        6px 6px 0 rgba(0,0,0,0.2);
+    margin-bottom: 15px;
+}
+
+.title-small {
+    font-size: 2em;
+    font-weight: 700;
+    color: #165b33;
+    margin-bottom: 10px;
+}
+
+.santa-on-a {
+    position: relative;
+    display: inline-block;
+}
+
+.santa-on-a::after {
+    content: '🎅';
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 50px;
+}
+
+.tagline {
+    color: #666;
+    font-size: 1.1em;
+}
+
+/* COUNTER */
+.counter {
+    background: linear-gradient(90deg, #165b33, #0d4d2a);
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 25px;
+    font-size: 1.3em;
+    border: 4px solid #FFD700;
+}
+
+.counter-number {
+    font-size: 2em;
+    color: #FFD700;
+}
+
+/* INFO BOX */
+.info-box {
+    background: #fff8dc;
+    border: 5px solid #FFD700;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+}
+
+.info-box h3 {
+    color: #ff0000;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.info-box ul {
+    list-style: none;
+    padding: 0;
+}
+
+.info-box li {
+    padding: 10px 0;
+    font-size: 1.1em;
+    color: #333;
+}
+
+.info-box li::before {
+    content: '🎄 ';
+    margin-right: 10px;
+}
+
+/* FORM */
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 700;
+    color: #333;
+    font-size: 1.1em;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 15px;
+    border: 3px solid #ddd;
+    border-radius: 10px;
+    font-size: 1.1em;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #FFD700;
+    box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.3);
+}
+
+.form-group small {
+    display: block;
+    margin-top: 8px;
+    color: #666;
+}
+
+/* DIVIDER */
+.divider {
+    text-align: center;
+    margin: 30px 0;
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #ff0000;
+    text-transform: uppercase;
+    position: relative;
+}
+
+.divider::before {
+    content: '🎁';
+    margin-right: 15px;
+}
+
+.divider::after {
+    content: '🎁';
+    margin-left: 15px;
+}
+
+/* BUTTON */
+.btn {
+    width: 100%;
+    padding: 20px;
+    background: linear-gradient(45deg, #ff0000, #ff3333);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.4em;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: 4px solid #FFD700;
+    box-shadow: 0 10px 25px rgba(255, 0, 0, 0.5);
+    transition: all 0.3s;
+}
+
+.btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(255, 0, 0, 0.7);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* ERROR MESSAGE */
+.error {
+    background: #ffe6e6;
+    color: #ff0000;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 20px;
+    text-align: center;
+    font-weight: 600;
+    border: 3px solid #ff0000;
+}
+
+/* SANTA FLYING ANIMATION */
+.santa-fly {
+    position: fixed;
+    top: 25%;
+    left: -200px;
+    font-size: 80px;
+    z-index: 1000;
+    opacity: 0;
+}
+
+.santa-fly.active {
+    animation: flyAcross 3s ease-in-out forwards;
+}
+
+@keyframes flyAcross {
+    0% {
+        left: -200px;
+        opacity: 0;
+        transform: scale(0.5) rotate(-20deg);
+    }
+    30% {
+        opacity: 1;
+        transform: scale(1.5) rotate(0deg);
+    }
+    70% {
+        opacity: 1;
+        transform: scale(1.5) rotate(0deg);
+    }
+    100% {
+        left: 110%;
+        opacity: 0;
+        transform: scale(0.5) rotate(20deg);
+    }
+}
+
+/* THANK YOU PAGE */
+.event-box {
+    background: linear-gradient(135deg, #165b33, #0d4d2a);
+    color: white;
+    padding: 30px;
+    border-radius: 15px;
+    margin-top: 30px;
+    border: 5px solid #FFD700;
+}
+
+.event-box h3 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 2em;
+}
+
+.event-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.event-item {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    border: 2px solid rgba(255,255,255,0.3);
+}
+
+.event-item strong {
+    display: block;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: #FFD700;
+}
+
+.countdown-box {
+    background: linear-gradient(135deg, #FFD700, #FFC400);
+    color: #333;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    margin-top: 25px;
+    border: 5px solid #ff0000;
+}
+
+.countdown-box .big-countdown {
+    font-size: 2.5em;
+    margin-top: 15px;
+    color: #ff0000;
+    font-weight: 900;
+}
+
+/* SHAKE ANIMATION */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-15px); }
+    20%, 40%, 60%, 80% { transform: translateX(15px); }
+}
+
+.shake {
+    animation: shake 0.5s;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .title-big {
+        font-size: 2.5em;
+    }
     
-    <!-- Falling Snow -->
-    <div class="snow-container" id="snowContainer"></div>
+    .title-small {
+        font-size: 1.5em;
+    }
     
-    <!-- Christmas Trees -->
-    <div class="christmas-tree tree-left"></div>
-    <div class="christmas-tree tree-right"></div>
-
-    <!-- Santa Animation -->
-    <div class="santa-animation" id="santaAnimation">🎅🛷🎄</div>
-
-    <div class="container">
-        <!-- PASSWORD SCREEN -->
-        <div class="card" id="passwordScreen">
-            <div class="christmas-header">
-            </div>
-
-            <div class="main-title">
-                <div class="title-primary">I90 Deep Creek</div>
-                <div class="title-secondary">
-                    <span class="aecon-a"></span>econ Secret Santa 2025
-                </div>
-                <div class="title-tagline">Enter the magic password to join the Christmas fun! 🎅</div>
-            </div>
-
-            <form id="passwordForm">
-                <div class="form-group">
-                    <label for="accessPassword">🔐 Secret Christmas Password</label>
-                    <input type="password" id="accessPassword" placeholder="What's the magic word?" required>
-                </div>
-
-                <button type="submit" class="btn-primary">🎁 ENTER CHRISTMAS PARTY 🎁</button>
-
-                <div id="passwordError" class="message message-error" style="display: none;"></div>
-            </form>
-        </div>
-
-        <!-- SIGNUP SCREEN -->
-        <div class="card" id="signupCard" style="display: none;">
-            <div class="christmas-header">
-                🎄 I90 DEEP CREEK CHRISTMAS GIFT EXCHANGE 🎄
-            </div>
-
-            <div class="main-title">
-                <div class="title-primary">I90 Deep Creek</div>
-                <div class="title-secondary">
-                    <span class="aecon-a"></span>econ Secret Santa 2025
-                </div>
-                <div class="title-tagline">Ho Ho Ho! Welcome to the most festive party of the year! 🎄</div>
-            </div>
-
-            <div class="participant-counter">
-                🎅 <span id="participantCount">0</span> Christmas Elves Have Joined!
-            </div>
-
-            <div class="info-box">
-                <h3>🎁 How the Christmas Magic Works:</h3>
-                <ul>
-                    <li>✨ Enter your details below to join Santa's list</li>
-                    <li>🎯 Help your Secret Santa by answering the questions</li>
-                    <li>🎄 Once everyone joins, we'll draw names automatically</li>
-                    <li>📧 You'll get a magical email with your assigned person!</li>
-                </ul>
-            </div>
-
-            <form id="signupForm">
-                <div class="form-group">
-                    <label for="name">🎅 Your Full Name</label>
-                    <input type="text" id="name" placeholder="Santa Claus" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="email">📧 Your Personal Email</label>
-                    <input type="email" id="email" placeholder="santa@northpole.com" required>
-                    <small>Use your personal email so you don't miss the Christmas magic!</small>
-                </div>
-
-                <div class="form-divider">Help Your Secret Santa Choose the Perfect Gift! 🎁</div>
-
-                <div class="form-group">
-                    <label for="q1">What would make you smile this Christmas?</label>
-                    <input type="text" id="q1" placeholder="Candles, books, cozy socks, mugs..." required>
-                </div>
-
-                <div class="form-group">
-                    <label for="q2">Favorite store or place to shop?</label>
-                    <input type="text" id="q2" placeholder="Amazon, local bookstore, coffee shop..." required>
-                </div>
-
-                <div class="form-group">
-                    <label for="q3">What do you love to do in your free time?</label>
-                    <input type="text" id="q3" placeholder="Reading, movies, cooking, sports..." required>
-                </div>
-
-                <div class="form-group">
-                    <label for="q4">Any specific Christmas wishes under $25?</label>
-                    <input type="text" id="q4" placeholder="Optional - specific items you'd love!">
-                </div>
-
-                <button type="submit" class="btn-primary">🎄 JOIN THE CHRISTMAS FUN! 🎄</button>
-
-                <div id="message" class="message" style="display: none;"></div>
-            </form>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
-</body>
-</html>
+    .event-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .tree {
+        font-size: 80px;
+    }
+}
