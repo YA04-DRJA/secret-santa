@@ -149,24 +149,35 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Signup form
+    // Signup form - SIMPLIFIED AND FIXED
     signupForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         
         const btn = signupForm.querySelector('.btn');
+        const originalText = btn.textContent;
         btn.disabled = true;
         btn.textContent = 'Sending to Santa... 🎅';
         
+        // Get form values
+        const nameValue = document.getElementById('name').value;
+        const emailValue = document.getElementById('email').value;
+        const q1Value = document.getElementById('q1').value;
+        const q2Value = document.getElementById('q2').value;
+        const q3Value = document.getElementById('q3').value;
+        const shirtSizeValue = document.getElementById('shirtSize').value;
+        const shoeSizeValue = document.getElementById('shoeSize').value;
+        const q4Value = document.getElementById('q4').value;
+        
         const data = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
+            name: nameValue,
+            email: emailValue,
             preferences: {
-                collectOrReceive: document.getElementById('q1').value,
-                favoriteStore: document.getElementById('q2').value,
-                hobby: document.getElementById('q3').value,
-                shirtSize: document.getElementById('shirtSize').value || 'Not provided',
-                shoeSize: document.getElementById('shoeSize').value || 'Not provided',
-                wishlist: document.getElementById('q4').value || 'No specific items'
+                collectOrReceive: q1Value,
+                favoriteStore: q2Value,
+                hobby: q3Value,
+                shirtSize: shirtSizeValue || 'Not provided',
+                shoeSize: shoeSizeValue || 'Not provided',
+                wishlist: q4Value || 'No specific items'
             }
         };
         
@@ -177,31 +188,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: JSON.stringify(data)
             });
             
-            console.log('Response status:', response.status);
-            console.log('Response ok:', response.ok);
-            
             const result = await response.json();
-            console.log('Result:', result);
             
-            // Try redirect regardless if status is 200
-            if (response.status === 200) {
-                console.log('Redirecting to thank you page...');
+            if (response.ok) {
+                // SUCCESS - Redirect to thank you page
                 window.location.href = '/thankyou.html';
-                return;
+            } else {
+                // Show error
+                signupError.textContent = result.error || 'Something went wrong. Please try again.';
+                signupError.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = originalText;
             }
             
-            // Show error message
-            signupError.textContent = result.error || 'Error! Try again.';
-            signupError.style.display = 'block';
-            btn.disabled = false;
-            btn.textContent = '🎄 JOIN THE CHRISTMAS FUN! 🎄';
-            
         } catch (error) {
-            console.error('Catch error:', error);
-            signupError.textContent = 'Network error! Try again.';
+            console.error('Error:', error);
+            signupError.textContent = 'Network error! Please check your connection and try again.';
             signupError.style.display = 'block';
             btn.disabled = false;
-            btn.textContent = '🎄 JOIN THE CHRISTMAS FUN! 🎄';
+            btn.textContent = originalText;
         }
     });
 
