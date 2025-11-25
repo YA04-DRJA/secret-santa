@@ -1,19 +1,24 @@
 const SIGNUP_PASSWORD = 'I90.SS2025';
 
-// Countdown Timer (for thank you page)
+// -------- Countdown (used on thankyou.html only) --------
 function updateCountdown() {
-    const countdownEl = document.getElementById('countdown');
-    if (!countdownEl) return;
-    
+    const el = document.getElementById('countdown');
+    if (!el) return;
+
     const eventDate = new Date('December 19, 2025 13:00:00').getTime();
-    const now = new Date().getTime();
-    const distance = eventDate - now;
+    const now = Date.now();
+    const diff = eventDate - now;
 
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    if (diff <= 0) {
+        el.textContent = 'Today!';
+        return;
+    }
 
-    countdownEl.textContent = `${days} days, ${hours} hours, ${minutes} minutes!`;
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+    el.textContent = `${days} days, ${hours} hours, ${minutes} minutes`;
 }
 
 if (document.getElementById('countdown')) {
@@ -21,196 +26,174 @@ if (document.getElementById('countdown')) {
     setInterval(updateCountdown, 60000);
 }
 
-// Check if already authenticated
-if (sessionStorage.getItem('authenticated') === 'true') {
+// -------- Shared helpers --------
+function showSignupCard() {
     const passwordScreen = document.getElementById('passwordScreen');
     const signupCard = document.getElementById('signupCard');
-    if (passwordScreen && signupCard) {
-        passwordScreen.style.display = 'none';
-        signupCard.style.display = 'block';
-        loadParticipantCount();
-    }
+    if (!passwordScreen || !signupCard) return;
+
+    passwordScreen.style.display = 'none';
+    signupCard.style.display = 'block';
+    loadParticipantCount();
 }
 
-// Password form handling
+// Restore session if already authenticated before
+if (sessionStorage.getItem('authenticated') === 'true') {
+    showSignupCard();
+}
+
+// -------- Password form handling --------
 const passwordForm = document.getElementById('passwordForm');
 if (passwordForm) {
+    const passwordInput = document.getElementById('accessPassword');
+    const errorDiv = document.getElementById('passwordError');
+    const santaTransition = document.getElementById('santaTransition');
+    const passwordCard = document.getElementById('passwordScreen');
+
     passwordForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const password = document.getElementById('accessPassword').value;
-        const errorDiv = document.getElementById('passwordError');
-        const hohohoDiv = document.getElementById('hohoho');
-        const passwordScreen = document.getElementById('passwordScreen');
-        const santaTransition = document.getElementById('santaTransition');
-        
-        if (password === SIGNUP_PASSWORD) {
-            // Shake the screen
-            document.body.classList.add('shake');
-            setTimeout(() => document.body.classList.remove('shake'), 500);
-            
-            // Show HO HO HO message
-            hohohoDiv.classList.add('show');
-            
-            // Trigger Santa sleigh flying across
+        const value = passwordInput.value.trim();
+        errorDiv.style.display = 'none';
+
+        if (value === SIGNUP_PASSWORD) {
+            // Play subtle sleigh animation
             if (santaTransition) {
+                santaTransition.classList.remove('fly'); // reset
+                void santaTransition.offsetWidth;        // reflow
                 santaTransition.classList.add('fly');
             }
-            
-            // After animation, transition to signup form
+
+            // After a short delay, reveal signup card
             setTimeout(() => {
                 sessionStorage.setItem('authenticated', 'true');
-                passwordScreen.style.display = 'none';
-                document.getElementById('signupCard').style.display = 'block';
-                loadParticipantCount();
-            }, 2000);
+                showSignupCard();
+            }, 1200);
         } else {
-            errorDiv.textContent = '❌ Incorrect password. Please try again.';
+            errorDiv.textContent = 'Incorrect password. Please try again.';
             errorDiv.style.display = 'block';
-            document.getElementById('accessPassword').value = '';
-            
-            // Shake the card
-            passwordScreen.classList.add('shake');
-            setTimeout(() => passwordScreen.classList.remove('shake'), 500);
+            passwordInput.value = '';
+
+            if (passwordCard) {
+                passwordCard.classList.add('shake');
+                setTimeout(() => passwordCard.classList.remove('shake'), 500);
+            }
         }
     });
 }
 
-// Load participant count
+// -------- Participant count --------
 async function loadParticipantCount() {
+    const el = document.getElementById('participantCount');
+    if (!el) return;
+
     try {
-        const response = await fetch('/.netlify/functions/getParticipants');
-        const data = await response.json();
-        const count = data.participants ? data.participants.length : 0;
-        const countEl = document.getElementById('participantCount');
-        if (countEl) {
-            countEl.textContent = count;
-        }
-    } catch (error) {
-        const countEl = document.getElementById('participantCount');
-        if (countEl) {
-            countEl.textContent = '0';
-        }
+        const res = await fetch('/.netlify/functions/getParticipants');
+        const data = await res.json();
+        const count = Array.isArray(data.participants) ? data.participants.length : 0;
+        el.textContent = count;
+    } catch (err) {
+        el.textContent = '0';
     }
 }
 
-// Form field sparkle animation and progress tracking
+// -------- Signup form & progress bar --------
 const signupForm = document.getElementById('signupForm');
 if (signupForm) {
-    const formInputs = document.querySelectorAll('#signupForm input[required]');
+    const formInputs = signupForm.querySelectorAll('input[required]');
     const progressContainer = document.getElementById('progressContainer');
     const progressFill = document.getElementById('progressFill');
     const progressText = document.getElementById('progressText');
 
-    const encouragingMessages = [
+    const messages = [
         "Let's get started! 🎅",
-        "Great start! Keep going! ✨",
-        "You're doing amazing! 🎄",
-        "Almost halfway there! 🎁",
-        "Fantastic! Keep it up! ⭐",
-        "You're crushing it! 🎉",
-        "So close now! 💫",
-        "Final stretch! You got this! 🚀"
+        "Nice start, keep going ✨",
+        "Looking good so far 🎄",
+        "Almost halfway there 🎁",
+        "Great details, thank you ⭐",
+        "You're nearly done 🎉",
+        "Just a bit more 💫",
+        "Last step, you're in! 🚀"
     ];
 
-    formInputs.forEach((input, index) => {
+    function updateProgress() {
+        let filled = 0;
+        formInputs.forEach(input => {
+            if (input.value.trim() !== '') filled++;
+        });
+
+        const pct = (filled / formInputs.length) * 100;
+        if (progressFill) progressFill.style.width = `${pct}%`;
+
+        if (progressText) {
+            const idx = Math.min(
+                Math.floor((filled / formInputs.length) * messages.length),
+                messages.length - 1
+            );
+            progressText.textContent = messages[idx];
+        }
+    }
+
+    formInputs.forEach(input => {
         input.addEventListener('focus', () => {
-            if (progressContainer && progressContainer.style.display === 'none') {
+            if (progressContainer && progressContainer.style.display !== 'block') {
                 progressContainer.style.display = 'block';
             }
         });
 
         input.addEventListener('blur', () => {
             if (input.value.trim() !== '') {
-                // Show sparkle
                 const sparkle = input.parentElement.querySelector('.sparkle');
                 if (sparkle) {
                     sparkle.style.display = 'inline';
-                    setTimeout(() => {
-                        sparkle.style.display = 'none';
-                    }, 600);
+                    setTimeout(() => { sparkle.style.display = 'none'; }, 500);
                 }
-                
-                // Update progress
-                updateProgress();
             }
+            updateProgress();
         });
     });
 
-    function updateProgress() {
-        let filledCount = 0;
-        formInputs.forEach(input => {
-            if (input.value.trim() !== '') {
-                filledCount++;
-            }
-        });
-        
-        const percentage = (filledCount / formInputs.length) * 100;
-        if (progressFill) {
-            progressFill.style.width = percentage + '%';
-        }
-        
-        const messageIndex = Math.min(Math.floor((filledCount / formInputs.length) * encouragingMessages.length), encouragingMessages.length - 1);
-        if (progressText) {
-            progressText.textContent = encouragingMessages[messageIndex];
-        }
-    }
-
-    // Signup form handling
     signupForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
         const messageDiv = document.getElementById('message');
-        const submitBtn = e.target.querySelector('button[type="submit"]');
-        
+        const submitBtn = signupForm.querySelector('button[type="submit"]');
+
         submitBtn.disabled = true;
-        
-        // Multi-stage button text
-        submitBtn.textContent = '🎅 Signing you up...';
-        
-        setTimeout(() => {
-            submitBtn.textContent = '✨ Sprinkling Christmas magic...';
-        }, 1000);
-        
-        setTimeout(() => {
-            submitBtn.textContent = '🎄 Adding you to Santa\'s list...';
-        }, 2000);
-        
+        submitBtn.textContent = 'Submitting...';
+
         const formData = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
+            name: document.getElementById('name').value.trim(),
+            email: document.getElementById('email').value.trim(),
             preferences: {
-                collectOrReceive: document.getElementById('q1').value,
-                favoriteStore: document.getElementById('q2').value,
-                hobby: document.getElementById('q3').value,
-                wishlist: document.getElementById('q4').value || 'No specific items'
+                collectOrReceive: document.getElementById('q1').value.trim(),
+                favoriteStore: document.getElementById('q2').value.trim(),
+                hobby: document.getElementById('q3').value.trim(),
+                wishlist: document.getElementById('q4').value.trim() || 'No specific items'
             }
         };
-        
+
         try {
-            const response = await fetch('/.netlify/functions/signup', {
+            const res = await fetch('/.netlify/functions/signup', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
             });
-            
-            const data = await response.json();
-            
-            if (response.ok) {
-                // Success! Trigger confetti and redirect
-                setTimeout(() => {
-                    window.location.href = '/thankyou.html';
-                }, 2500);
+
+            const data = await res.json();
+
+            if (res.ok) {
+                // Go to the Thank You page (which will show Mark Your Calendar + countdown)
+                window.location.href = '/thankyou.html';
             } else {
-                messageDiv.textContent = data.error || 'Something went wrong. Please try again!';
+                messageDiv.textContent = data.error || 'Something went wrong. Please try again.';
                 messageDiv.className = 'message error';
                 submitBtn.disabled = false;
-                submitBtn.textContent = '🎄 Join the Secret Santa! 🎄';
+                submitBtn.textContent = '🎄 Join the Secret Santa 🎄';
             }
-        } catch (error) {
-            messageDiv.textContent = 'Network error. Please check your connection and try again.';
+        } catch (err) {
+            messageDiv.textContent = 'Network error. Please try again.';
             messageDiv.className = 'message error';
             submitBtn.disabled = false;
-            submitBtn.textContent = '🎄 Join the Secret Santa! 🎄';
+            submitBtn.textContent = '🎄 Join the Secret Santa 🎄';
         }
     });
 }
