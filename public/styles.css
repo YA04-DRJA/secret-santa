@@ -1,3 +1,26 @@
+/* ZOOM RESET - ADD THIS AT THE TOP */
+html {
+    zoom: 1;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    zoom: 1;
+}
+
+/* Then all your existing CSS continues below... */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #8b0000 0%, #4a0000 100%);
+    /* ... rest of your existing styles ... */
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -392,6 +415,7 @@ body {
         font-size: 150px;
     }
 }
+
 
 
 
