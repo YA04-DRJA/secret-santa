@@ -158,13 +158,38 @@ body {
     color: #FFD700;
 }
 
-/* INFO BOX - ORIGINAL DETAILED VERSION */
+/* INFO BOX - WIDER VERSION */
 .info-box {
     background: #fff8dc;
     border: 5px solid #FFD700;
-    padding: 25px;
+    padding: 30px 40px;
     border-radius: 15px;
     margin-bottom: 25px;
+    max-width: 100%;
+}
+
+.info-box h3 {
+    color: #ff0000;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.info-box ul {
+    list-style: none;
+    padding: 0;
+}
+
+.info-box li {
+    padding: 12px 0;
+    font-size: 1.05em;
+    color: #333;
+    line-height: 1.7;
+}
+
+.info-box li::before {
+    content: '✨ ';
+    margin-right: 10px;
 }
 
 .info-box h3 {
@@ -402,3 +427,4 @@ body {
     font-size: 1em;
     line-height: 1.8;
 }
+
