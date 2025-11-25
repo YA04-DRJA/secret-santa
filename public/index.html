@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secret Santa 2025 - I90 Deep Creek</title>
+    <title>I90 Deep Creek – Aecon Secret Santa 2025</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -11,342 +11,102 @@
     <div class="tree tree-left">🎄</div>
     <div class="tree tree-right">🎄</div>
 
-    <!-- PASSWORD SCREEN -->
-    <div id="passwordScreen" class="password-screen">
-        <div class="password-container">
-            <h1>🎅 Secret Santa 2025 🎅</h1>
-            <h2>I90 Deep Creek - Aecon</h2>
-            <p>Enter the password to join the Secret Santa exchange!</p>
-            <input type="password" id="passwordInput" placeholder="Enter password">
-            <button onclick="checkPassword()">🎄 Enter 🎄</button>
-            <p id="errorMessage" style="color: #ff0000; display: none; margin-top: 10px;">❌ Incorrect password!</p>
-        </div>
-    </div>
+    <div class="container">
+        <!-- PASSWORD SCREEN -->
+        <div class="card" id="passwordCard">
+            <div class="ribbon"></div>
+            
+            <!-- EMPTY RED HEADER - JUST DECORATION -->
+            <div class="christmas-header"></div>
 
-    <!-- MAIN CONTENT (Hidden until password is correct) -->
-    <div id="mainContent" style="display: none;">
-        <div class="container">
-            <div class="header">
-                <h1>🎅 Secret Santa 2025 🎅</h1>
-                <p class="subtitle">I90 Deep Creek - Aecon</p>
-                <p class="tagline">✨ Spread Joy This Holiday Season! ✨</p>
+            <div class="main-title">
+                <div class="title-big">I90 DEEP CREEK</div>
+                <div class="santa-center">🎅</div>
+                <div class="title-small">Aecon Secret Santa 2025</div>
+                <div class="tagline">Welcome to the Christmas magic! 🎄</div>
+            </div>
+
+            <form id="passwordForm">
+                <div class="form-group">
+                    <label>🔐 Secret Password</label>
+                    <input type="password" id="passwordInput" placeholder="What's the magic word?" required>
+                </div>
+
+                <button type="submit" class="btn">🎁 ENTER PARTY 🎁</button>
+
+                <div id="passwordError" class="error" style="display: none;"></div>
+            </form>
+        </div>
+
+        <!-- SIGNUP SCREEN -->
+        <div class="card" id="signupCard" style="display: none;">
+            <div class="ribbon"></div>
+            
+            <!-- EMPTY RED HEADER - JUST DECORATION -->
+            <div class="christmas-header"></div>
+
+            <div class="main-title">
+                <div class="title-big">I90 DEEP CREEK</div>
+                <div class="santa-center">🎅</div>
+                <div class="title-small">Aecon Secret Santa 2025</div>
+                <div class="tagline">Welcome to the Christmas magic! 🎄</div>
             </div>
 
             <div class="counter">
-                🎅 <span class="counter-number" id="participantCount">0</span> Secret Santas Joined So Far!
+                🎅 <span class="counter-number" id="participantCount">0</span> People Joined!
             </div>
 
             <div class="info-box">
                 <h3>🎁 How It Works:</h3>
                 <ul>
-                    <li>✨ Enter your name and <strong>personal email</strong> below</li>
-                    <li>🎯 Answer a few quick questions to help your Secret Santa</li>
-                    <li>🎲 Once everyone signs up, names will be drawn</li>
-                    <li>📧 You'll receive an email with your assigned person and their preferences</li>
-                    <li>💰 Budget is around <strong>$25</strong> (but if you're feeling extra generous, we won't stop you! 😄)</li>
+                    <li>Enter your name and personal email</li>
+                    <li>Answer questions to help your Secret Santa</li>
+                    <li>We'll draw names automatically</li>
+                    <li>You'll get an email with your person!</li>
                 </ul>
             </div>
 
-            <div class="form-container">
-                <h2>🎁 Join the Secret Santa Exchange</h2>
-                
-                <form id="signupForm">
-                    <div class="form-group">
-                        <label for="name">🎅 Your Name</label>
-                        <input type="text" id="name" name="name" required placeholder="Enter your full name">
-                    </div>
+            <form id="signupForm">
+                <div class="form-group">
+                    <label>🎅 Your Full Name</label>
+                    <input type="text" id="name" placeholder="Santa Claus" required>
+                </div>
 
-                    <div class="form-group">
-                        <label for="email">📧 Your Personal Email</label>
-                        <input type="email" id="email" name="email" required placeholder="your.email@gmail.com">
-                    </div>
+                <div class="form-group">
+                    <label>📧 Your Personal Email</label>
+                    <input type="email" id="email" placeholder="santa@northpole.com" required>
+                    <small>Use personal email so you don't miss anything!</small>
+                </div>
 
-                    <div class="form-group">
-                        <label for="collectOrReceive">🎁 What do you like to collect or receive as gifts?</label>
-                        <textarea id="collectOrReceive" name="collectOrReceive" rows="3" required 
-                                  placeholder="e.g., Books, gadgets, coffee mugs, plants..."></textarea>
-                    </div>
+                <div class="divider">Help Your Secret Santa</div>
 
-                    <div class="form-group">
-                        <label for="favoriteStore">🏪 What's your favorite store or brand?</label>
-                        <input type="text" id="favoriteStore" name="favoriteStore" required 
-                               placeholder="e.g., Amazon, Target, Starbucks...">
-                    </div>
+                <div class="form-group">
+                    <label>What would you love to receive?</label>
+                    <input type="text" id="q1" placeholder="Candles, books, mugs..." required>
+                </div>
 
-                    <div class="form-group">
-                        <label for="hobby">🎨 What are your hobbies or interests?</label>
-                        <textarea id="hobby" name="hobby" rows="3" required 
-                                  placeholder="e.g., Reading, gaming, cooking, hiking..."></textarea>
-                    </div>
+                <div class="form-group">
+                    <label>Favorite store or brand?</label>
+                    <input type="text" id="q2" placeholder="Amazon, Starbucks..." required>
+                </div>
 
-                    <div class="form-group">
-                        <label for="wishlist">✨ Any specific items on your wishlist?</label>
-                        <textarea id="wishlist" name="wishlist" rows="3" required 
-                                  placeholder="Be specific! This helps your Secret Santa find the perfect gift."></textarea>
-                    </div>
+                <div class="form-group">
+                    <label>Favorite hobby?</label>
+                    <input type="text" id="q3" placeholder="Reading, gaming..." required>
+                </div>
 
-                    <!-- CLOTHING/SHOE SIZE SECTION -->
-                    <div class="form-group">
-                        <label for="openToClothing">👕 Would you like to receive clothing/shoes as a gift?</label>
-                        <select id="openToClothing" name="openToClothing" required onchange="toggleSizeFields()">
-                            <option value="">Select an option</option>
-                            <option value="yes">Yes, I'd love that! 👕👟</option>
-                            <option value="no">No, prefer other gifts 🎁</option>
-                        </select>
-                    </div>
+                <div class="form-group">
+                    <label>Wish list under $25? (Optional)</label>
+                    <input type="text" id="q4" placeholder="Specific items welcome!">
+                </div>
 
-                    <div id="sizeFields" style="display: none; margin-top: 20px; padding: 20px; background: #f0f8ff; border-radius: 10px; border: 2px dashed #FFD700;">
-                        <h4 style="color: #165b33; margin-bottom: 15px;">📏 Your Sizes:</h4>
-                        
-                        <div class="form-group">
-                            <label for="shirtSize">👕 Shirt/Top Size:</label>
-                            <select id="shirtSize" name="shirtSize">
-                                <option value="">Select size</option>
-                                <option value="XS">XS</option>
-                                <option value="S">Small</option>
-                                <option value="M">Medium</option>
-                                <option value="L">Large</option>
-                                <option value="XL">XL</option>
-                                <option value="XXL">XXL</option>
-                                <option value="XXXL">XXXL</option>
-                            </select>
-                        </div>
+                <button type="submit" class="btn">🎄 JOIN SECRET SANTA 🎄</button>
 
-                        <div class="form-group">
-                            <label for="shoeSize">👟 Shoe Size:</label>
-                            <input type="text" id="shoeSize" name="shoeSize" 
-                                   placeholder="e.g., US 9, EU 42, UK 8">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="pantsSize">👖 Pants/Jeans Size (optional):</label>
-                            <input type="text" id="pantsSize" name="pantsSize" 
-                                   placeholder="e.g., 32x34, Medium, Size 10">
-                        </div>
-                    </div>
-
-                    <button type="submit" class="submit-btn">
-                        🎄 Join Secret Santa 2025! 🎄
-                    </button>
-                </form>
-            </div>
+                <div id="signupError" class="error" style="display: none;"></div>
+            </form>
         </div>
     </div>
 
-    <!-- THANK YOU SCREEN (Hidden initially) -->
-    <div id="thankYouScreen" style="display: none;">
-        <div class="container">
-            <div class="thank-you-box">
-                <h1>🎉 Thank You for Joining! 🎉</h1>
-                <p class="success-message">You're officially part of Secret Santa 2025!</p>
-                <div class="success-icon">✅</div>
-                <p>Keep an eye on your email inbox for your Secret Santa assignment once everyone has signed up!</p>
-                <p style="margin-top: 20px; font-size: 1.1em;">🎅 See you at the party on <strong>December 19th, 2025</strong>! 🎄</p>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        const CORRECT_PASSWORD = 'I90.SS2025';
-
-        // Create interactive snow effect
-        function createInteractiveSnow() {
-            const snowflakes = [];
-            const maxSnowflakes = 80;
-            
-            for (let i = 0; i < maxSnowflakes; i++) {
-                createSingleSnowflake(snowflakes, true);
-            }
-            
-            let mouseX = -1000;
-            let mouseY = -1000;
-            
-            document.addEventListener('mousemove', function(e) {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-            });
-            
-            function animate() {
-                snowflakes.forEach(function(snow) {
-                    snow.velocityY += 0.02;
-                    snow.x += Math.sin(snow.y * 0.01 + snow.offset) * 0.3;
-                    
-                    const dx = snow.x - mouseX;
-                    const dy = snow.y - mouseY;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    
-                    if (distance < 120 && distance > 0) {
-                        const force = (120 - distance) / 120;
-                        const pushStrength = force * force * 8;
-                        
-                        snow.velocityX += (dx / distance) * pushStrength * 0.3;
-                        snow.velocityY += (dy / distance) * pushStrength * 0.2;
-                    }
-                    
-                    snow.velocityX *= 0.92;
-                    snow.velocityY *= 0.98;
-                    
-                    if (snow.velocityY > 3) snow.velocityY = 3;
-                    if (snow.velocityY < 0.3) snow.velocityY = 0.3;
-                    
-                    snow.x += snow.velocityX;
-                    snow.y += snow.velocityY;
-                    
-                    if (snow.x < -20) snow.x = window.innerWidth + 20;
-                    if (snow.x > window.innerWidth + 20) snow.x = -20;
-                    
-                    if (snow.y > window.innerHeight + 20) {
-                        resetSnowflake(snow);
-                    }
-                    
-                    if (snow.y < -100) {
-                        resetSnowflake(snow);
-                    }
-                    
-                    snow.element.style.left = snow.x + 'px';
-                    snow.element.style.top = snow.y + 'px';
-                });
-                
-                requestAnimationFrame(animate);
-            }
-            
-            animate();
-        }
-
-        function createSingleSnowflake(snowflakes, randomStart) {
-            const snowflake = document.createElement('div');
-            snowflake.className = 'snowflake';
-            snowflake.textContent = ['❄', '❅', '❆'][Math.floor(Math.random() * 3)];
-            
-            document.body.appendChild(snowflake);
-            
-            const snow = {
-                element: snowflake,
-                x: Math.random() * window.innerWidth,
-                y: randomStart ? Math.random() * window.innerHeight : (-20 - Math.random() * 100),
-                velocityX: 0,
-                velocityY: Math.random() * 0.5 + 0.5,
-                size: Math.random() * 10 + 15,
-                offset: Math.random() * 1000
-            };
-            
-            snowflake.style.fontSize = snow.size + 'px';
-            snowflake.style.opacity = Math.random() * 0.4 + 0.6;
-            snowflakes.push(snow);
-        }
-
-        function resetSnowflake(snow) {
-            snow.x = Math.random() * window.innerWidth;
-            snow.y = -20 - Math.random() * 50;
-            snow.velocityX = 0;
-            snow.velocityY = Math.random() * 0.5 + 0.5;
-            snow.offset = Math.random() * 1000;
-        }
-
-        // Password check
-        function checkPassword() {
-            const input = document.getElementById('passwordInput').value;
-            const errorMessage = document.getElementById('errorMessage');
-            
-            if (input === CORRECT_PASSWORD) {
-                document.getElementById('passwordScreen').style.display = 'none';
-                document.getElementById('mainContent').style.display = 'block';
-                errorMessage.style.display = 'none';
-                loadParticipantCount();
-            } else {
-                errorMessage.style.display = 'block';
-                document.getElementById('passwordInput').value = '';
-            }
-        }
-
-        // Allow Enter key for password
-        document.addEventListener('DOMContentLoaded', function() {
-            const passwordInput = document.getElementById('passwordInput');
-            if (passwordInput) {
-                passwordInput.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') {
-                        checkPassword();
-                    }
-                });
-            }
-        });
-
-        // Toggle size fields
-        function toggleSizeFields() {
-            const select = document.getElementById('openToClothing');
-            const sizeFields = document.getElementById('sizeFields');
-            
-            if (select.value === 'yes') {
-                sizeFields.style.display = 'block';
-            } else {
-                sizeFields.style.display = 'none';
-            }
-        }
-
-        // Load participant count
-        async function loadParticipantCount() {
-            try {
-                const response = await fetch('/.netlify/functions/getParticipants');
-                const data = await response.json();
-                document.getElementById('participantCount').textContent = data.count || 0;
-            } catch (error) {
-                console.error('Error loading count:', error);
-            }
-        }
-
-        // Form submission
-        document.getElementById('signupForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            submitBtn.disabled = true;
-            submitBtn.textContent = '🎅 Submitting...';
-            
-            const formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                preferences: {
-                    collectOrReceive: document.getElementById('collectOrReceive').value,
-                    favoriteStore: document.getElementById('favoriteStore').value,
-                    hobby: document.getElementById('hobby').value,
-                    wishlist: document.getElementById('wishlist').value,
-                    openToClothing: document.getElementById('openToClothing').value,
-                    shirtSize: document.getElementById('shirtSize').value || 'N/A',
-                    shoeSize: document.getElementById('shoeSize').value || 'N/A',
-                    pantsSize: document.getElementById('pantsSize').value || 'N/A'
-                },
-                timestamp: new Date().toISOString()
-            };
-            
-            try {
-                const response = await fetch('/.netlify/functions/addParticipant', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formData)
-                });
-                
-                const result = await response.json();
-                
-                if (response.ok) {
-                    // Show thank you screen
-                    document.getElementById('mainContent').style.display = 'none';
-                    document.getElementById('thankYouScreen').style.display = 'block';
-                } else {
-                    alert('Error: ' + result.error);
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = '🎄 Join Secret Santa 2025! 🎄';
-                }
-            } catch (error) {
-                alert('Network error. Please try again.');
-                submitBtn.disabled = false;
-                submitBtn.textContent = '🎄 Join Secret Santa 2025! 🎄';
-            }
-        });
-
-        // Initialize snow effect
-        createInteractiveSnow();
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
