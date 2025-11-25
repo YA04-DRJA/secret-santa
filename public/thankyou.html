@@ -66,11 +66,11 @@
     </div>
 
     <script>
-        // Create snow that FALLS and responds to cursor - WORKING VERSION
+        // Create GAME-LIKE interactive snow - push them away!
         function createInteractiveSnow() {
             const snowflakes = [];
             
-            for (let i = 0; i < 50; i++) {
+            for (let i = 0; i < 60; i++) {
                 const snowflake = document.createElement('div');
                 snowflake.className = 'snowflake';
                 snowflake.textContent = ['❄', '❅', '❆'][Math.floor(Math.random() * 3)];
@@ -81,8 +81,8 @@
                     element: snowflake,
                     x: Math.random() * window.innerWidth,
                     y: Math.random() * window.innerHeight - window.innerHeight,
-                    speedY: Math.random() * 1 + 0.5,
-                    speedX: Math.random() * 0.5 - 0.25,
+                    velocityX: 0,
+                    velocityY: Math.random() * 1 + 0.5,
                     size: Math.random() * 10 + 15
                 };
                 
@@ -100,38 +100,49 @@
             
             function animate() {
                 snowflakes.forEach(function(snow) {
-                    snow.y += snow.speedY;
-                    snow.x += snow.speedX;
-                    
-                    if (snow.y > window.innerHeight) {
-                        snow.y = -20;
-                        snow.x = Math.random() * window.innerWidth;
-                    }
-                    
-                    if (snow.x > window.innerWidth) {
-                        snow.x = 0;
-                    } else if (snow.x < 0) {
-                        snow.x = window.innerWidth;
-                    }
+                    snow.velocityY += 0.05;
                     
                     const dx = snow.x - mouseX;
                     const dy = snow.y - mouseY;
                     const distance = Math.sqrt(dx * dx + dy * dy);
                     
-                    let finalX = snow.x;
-                    let finalY = snow.y;
-                    
-                    if (distance < 100) {
-                        const force = (100 - distance) / 100;
-                        const pushX = (dx / distance) * force * 50;
-                        const pushY = (dy / distance) * force * 50;
+                    if (distance < 150 && distance > 0) {
+                        const force = (150 - distance) / 150;
+                        const pushStrength = force * 15;
                         
-                        finalX += pushX;
-                        finalY += pushY;
+                        snow.velocityX += (dx / distance) * pushStrength;
+                        snow.velocityY += (dy / distance) * pushStrength;
                     }
                     
-                    snow.element.style.left = finalX + 'px';
-                    snow.element.style.top = finalY + 'px';
+                    snow.velocityX *= 0.95;
+                    snow.velocityY *= 0.98;
+                    
+                    snow.x += snow.velocityX;
+                    snow.y += snow.velocityY;
+                    
+                    if (snow.x < 0) {
+                        snow.x = 0;
+                        snow.velocityX *= -0.5;
+                    }
+                    if (snow.x > window.innerWidth) {
+                        snow.x = window.innerWidth;
+                        snow.velocityX *= -0.5;
+                    }
+                    
+                    if (snow.y > window.innerHeight + 50) {
+                        snow.y = -20;
+                        snow.x = Math.random() * window.innerWidth;
+                        snow.velocityX = 0;
+                        snow.velocityY = Math.random() * 1 + 0.5;
+                    }
+                    
+                    if (snow.y < -50) {
+                        snow.y = -20;
+                        snow.velocityY = Math.random() * 1 + 0.5;
+                    }
+                    
+                    snow.element.style.left = snow.x + 'px';
+                    snow.element.style.top = snow.y + 'px';
                 });
                 
                 requestAnimationFrame(animate);
