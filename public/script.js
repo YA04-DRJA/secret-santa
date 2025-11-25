@@ -157,16 +157,18 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.disabled = true;
         btn.textContent = 'Sending to Santa... 🎅';
         
-        const data = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            preferences: {
-                collectOrReceive: document.getElementById('q1').value,
-                favoriteStore: document.getElementById('q2').value,
-                hobby: document.getElementById('q3').value,
-                wishlist: document.getElementById('q4').value || 'No specific items'
-            }
-        };
+const data = {
+    name: document.getElementById('name').value,
+    email: document.getElementById('email').value,
+    preferences: {
+        collectOrReceive: document.getElementById('q1').value,
+        favoriteStore: document.getElementById('q2').value,
+        hobby: document.getElementById('q3').value,
+        shirtSize: document.getElementById('shirtSize').value || 'Not provided',
+        shoeSize: document.getElementById('shoeSize').value || 'Not provided',
+        wishlist: document.getElementById('q4').value || 'No specific items'
+    }
+};
         
         try {
             const response = await fetch('/.netlify/functions/signup', {
