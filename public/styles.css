@@ -18,33 +18,16 @@ body {
     overflow-y: auto;
 }
 
-/* ANIMATED SNOW - VISIBLE */
+/* INTERACTIVE SNOW - MOVES WITH CURSOR */
 .snowflake {
     position: fixed;
-    top: -10px;
     color: white;
     font-size: 20px;
     user-select: none;
     z-index: 1;
-    animation: fall linear infinite;
+    pointer-events: none;
+    transition: transform 0.3s ease-out;
 }
-
-@keyframes fall {
-    to {
-        transform: translateY(100vh);
-    }
-}
-
-.snowflake:nth-child(1) { left: 10%; animation-duration: 10s; animation-delay: 0s; }
-.snowflake:nth-child(2) { left: 20%; animation-duration: 12s; animation-delay: 1s; }
-.snowflake:nth-child(3) { left: 30%; animation-duration: 8s; animation-delay: 2s; }
-.snowflake:nth-child(4) { left: 40%; animation-duration: 14s; animation-delay: 0.5s; }
-.snowflake:nth-child(5) { left: 50%; animation-duration: 11s; animation-delay: 1.5s; }
-.snowflake:nth-child(6) { left: 60%; animation-duration: 9s; animation-delay: 0.8s; }
-.snowflake:nth-child(7) { left: 70%; animation-duration: 13s; animation-delay: 2.5s; }
-.snowflake:nth-child(8) { left: 80%; animation-duration: 10s; animation-delay: 1.2s; }
-.snowflake:nth-child(9) { left: 90%; animation-duration: 12s; animation-delay: 0.3s; }
-.snowflake:nth-child(10) { left: 95%; animation-duration: 11s; animation-delay: 1.8s; }
 
 /* CHRISTMAS TREES - VISIBLE */
 .tree {
@@ -124,16 +107,24 @@ body {
     margin-bottom: 30px;
 }
 
+/* I90 DEEP CREEK - ONE LINE */
 .title-big {
-    font-size: 3.5em;
+    font-size: 3em;
     font-weight: 900;
     color: #ff0000;
     text-transform: uppercase;
-    letter-spacing: 5px;
+    letter-spacing: 3px;
     text-shadow: 
         3px 3px 0 #FFD700,
         6px 6px 0 rgba(0,0,0,0.2);
     margin-bottom: 15px;
+    white-space: nowrap;
+}
+
+/* SANTA HAT - CENTERED BETWEEN TITLES */
+.santa-center {
+    font-size: 60px;
+    margin: 15px 0;
 }
 
 .title-small {
@@ -141,22 +132,6 @@ body {
     font-weight: 700;
     color: #165b33;
     margin-bottom: 10px;
-}
-
-/* FIXED SANTA ON A - SANTA ABOVE, NOT COVERING */
-.santa-on-a {
-    position: relative;
-    display: inline-block;
-    padding-top: 50px;
-}
-
-.santa-on-a::before {
-    content: '🎅';
-    position: absolute;
-    top: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 50px;
 }
 
 .tagline {
@@ -307,41 +282,6 @@ body {
     border: 3px solid #ff0000;
 }
 
-/* SANTA FLYING ANIMATION */
-.santa-fly {
-    position: fixed;
-    top: 25%;
-    left: -200px;
-    font-size: 80px;
-    z-index: 1000;
-    opacity: 0;
-}
-
-.santa-fly.active {
-    animation: flyAcross 3s ease-in-out forwards;
-}
-
-@keyframes flyAcross {
-    0% {
-        left: -200px;
-        opacity: 0;
-        transform: scale(0.5) rotate(-20deg);
-    }
-    30% {
-        opacity: 1;
-        transform: scale(1.5) rotate(0deg);
-    }
-    70% {
-        opacity: 1;
-        transform: scale(1.5) rotate(0deg);
-    }
-    100% {
-        left: 110%;
-        opacity: 0;
-        transform: scale(0.5) rotate(20deg);
-    }
-}
-
 /* THANK YOU PAGE */
 .event-box {
     background: linear-gradient(135deg, #165b33, #0d4d2a);
@@ -415,7 +355,12 @@ body {
     }
     
     .title-big {
-        font-size: 2.5em;
+        font-size: 2em;
+        letter-spacing: 2px;
+    }
+    
+    .santa-center {
+        font-size: 40px;
     }
     
     .title-small {
@@ -428,5 +373,16 @@ body {
     
     .tree {
         font-size: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .title-big {
+        font-size: 1.5em;
+        letter-spacing: 1px;
+    }
+    
+    .santa-center {
+        font-size: 35px;
     }
 }
