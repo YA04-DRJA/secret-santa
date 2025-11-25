@@ -1,161 +1,99 @@
-const SIGNUP_PASSWORD = 'I90.SS2025';
+const PASSWORD = 'I90.SS2025';
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Create dynamic snow
-    createSnow();
-    
-    // Elements
-    const passwordScreen = document.getElementById('passwordScreen');
+    const passwordCard = document.getElementById('passwordCard');
     const signupCard = document.getElementById('signupCard');
     const passwordForm = document.getElementById('passwordForm');
-    const passwordInput = document.getElementById('accessPassword');
+    const passwordInput = document.getElementById('passwordInput');
     const passwordError = document.getElementById('passwordError');
-    const santaAnimation = document.getElementById('santaAnimation');
+    const santaFly = document.getElementById('santaFly');
     const signupForm = document.getElementById('signupForm');
-    const messageEl = document.getElementById('message');
+    const signupError = document.getElementById('signupError');
 
-    function createSnow() {
-        const container = document.getElementById('snowContainer');
-        if (!container) return;
-        
-        for (let i = 0; i < 50; i++) {
-            const snow = document.createElement('div');
-            snow.className = 'snowflake';
-            snow.style.left = Math.random() * 100 + '%';
-            snow.style.width = Math.random() * 4 + 2 + 'px';
-            snow.style.height = snow.style.width;
-            snow.style.animationDuration = Math.random() * 5 + 5 + 's';
-            snow.style.animationDelay = Math.random() * 5 + 's';
-            container.appendChild(snow);
-        }
-    }
-
-    function showSignupCard() {
-        passwordScreen.style.display = 'none';
-        signupCard.style.display = 'block';
-        loadParticipantCount();
-    }
-
-    // Check if already authenticated
+    // Check if already logged in
     if (sessionStorage.getItem('authenticated') === 'true') {
-        showSignupCard();
+        showSignup();
     }
 
-    // Password form handling
-    if (passwordForm) {
-        passwordForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const password = passwordInput.value;
+    // Password form
+    passwordForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        if (passwordInput.value === PASSWORD) {
+            // Show Santa flying
+            santaFly.classList.add('active');
+            
+            // Switch to signup after animation
+            setTimeout(function() {
+                sessionStorage.setItem('authenticated', 'true');
+                showSignup();
+            }, 2500);
+        } else {
+            passwordError.textContent = '❌ Wrong password! Try again.';
+            passwordError.style.display = 'block';
+            passwordCard.classList.add('shake');
+            setTimeout(() => passwordCard.classList.remove('shake'), 500);
+            passwordInput.value = '';
+        }
+    });
 
-            if (password === SIGNUP_PASSWORD) {
-                // Play Santa animation
-                santaAnimation.classList.add('fly');
-                
-                // Show signup card after animation
-                setTimeout(function() {
-                    sessionStorage.setItem('authenticated', 'true');
-                    showSignupCard();
-                }, 2000);
-            } else {
-                passwordError.textContent = '❌ Wrong password! The elves say try again.';
-                passwordError.style.display = 'block';
-                passwordInput.value = '';
-                
-                // Shake animation
-                passwordScreen.style.animation = 'shake 0.5s';
-                setTimeout(() => passwordScreen.style.animation = '', 500);
+    // Signup form
+    signupForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const btn = signupForm.querySelector('.btn');
+        btn.disabled = true;
+        btn.textContent = 'Sending to Santa... 🎅';
+        
+        const data = {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            preferences: {
+                collectOrReceive: document.getElementById('q1').value,
+                favoriteStore: document.getElementById('q2').value,
+                hobby: document.getElementById('q3').value,
+                wishlist: document.getElementById('q4').value || 'No specific items'
             }
-        });
+        };
+        
+        try {
+            const response = await fetch('/.netlify/functions/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            
+            if (response.ok) {
+                window.location.href = '/thankyou.html';
+            } else {
+                const result = await response.json();
+                signupError.textContent = result.error || 'Error! Try again.';
+                signupError.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = '🎄 JOIN SECRET SANTA 🎄';
+            }
+        } catch (error) {
+            signupError.textContent = 'Network error! Try again.';
+            signupError.style.display = 'block';
+            btn.disabled = false;
+            btn.textContent = '🎄 JOIN SECRET SANTA 🎄';
+        }
+    });
+
+    function showSignup() {
+        passwordCard.style.display = 'none';
+        signupCard.style.display = 'block';
+        loadCount();
     }
 
-    // Load participant count
-    async function loadParticipantCount() {
-        const countEl = document.getElementById('participantCount');
-        if (!countEl) return;
-
+    async function loadCount() {
         try {
             const response = await fetch('/.netlify/functions/getParticipants');
             const data = await response.json();
             const count = data.participants ? data.participants.length : 0;
-            countEl.textContent = count;
+            document.getElementById('participantCount').textContent = count;
         } catch (error) {
-            countEl.textContent = '0';
+            document.getElementById('participantCount').textContent = '0';
         }
-    }
-
-    // Signup form handling
-    if (signupForm) {
-        signupForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const submitBtn = signupForm.querySelector('button');
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Sending to Santa... 🎅';
-            
-            const formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                preferences: {
-                    collectOrReceive: document.getElementById('q1').value,
-                    favoriteStore: document.getElementById('q2').value,
-                    hobby: document.getElementById('q3').value,
-                    wishlist: document.getElementById('q4').value || 'No specific items'
-                }
-            };
-            
-            try {
-                const response = await fetch('/.netlify/functions/signup', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
-                });
-                
-                const data = await response.json();
-                
-                if (response.ok) {
-                    window.location.href = '/thankyou.html';
-                } else {
-                    messageEl.textContent = data.error || 'Christmas magic failed! Please try again.';
-                    messageEl.style.display = 'block';
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = '🎄 JOIN THE CHRISTMAS FUN! 🎄';
-                }
-            } catch (error) {
-                messageEl.textContent = 'Network error. The reindeer are resting! Try again.';
-                messageEl.style.display = 'block';
-                submitBtn.disabled = false;
-                submitBtn.textContent = '🎄 JOIN THE CHRISTMAS FUN! 🎄';
-            }
-        });
-    }
-
-    // Countdown for thank you page
-    const countdownEl = document.getElementById('countdown');
-    if (countdownEl) {
-        function updateCountdown() {
-            const eventDate = new Date('December 19, 2025 13:00:00').getTime();
-            const now = new Date().getTime();
-            const distance = eventDate - now;
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-
-            countdownEl.textContent = `${days} days, ${hours} hours, ${minutes} minutes`;
-        }
-
-        updateCountdown();
-        setInterval(updateCountdown, 60000);
     }
 });
-
-// Shake animation
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
-        20%, 40%, 60%, 80% { transform: translateX(10px); }
-    }
-`;
-document.head.appendChild(style);
