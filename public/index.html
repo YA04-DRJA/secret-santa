@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>I90 Deep Creek - Aecon Secret Santa 2025 🎅</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>I90 Deep Creek – Aecon Secret Santa 2025</title>
+    <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <!-- Sleigh animation that plays ONLY when password is correct -->
+    <!-- Sleigh animation: only runs after correct password -->
     <div class="santa-transition" id="santaTransition">🎅🛷</div>
 
-    <!-- Animated Snowflakes -->
+    <!-- Soft falling snow -->
     <div class="snowflakes" aria-hidden="true">
         <div class="snowflake">❅</div>
         <div class="snowflake">❆</div>
@@ -24,7 +24,7 @@
         <div class="snowflake">❆</div>
     </div>
 
-    <!-- Christmas Tree Silhouettes -->
+    <!-- Background trees -->
     <div class="tree-left"></div>
     <div class="tree-right"></div>
 
@@ -32,128 +32,148 @@
         <!-- PASSWORD SCREEN -->
         <div class="card" id="passwordScreen">
             <div class="santa-banner">
-                <div class="sleigh">🛷</div>
-                <div class="gift gift-1">🎁</div>
-                <div class="gift gift-2">🎁</div>
-                <div class="star star-1">⭐</div>
-                <div class="star star-2">✨</div>
-                <div class="ornament ornament-1">🔴</div>
-                <div class="ornament ornament-2">🟡</div>
+                <span class="banner-icon">🎅</span>
+                <span class="banner-text">I90 Deep Creek Holiday Gift Exchange</span>
+                <span class="banner-icon">🎁</span>
             </div>
 
-            <div class="header">
-                <h1 class="main-title">
-                    <span class="company-name">I90 Deep Creek</span>
-                    <span class="subtitle-line">
-                        <span class="subtitle-a">A</span>econ Secret Santa 2025
-                    </span>
-                </h1>
-                <p class="subtitle">Enter the password to join the fun.</p>
-            </div>
+            <header class="site-brand">
+                <h1 class="brand-main">I90 Deep Creek</h1>
+                <h2 class="brand-sub">
+                    <span class="brand-sub-a">A</span>econ Secret Santa 2025
+                </h2>
+                <p class="brand-tagline">
+                    Enter the password to access the Secret Santa signup form.
+                </p>
+            </header>
 
-            <form id="passwordForm">
+            <form id="passwordForm" class="form">
                 <div class="form-group">
-                    <label for="accessPassword">🔐 Access Password</label>
-                    <input type="password" id="accessPassword" placeholder="Enter password" required>
+                    <label for="accessPassword">Access password</label>
+                    <input
+                        type="password"
+                        id="accessPassword"
+                        placeholder="Enter password"
+                        required
+                    />
                 </div>
-                <button type="submit" class="btn-submit">🎄 Enter the Party 🎄</button>
-            </form>
 
-            <div id="passwordError" class="message error" style="display:none;"></div>
+                <button type="submit" class="btn-primary">
+                    Enter the party
+                </button>
+
+                <div id="passwordError" class="message message-error" style="display: none;"></div>
+            </form>
         </div>
 
-        <!-- SIGNUP FORM (shown after password) -->
-        <div class="card" id="signupCard" style="display:none;">
+        <!-- SIGNUP SCREEN (shown after password is correct) -->
+        <div class="card" id="signupCard" style="display: none;">
             <div class="santa-banner">
-                <div class="sleigh">🛷</div>
-                <div class="gift gift-1">🎁</div>
-                <div class="gift gift-2">🎁</div>
-                <div class="star star-1">⭐</div>
-                <div class="star star-2">✨</div>
-                <div class="ornament ornament-1">🔴</div>
-                <div class="ornament ornament-2">🟡</div>
+                <span class="banner-icon">🎅</span>
+                <span class="banner-text">I90 Deep Creek Holiday Gift Exchange</span>
+                <span class="banner-icon">🎁</span>
             </div>
 
-            <div class="header">
-                <h1 class="main-title">
-                    <span class="company-name">I90 Deep Creek</span>
-                    <span class="subtitle-line">
-                        <span class="subtitle-a">A</span>econ Secret Santa 2025
-                    </span>
-                </h1>
-                <p class="subtitle">Ho Ho Ho! Let's make this holiday season magical.</p>
-            </div>
+            <header class="site-brand">
+                <h1 class="brand-main">I90 Deep Creek</h1>
+                <h2 class="brand-sub">
+                    <span class="brand-sub-a">A</span>econ Secret Santa 2025
+                </h2>
+                <p class="brand-tagline">
+                    Fill in your details so your Secret Santa can find the perfect gift.
+                </p>
+            </header>
 
-            <!-- Participant counter (no “crew”) -->
             <div class="participant-counter">
-                🎄 <span id="participantCount">0</span> participants have registered so far
-            </div>
-
-            <!-- Progress Bar -->
-            <div class="progress-container" id="progressContainer" style="display:none;">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill"></div>
-                </div>
-                <div class="progress-text" id="progressText">Let's get started! 🎅</div>
+                <span id="participantCount">0</span>
+                people have registered so far
             </div>
 
             <div class="info-box">
-                <h3>🎁 How It Works</h3>
+                <h3>How it works</h3>
                 <ul>
-                    <li>Enter your name and <strong>personal email</strong>.</li>
-                    <li>Answer a few quick questions to help your Secret Santa.</li>
-                    <li>Once everyone signs up, names will be drawn.</li>
-                    <li>You’ll receive an email with your match and their preferences.</li>
+                    <li>Use your <strong>personal email</strong> so you don’t miss your match.</li>
+                    <li>Answer a few quick questions to guide your Secret Santa.</li>
+                    <li>Once everyone signs up, names will be drawn automatically.</li>
+                    <li>You’ll receive an email with your assigned person and their preferences.</li>
                 </ul>
             </div>
 
-            <form id="signupForm">
+            <form id="signupForm" class="form">
                 <div class="form-group">
-                    <label for="name">Full Name</label>
-                    <input type="text" id="name" name="name" placeholder="Santa Claus" required>
-                    <span class="sparkle" style="display:none;">✨</span>
+                    <label for="name">Full name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Santa Claus"
+                        required
+                    />
                 </div>
 
                 <div class="form-group">
-                    <label for="email">Personal Email Address</label>
-                    <input type="email" id="email" name="email" placeholder="santa@northpole.com" required>
-                    <small>Please use your personal email so you don't miss your assignment.</small>
-                    <span class="sparkle" style="display:none;">✨</span>
+                    <label for="email">Personal email address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="santa@northpole.com"
+                        required
+                    />
+                    <small>Please avoid company email so messages don’t get missed.</small>
                 </div>
 
-                <div class="divider">
-                    <span>Help Your Secret Santa 🎁</span>
-                </div>
+                <div class="form-divider">Help your Secret Santa</div>
 
                 <div class="form-group">
                     <label for="q1">Something you collect or love to receive</label>
-                    <input type="text" id="q1" name="q1" placeholder="Candles, mugs, books..." required>
-                    <span class="sparkle" style="display:none;">✨</span>
+                    <input
+                        type="text"
+                        id="q1"
+                        name="q1"
+                        placeholder="Candles, mugs, books, plants..."
+                        required
+                    />
                 </div>
 
                 <div class="form-group">
                     <label for="q2">Favourite store or brand</label>
-                    <input type="text" id="q2" name="q2" placeholder="Target, Starbucks, Amazon..." required>
-                    <span class="sparkle" style="display:none;">✨</span>
+                    <input
+                        type="text"
+                        id="q2"
+                        name="q2"
+                        placeholder="Amazon, Indigo, Canadian Tire..."
+                        required
+                    />
                 </div>
 
                 <div class="form-group">
                     <label for="q3">Favourite hobby or interest</label>
-                    <input type="text" id="q3" name="q3" placeholder="Reading, gaming, cooking..." required>
-                    <span class="sparkle" style="display:none;">✨</span>
+                    <input
+                        type="text"
+                        id="q3"
+                        name="q3"
+                        placeholder="Reading, gaming, cooking, sports..."
+                        required
+                    />
                 </div>
 
                 <div class="form-group">
                     <label for="q4">Wish list ideas under $25 (optional)</label>
-                    <input type="text" id="q4" name="q4" placeholder="Any specific ideas?">
-                    <span class="sparkle" style="display:none;">✨</span>
+                    <input
+                        type="text"
+                        id="q4"
+                        name="q4"
+                        placeholder="Specific items or general ideas"
+                    />
                 </div>
 
-                <button type="submit" class="btn-submit">🎄 Join the Secret Santa 🎄</button>
-            </form>
+                <button type="submit" class="btn-primary">
+                    Join the Secret Santa
+                </button>
 
-            <div id="message" class="message"></div>
-            <!-- Note: countdown + Mark Your Calendar will be shown on thankyou.html, not here -->
+                <div id="message" class="message" style="display: none;"></div>
+            </form>
         </div>
     </div>
 
