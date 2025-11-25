@@ -1,72 +1,88 @@
-const faunadb = require('faunadb');
-const q = faunadb.query;
+const { MongoClient } = require('mongodb');
+const nodemailer = require('nodemailer');
 
-const client = new faunadb.Client({
-    secret: process.env.FAUNA_SECRET_KEY
-});
+const uri = process.env.MONGODB_URI;
+const client = new MongoClient(uri);
 
 exports.handler = async (event) => {
-    // Only allow POST
     if (event.httpMethod !== 'POST') {
-        return {
-            statusCode: 405,
-            body: JSON.stringify({ error: 'Method not allowed' })
-        };
+        return { statusCode: 405, body: 'Method Not Allowed' };
     }
 
     try {
         const { name, email, preferences } = JSON.parse(event.body);
 
-        // Validate input
-        if (!name || !email || !preferences) {
+        // Connect to MongoDB
+        await client.connect();
+        const database = client.db('secretsanta');
+        const collection = database.collection('participants');
+
+        // Check if email already exists
+        const existingParticipant = await collection.findOne({ email });
+        if (existingParticipant) {
             return {
                 statusCode: 400,
-                body: JSON.stringify({ error: 'Missing required fields' })
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                body: JSON.stringify({ error: 'Email already registered' })
             };
         }
 
-        // Check if email already exists
-        try {
-            const existing = await client.query(
-                q.Get(q.Match(q.Index('participants_by_email'), email))
-            );
-            
-            if (existing) {
-                return {
-                    statusCode: 400,
-                    body: JSON.stringify({ error: 'This email is already registered!' })
-                };
-            }
-        } catch (error) {
-            // Email doesn't exist, continue
-        }
+        // Add new participant
+        const participant = {
+            name,
+            email,
+            preferences,
+            signupDate: new Date().toISOString()
+        };
 
-        // Create participant
-        const result = await client.query(
-            q.Create(q.Collection('participants'), {
-                data: {
-                    name,
-                    email,
-                    preferences,
-                    signedUpAt: q.Now(),
-                    assigned: false
-                }
-            })
-        );
+        await collection.insertOne(participant);
+
+        // Send confirmation email
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
+            }
+        });
+
+        await transporter.sendMail({
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: '🎄 Secret Santa 2025 - Registration Confirmed!',
+            html: `
+                <h2>Welcome to Secret Santa 2025!</h2>
+                <p>Hi ${name},</p>
+                <p>You've successfully registered for our Secret Santa exchange!</p>
+                <p><strong>Your preferences:</strong> ${preferences}</p>
+                <p>We'll notify you once the draw is complete and reveal your Secret Santa match!</p>
+                <p>Happy Holidays! 🎅</p>
+            `
+        });
 
         return {
             statusCode: 200,
-            body: JSON.stringify({
-                message: 'Successfully signed up!',
-                id: result.ref.id
-            })
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            body: JSON.stringify({ message: 'Successfully registered!' })
         };
 
     } catch (error) {
         console.error('Signup error:', error);
         return {
             statusCode: 500,
-            body: JSON.stringify({ error: 'Failed to sign up. Please try again.' })
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            body: JSON.stringify({ error: error.message })
         };
+    } finally {
+        await client.close();
     }
 };
