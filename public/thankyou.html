@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>I90 Deep Creek – Aecon Secret Santa 2025</title>
+    <title>Thank You! – I90 Deep Creek Secret Santa 2025</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -12,101 +12,143 @@
     <div class="tree tree-right">🎄</div>
 
     <div class="container">
-        <!-- PASSWORD SCREEN -->
-        <div class="card" id="passwordCard">
+        <!-- THANK YOU CARD -->
+        <div class="card" style="display: block;">
             <div class="ribbon"></div>
             
             <!-- EMPTY RED HEADER - JUST DECORATION -->
             <div class="christmas-header"></div>
 
             <div class="main-title">
-                <div class="title-big">I90 DEEP CREEK</div>
+                <div class="title-big">🎉 YOU'RE IN! 🎉</div>
                 <div class="santa-center">🎅</div>
-                <div class="title-small">Aecon Secret Santa 2025</div>
-                <div class="tagline">Welcome to the Christmas magic! 🎄</div>
+                <div class="title-small">Welcome to Secret Santa 2025!</div>
             </div>
 
-            <form id="passwordForm">
-                <div class="form-group">
-                    <label>🔐 Secret Password</label>
-                    <input type="password" id="passwordInput" placeholder="What's the magic word?" required>
+            <div class="info-box" style="text-align: center; padding: 40px 20px;">
+                <h2 style="color: #c41e3a; margin-bottom: 20px;">✨ Thank You for Joining! ✨</h2>
+                
+                <p style="font-size: 18px; line-height: 1.8; margin-bottom: 30px;">
+                    🎁 <strong>You're officially part of the I90 Deep Creek Secret Santa!</strong>
+                </p>
+
+                <div style="background: #fff3cd; border: 2px dashed #c41e3a; border-radius: 15px; padding: 25px; margin: 30px 0;">
+                    <h3 style="color: #c41e3a; margin-bottom: 15px;">📧 What Happens Next?</h3>
+                    <ul style="text-align: left; font-size: 16px; line-height: 2;">
+                        <li>✅ Your registration is confirmed!</li>
+                        <li>🎲 Once everyone signs up, we'll randomly assign Secret Santas</li>
+                        <li>💌 You'll receive an email with your assigned person's name and gift preferences</li>
+                        <li>🎁 Budget is around <strong>$25</strong></li>
+                        <li>🎄 Get ready to spread some holiday cheer!</li>
+                    </ul>
                 </div>
 
-                <button type="submit" class="btn">🎁 ENTER PARTY 🎁</button>
+                <p style="font-size: 16px; color: #666; margin-top: 30px;">
+                    ⚠️ <strong>Check your email inbox</strong> (and spam folder!) for your Secret Santa assignment!
+                </p>
 
-                <div id="passwordError" class="error" style="display: none;"></div>
-            </form>
-        </div>
-
-        <!-- SIGNUP SCREEN -->
-        <div class="card" id="signupCard" style="display: none;">
-            <div class="ribbon"></div>
-            
-            <!-- EMPTY RED HEADER - JUST DECORATION -->
-            <div class="christmas-header"></div>
-
-            <div class="main-title">
-                <div class="title-big">I90 DEEP CREEK</div>
-                <div class="santa-center">🎅</div>
-                <div class="title-small">Aecon Secret Santa 2025</div>
-                <div class="tagline">Welcome to the Christmas magic! 🎄</div>
+                <div style="margin-top: 40px;">
+                    <a href="index.html" class="btn" style="display: inline-block; text-decoration: none;">
+                        🏠 Back to Home
+                    </a>
+                </div>
             </div>
 
-            <div class="counter">
-                🎅 <span class="counter-number" id="participantCount">Loading...</span> Christmas Elves Have Signed Up!
+            <div style="text-align: center; margin-top: 30px; font-size: 48px;">
+                🎅 🎄 ❄️ 🎁 ⛄
             </div>
-
-            <div class="info-box">
-                <h3>🎁 How the Christmas Magic Works:</h3>
-                <ul>
-                    <li>Enter your details below to join Santa's nice list</li>
-                    <li>Help your Secret Santa by answering the gift preference questions</li>
-                    <li>Once everyone joins, we'll draw names automatically on the backend</li>
-                    <li>You'll receive a magical email with your assigned person and their wishlist!</li>
-                </ul>
-            </div>
-
-            <form id="signupForm">
-                <div class="form-group">
-                    <label>🎅 Your Full Name</label>
-                    <input type="text" id="name" placeholder="Santa Claus" required>
-                </div>
-
-                <div class="form-group">
-                    <label>📧 Your Personal Email</label>
-                    <input type="email" id="email" placeholder="santa@northpole.com" required>
-                    <small>Use your personal email so you don't miss the Christmas magic!</small>
-                </div>
-
-                <div class="divider">Help Your Secret Santa Choose the Perfect Gift</div>
-
-                <div class="form-group">
-                    <label>What would make you smile this Christmas?</label>
-                    <input type="text" id="q1" placeholder="Candles, books, cozy socks, mugs..." required>
-                </div>
-
-                <div class="form-group">
-                    <label>Favorite store or place to shop?</label>
-                    <input type="text" id="q2" placeholder="Amazon, local bookstore, coffee shop..." required>
-                </div>
-
-                <div class="form-group">
-                    <label>What do you love to do in your free time?</label>
-                    <input type="text" id="q3" placeholder="Reading, movies, cooking, sports..." required>
-                </div>
-
-                <div class="form-group">
-                    <label>Any specific Christmas wishes under $25?</label>
-                    <input type="text" id="q4" placeholder="Optional - specific items you'd love!">
-                </div>
-
-                <button type="submit" class="btn">🎄 JOIN THE CHRISTMAS FUN! 🎄</button>
-
-                <div id="signupError" class="error" style="display: none;"></div>
-            </form>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // Create CONTINUOUS interactive snow
+        function createInteractiveSnow() {
+            const snowflakes = [];
+            const maxSnowflakes = 80;
+            
+            for (let i = 0; i < maxSnowflakes; i++) {
+                createSingleSnowflake(snowflakes, true);
+            }
+            
+            let mouseX = -1000;
+            let mouseY = -1000;
+            
+            document.addEventListener('mousemove', function(e) {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+            
+            function animate() {
+                snowflakes.forEach(function(snow) {
+                    snow.velocityY += 0.02;
+                    snow.x += Math.sin(snow.y * 0.01 + snow.offset) * 0.3;
+                    
+                    const dx = snow.x - mouseX;
+                    const dy = snow.y - mouseY;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 120 && distance > 0) {
+                        const force = (120 - distance) / 120;
+                        const pushStrength = force * force * 8;
+                        snow.velocityX += (dx / distance) * pushStrength * 0.3;
+                        snow.velocityY += (dy / distance) * pushStrength * 0.2;
+                    }
+                    
+                    snow.velocityX *= 0.92;
+                    snow.velocityY *= 0.98;
+                    
+                    if (snow.velocityY > 3) snow.velocityY = 3;
+                    if (snow.velocityY < 0.3) snow.velocityY = 0.3;
+                    
+                    snow.x += snow.velocityX;
+                    snow.y += snow.velocityY;
+                    
+                    if (snow.x < -20) snow.x = window.innerWidth + 20;
+                    if (snow.x > window.innerWidth + 20) snow.x = -20;
+                    if (snow.y > window.innerHeight + 20) resetSnowflake(snow);
+                    if (snow.y < -100) resetSnowflake(snow);
+                    
+                    snow.element.style.left = snow.x + 'px';
+                    snow.element.style.top = snow.y + 'px';
+                });
+                
+                requestAnimationFrame(animate);
+            }
+            
+            animate();
+        }
+
+        function createSingleSnowflake(snowflakes, randomStart) {
+            const snowflake = document.createElement('div');
+            snowflake.className = 'snowflake';
+            snowflake.textContent = ['❄', '❅', '❆'][Math.floor(Math.random() * 3)];
+            document.body.appendChild(snowflake);
+            
+            const snow = {
+                element: snowflake,
+                x: Math.random() * window.innerWidth,
+                y: randomStart ? Math.random() * window.innerHeight : (-20 - Math.random() * 100),
+                velocityX: 0,
+                velocityY: Math.random() * 0.5 + 0.5,
+                size: Math.random() * 10 + 15,
+                offset: Math.random() * 1000
+            };
+            
+            snowflake.style.fontSize = snow.size + 'px';
+            snowflake.style.opacity = Math.random() * 0.4 + 0.6;
+            snowflakes.push(snow);
+        }
+
+        function resetSnowflake(snow) {
+            snow.x = Math.random() * window.innerWidth;
+            snow.y = -20 - Math.random() * 50;
+            snow.velocityX = 0;
+            snow.velocityY = Math.random() * 0.5 + 0.5;
+            snow.offset = Math.random() * 1000;
+        }
+
+        // Start snow animation
+        createInteractiveSnow();
+    </script>
 </body>
 </html>
