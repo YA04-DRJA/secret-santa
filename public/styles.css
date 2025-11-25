@@ -13,6 +13,39 @@ body {
     overflow-x: hidden;
 }
 
+/* Santa Sleigh Background Animation */
+.santa-sleigh-bg {
+    position: fixed;
+    top: 20%;
+    left: -200px;
+    font-size: 80px;
+    z-index: 0;
+    opacity: 0.15;
+    pointer-events: none;
+    animation: sleighFlyAcross 20s linear infinite;
+}
+
+@keyframes sleighFlyAcross {
+    0% { 
+        left: -200px; 
+        top: 20%;
+    }
+    25% {
+        top: 40%;
+    }
+    50% { 
+        left: 50%;
+        top: 30%;
+    }
+    75% {
+        top: 50%;
+    }
+    100% { 
+        left: 110%;
+        top: 35%;
+    }
+}
+
 /* Christmas Tree Silhouettes */
 .tree-left, .tree-right {
     position: fixed;
@@ -33,28 +66,6 @@ body {
 .tree-right {
     right: -50px;
     transform: rotate(5deg);
-}
-
-/* Countdown Timer */
-.countdown-timer {
-    position: fixed;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(255, 215, 0, 0.95);
-    color: #8B0000;
-    padding: 10px 25px;
-    border-radius: 25px;
-    font-weight: bold;
-    font-size: 16px;
-    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
-    z-index: 1000;
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0%, 100% { transform: translateX(-50%) scale(1); }
-    50% { transform: translateX(-50%) scale(1.05); }
 }
 
 /* Snowflakes */
@@ -98,7 +109,7 @@ body {
 /* Container */
 .container {
     max-width: 700px;
-    margin: 60px auto 40px;
+    margin: 20px auto 40px;
     position: relative;
     z-index: 2;
 }
@@ -225,30 +236,67 @@ body {
     gap: 5px;
 }
 
+/* I90 Deep Creek with Christmas Lights */
 .company-name {
     font-size: 2em;
-    color: #C41E3A;
     font-weight: bold;
+    background: linear-gradient(135deg, #C41E3A 0%, #8B0000 50%, #C41E3A 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+    padding: 10px 0;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-    position: relative;
+    letter-spacing: 2px;
 }
 
-.company-name::first-letter {
-    position: relative;
-}
-
-.company-name::first-letter::after {
-    content: '🎅';
+.company-name::before {
+    content: '💡🔴💡🟢💡🟡💡🔵💡🟠💡';
     position: absolute;
-    top: -15px;
-    right: -25px;
-    font-size: 0.6em;
+    top: -5px;
+    left: 0;
+    right: 0;
+    font-size: 0.4em;
+    letter-spacing: 15px;
+    animation: lightsGlow 2s ease-in-out infinite;
 }
 
+.company-name::after {
+    content: '💡🟢💡🔴💡🔵💡🟡💡🟠💡';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    right: 0;
+    font-size: 0.4em;
+    letter-spacing: 15px;
+    animation: lightsGlow 2s ease-in-out infinite 1s;
+}
+
+@keyframes lightsGlow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+/* Aecon with Santa Hat on A */
 .subtitle-line {
     font-size: 1.2em;
     color: #165B33;
     font-weight: 600;
+    position: relative;
+}
+
+.subtitle-line::first-letter {
+    position: relative;
+    color: #C41E3A;
+    font-size: 1.3em;
+}
+
+.subtitle-line::before {
+    content: '🎅';
+    position: absolute;
+    left: -5px;
+    top: -20px;
+    font-size: 0.9em;
 }
 
 .subtitle {
@@ -339,13 +387,13 @@ body {
     line-height: 1.6;
 }
 
-/* Event Details */
+/* Event Details - Now at bottom */
 .event-details {
     background: linear-gradient(135deg, #C41E3A, #8B0000);
     color: white;
     padding: 25px;
     border-radius: 15px;
-    margin-bottom: 25px;
+    margin-top: 25px;
     box-shadow: 0 8px 20px rgba(196, 30, 58, 0.3);
 }
 
@@ -388,6 +436,25 @@ body {
 @keyframes urgentPulse {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.03); }
+}
+
+/* Countdown Timer - Moved to bottom */
+.countdown-timer {
+    background: rgba(255, 215, 0, 0.95);
+    color: #8B0000;
+    padding: 15px 25px;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 1.1em;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    margin-top: 20px;
+    text-align: center;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
 }
 
 /* Form */
@@ -588,7 +655,7 @@ body {
 /* Responsive */
 @media (max-width: 768px) {
     .container {
-        margin: 80px auto 20px;
+        margin: 20px auto;
     }
     
     .card {
@@ -610,11 +677,6 @@ body {
     
     .event-grid {
         grid-template-columns: 1fr;
-    }
-    
-    .countdown-timer {
-        font-size: 14px;
-        padding: 8px 15px;
     }
     
     .hohoho-message {
