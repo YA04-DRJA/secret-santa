@@ -7,20 +7,8 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- CHRISTMAS LIGHTS AT TOP -->
-    <div class="lights"></div>
-
-    <!-- FALLING SNOW -->
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❅</div>
-    <div class="snowflake">❆</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❅</div>
-    <div class="snowflake">❆</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❅</div>
-    <div class="snowflake">❆</div>
-    <div class="snowflake">❄</div>
+    <!-- INTERACTIVE SNOW -->
+    <div id="snowContainer"></div>
 
     <!-- CHRISTMAS TREES -->
     <div class="tree tree-left">🎄</div>
@@ -30,16 +18,14 @@
         <div class="card">
             <div class="ribbon"></div>
             
-            <div class="christmas-header">
-                🎉 YOU'RE ON SANTA'S LIST! 🎉
-            </div>
+            <!-- EMPTY RED HEADER - JUST DECORATION -->
+            <div class="christmas-header"></div>
 
             <div class="main-title">
                 <div class="title-big">I90 DEEP CREEK</div>
-                <div class="title-small">
-                    <span class="santa-on-a">A</span>econ Secret Santa 2025
-                </div>
-                <div class="tagline">Christmas magic is coming! 🎄</div>
+                <div class="santa-center">🎅</div>
+                <div class="title-small">Aecon Secret Santa 2025</div>
+                <div class="tagline">You're on Santa's nice list! 🎄</div>
             </div>
 
             <p style="text-align: center; margin-bottom: 30px; line-height: 1.8; font-size: 1.15em;">
@@ -83,6 +69,69 @@
     </div>
 
     <script>
+        // Create snow that FALLS and responds to cursor
+        function createInteractiveSnow() {
+            const container = document.getElementById('snowContainer');
+            const snowflakes = [];
+            
+            for (let i = 0; i < 40; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.textContent = ['❄', '❅', '❆'][Math.floor(Math.random() * 3)];
+                
+                const startX = Math.random() * 100;
+                snowflake.style.left = startX + '%';
+                snowflake.style.top = '-20px';
+                snowflake.style.fontSize = (Math.random() * 10 + 15) + 'px';
+                snowflake.style.animationDuration = (Math.random() * 5 + 8) + 's';
+                snowflake.style.animationDelay = (Math.random() * 5) + 's';
+                
+                container.appendChild(snowflake);
+                
+                snowflakes.push({
+                    element: snowflake,
+                    startX: startX,
+                    currentPushX: 0,
+                    currentPushY: 0
+                });
+            }
+            
+            let mouseX = 50;
+            let mouseY = 50;
+            
+            document.addEventListener('mousemove', function(e) {
+                mouseX = (e.clientX / window.innerWidth) * 100;
+                mouseY = (e.clientY / window.innerHeight) * 100;
+            });
+            
+            function updateSnow() {
+                snowflakes.forEach(function(snow) {
+                    const rect = snow.element.getBoundingClientRect();
+                    const snowX = (rect.left + rect.width / 2) / window.innerWidth * 100;
+                    const snowY = (rect.top + rect.height / 2) / window.innerHeight * 100;
+                    
+                    const dx = snowX - mouseX;
+                    const dy = snowY - mouseY;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 15) {
+                        const force = (15 - distance) / 15;
+                        snow.currentPushX = dx * force * 80;
+                        snow.currentPushY = dy * force * 80;
+                    } else {
+                        snow.currentPushX *= 0.95;
+                        snow.currentPushY *= 0.95;
+                    }
+                    
+                    snow.element.style.transform = `translate(${snow.currentPushX}px, ${snow.currentPushY}px)`;
+                });
+                
+                requestAnimationFrame(updateSnow);
+            }
+            
+            updateSnow();
+        }
+
         // Countdown timer
         function updateCountdown() {
             const eventDate = new Date('December 19, 2025 13:00:00').getTime();
@@ -97,6 +146,7 @@
                 days + ' days, ' + hours + ' hours, ' + minutes + ' minutes';
         }
 
+        createInteractiveSnow();
         updateCountdown();
         setInterval(updateCountdown, 60000);
     </script>
