@@ -88,12 +88,12 @@ body {
     font-size: 40px;
 }
 
-/* HEADER - EMPTY/DECORATIVE */
+/* HEADER - EMPTY/DECORATIVE WITH MORE SPACE */
 .christmas-header {
     background: linear-gradient(90deg, #ff0000, #c41e3a);
     color: white;
     padding: 20px;
-    margin: -40px -40px 30px -40px;
+    margin: -40px -40px 40px -40px;
     border-radius: 20px 20px 0 0;
     text-align: center;
     min-height: 60px;
@@ -108,7 +108,7 @@ body {
     margin-bottom: 30px;
 }
 
-/* I90 DEEP CREEK - ONE LINE */
+/* I90 DEEP CREEK - ONE LINE WITH SPACE FROM TOP */
 .title-big {
     font-size: 3em;
     font-weight: 900;
@@ -119,6 +119,7 @@ body {
         3px 3px 0 #FFD700,
         6px 6px 0 rgba(0,0,0,0.2);
     margin-bottom: 15px;
+    margin-top: 10px;
     white-space: nowrap;
 }
 
@@ -140,7 +141,7 @@ body {
     font-size: 1.1em;
 }
 
-/* COUNTER */
+/* COUNTER - BETTER WORDING */
 .counter {
     background: linear-gradient(90deg, #165b33, #0d4d2a);
     color: white;
@@ -158,7 +159,7 @@ body {
     color: #FFD700;
 }
 
-/* INFO BOX */
+/* INFO BOX - ORIGINAL DETAILED VERSION */
 .info-box {
     background: #fff8dc;
     border: 5px solid #FFD700;
@@ -181,12 +182,13 @@ body {
 
 .info-box li {
     padding: 10px 0;
-    font-size: 1.1em;
+    font-size: 1.05em;
     color: #333;
+    line-height: 1.6;
 }
 
 .info-box li::before {
-    content: '🎄 ';
+    content: '✨ ';
     margin-right: 10px;
 }
 
