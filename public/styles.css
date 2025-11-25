@@ -13,36 +13,39 @@ body {
     overflow-x: hidden;
 }
 
-/* Santa Sleigh Background Animation */
-.santa-sleigh-bg {
+/* Santa Sleigh Transition Animation (only when password correct) */
+.santa-transition {
     position: fixed;
-    top: 20%;
-    left: -200px;
-    font-size: 80px;
-    z-index: 0;
-    opacity: 0.15;
+    top: 50%;
+    left: -300px;
+    font-size: 120px;
+    z-index: 10001;
+    opacity: 0;
     pointer-events: none;
-    animation: sleighFlyAcross 20s linear infinite;
+    transform: translateY(-50%);
 }
 
-@keyframes sleighFlyAcross {
+.santa-transition.fly {
+    animation: santaFlyIn 3s ease-out forwards;
+}
+
+@keyframes santaFlyIn {
     0% { 
-        left: -200px; 
-        top: 20%;
+        left: -300px;
+        opacity: 0;
     }
-    25% {
-        top: 40%;
+    30% {
+        opacity: 1;
     }
-    50% { 
+    70% {
+        opacity: 1;
         left: 50%;
-        top: 30%;
-    }
-    75% {
-        top: 50%;
+        transform: translateY(-50%) translateX(-50%);
     }
     100% { 
-        left: 110%;
-        top: 35%;
+        left: 120%;
+        opacity: 0;
+        transform: translateY(-50%);
     }
 }
 
@@ -233,70 +236,72 @@ body {
 .main-title {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 10px;
 }
 
-/* I90 Deep Creek with Christmas Lights */
+/* I90 Deep Creek with REAL Christmas Lights Decoration */
 .company-name {
-    font-size: 2em;
+    font-size: 2.2em;
     font-weight: bold;
-    background: linear-gradient(135deg, #C41E3A 0%, #8B0000 50%, #C41E3A 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #C41E3A;
     position: relative;
-    padding: 10px 0;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-    letter-spacing: 2px;
+    padding: 25px 10px;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+    letter-spacing: 3px;
+    display: inline-block;
 }
 
+/* Christmas lights wrapped around the text */
 .company-name::before {
-    content: '💡🔴💡🟢💡🟡💡🔵💡🟠💡';
+    content: '🔴 🟢 🟡 🔵 🟠 🔴 🟢 🟡 🔵 🟠 🔴 🟢';
     position: absolute;
-    top: -5px;
+    top: 0;
     left: 0;
     right: 0;
-    font-size: 0.4em;
-    letter-spacing: 15px;
-    animation: lightsGlow 2s ease-in-out infinite;
+    font-size: 0.35em;
+    letter-spacing: 8px;
+    animation: lightsGlow 1.5s ease-in-out infinite;
 }
 
 .company-name::after {
-    content: '💡🟢💡🔴💡🔵💡🟡💡🟠💡';
+    content: '🟢 🔴 🔵 🟡 🟠 🟢 🔴 🔵 🟡 🟠 🟢 🔴';
     position: absolute;
-    bottom: -5px;
+    bottom: 0;
     left: 0;
     right: 0;
-    font-size: 0.4em;
-    letter-spacing: 15px;
-    animation: lightsGlow 2s ease-in-out infinite 1s;
+    font-size: 0.35em;
+    letter-spacing: 8px;
+    animation: lightsGlow 1.5s ease-in-out infinite 0.75s;
 }
 
 @keyframes lightsGlow {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.6; }
+    0%, 100% { 
+        opacity: 1;
+        filter: brightness(1);
+    }
+    50% { 
+        opacity: 0.6;
+        filter: brightness(1.5);
+    }
 }
 
-/* Aecon with Santa Hat on A */
+/* Aecon with Santa Hat DIRECTLY on the A */
 .subtitle-line {
-    font-size: 1.2em;
+    font-size: 1.3em;
     color: #165B33;
     font-weight: 600;
     position: relative;
-}
-
-.subtitle-line::first-letter {
-    position: relative;
-    color: #C41E3A;
-    font-size: 1.3em;
+    display: inline-block;
+    padding-left: 35px;
 }
 
 .subtitle-line::before {
     content: '🎅';
     position: absolute;
-    left: -5px;
-    top: -20px;
-    font-size: 0.9em;
+    left: 0;
+    top: -8px;
+    font-size: 1.4em;
+    transform: rotate(-15deg);
 }
 
 .subtitle {
@@ -387,7 +392,7 @@ body {
     line-height: 1.6;
 }
 
-/* Event Details - Now at bottom */
+/* Event Details - Only on Thank You page */
 .event-details {
     background: linear-gradient(135deg, #C41E3A, #8B0000);
     color: white;
@@ -438,7 +443,7 @@ body {
     50% { transform: scale(1.03); }
 }
 
-/* Countdown Timer - Moved to bottom */
+/* Countdown Timer - Only on Thank You page */
 .countdown-timer {
     background: rgba(255, 215, 0, 0.95);
     color: #8B0000;
