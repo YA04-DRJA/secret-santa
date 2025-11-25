@@ -234,6 +234,16 @@
             </button>
         </div>
 
+        <!-- POTLUCK SUMMARY - NEW SECTION -->
+        <div style="background: #fff9e6; border: 3px solid #ff8c00; border-radius: 15px; padding: 25px; margin: 25px 0;">
+            <h3 style="color: #ff8c00; text-align: center; margin-bottom: 20px;">🍕 Potluck Summary 🍕</h3>
+            
+            <div id="potluckSummary" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                <!-- Summary will load here -->
+            </div>
+        </div>
+        <!-- END POTLUCK SUMMARY -->
+
         <h2 style="margin-bottom: 20px; color: #165b33;">📋 All Participants</h2>
         
         <div id="loading" class="loading">Loading participants...</div>
@@ -245,6 +255,7 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Preferences</th>
+                    <th>🍕 Potluck Choice</th>
                     <th>Joined</th>
                 </tr>
             </thead>
@@ -352,6 +363,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             createInteractiveSnow();
             loadParticipants();
+            loadPotluckSummary();
         });
 
         // Load participants
@@ -382,6 +394,20 @@
                 tbody.innerHTML = '';
                 
                 participants.forEach((p, index) => {
+                    // Format potluck choice with emoji
+                    let potluckDisplay = '<span style="color: #999;">Not selected</span>';
+                    if (p.potluckChoice) {
+                        const emojiMap = {
+                            'Main Course': '🍗',
+                            'Appetizer': '🥗',
+                            'Dessert': '🍰',
+                            'Snacks': '🍿',
+                            'Drinks': '🥤',
+                            'Not Bringing Food': '❌'
+                        };
+                        potluckDisplay = `<span style="font-weight: bold; color: #ff8c00;">${emojiMap[p.potluckChoice] || ''} ${p.potluckChoice}</span>`;
+                    }
+                    
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td>${index + 1}</td>
@@ -393,6 +419,7 @@
                             <strong>Hobby:</strong> ${p.preferences.hobby}<br>
                             <strong>Wishlist:</strong> ${p.preferences.wishlist}
                         </td>
+                        <td>${potluckDisplay}</td>
                         <td>${new Date(p.timestamp).toLocaleDateString()}</td>
                     `;
                     tbody.appendChild(row);
@@ -403,6 +430,52 @@
                 
             } catch (error) {
                 showMessage('Error loading participants: ' + error.message, 'error');
+            }
+        }
+
+        // Load potluck summary
+        async function loadPotluckSummary() {
+            try {
+                const response = await fetch('/.netlify/functions/getpotluckstats');
+                const data = await response.json();
+                
+                const summaryDiv = document.getElementById('potluckSummary');
+                summaryDiv.innerHTML = '';
+                
+                const categories = [
+                    { name: 'Main Course', emoji: '🍗', color: '#ff6b6b' },
+                    { name: 'Appetizer', emoji: '🥗', color: '#4ecdc4' },
+                    { name: 'Dessert', emoji: '🍰', color: '#ff8c00' },
+                    { name: 'Snacks', emoji: '🍿', color: '#ffd93d' },
+                    { name: 'Drinks', emoji: '🥤', color: '#6bcf7f' },
+                    { name: 'Not Bringing Food', emoji: '❌', color: '#95a5a6' }
+                ];
+                
+                categories.forEach(cat => {
+                    const count = data.stats[cat.name] || 0;
+                    const percent = data.percentages[cat.name] || 0;
+                    
+                    const card = document.createElement('div');
+                    card.style.cssText = `
+                        background: white;
+                        border: 2px solid ${cat.color};
+                        border-radius: 10px;
+                        padding: 15px;
+                        text-align: center;
+                    `;
+                    
+                    card.innerHTML = `
+                        <div style="font-size: 32px; margin-bottom: 10px;">${cat.emoji}</div>
+                        <div style="font-weight: bold; color: ${cat.color}; margin-bottom: 5px;">${cat.name}</div>
+                        <div style="font-size: 24px; font-weight: bold; color: #333;">${count} people</div>
+                        <div style="font-size: 14px; color: #666;">${percent}%</div>
+                    `;
+                    
+                    summaryDiv.appendChild(card);
+                });
+                
+            } catch (error) {
+                console.error('Error loading potluck summary:', error);
             }
         }
 
@@ -444,10 +517,11 @@
                 .then(data => {
                     const participants = data.participants || [];
                     
-                    let csv = 'Name,Email,Likes,Favorite Store,Hobby,Wishlist,Joined Date\n';
+                    let csv = 'Name,Email,Likes,Favorite Store,Hobby,Wishlist,Potluck Choice,Joined Date\n';
                     
                     participants.forEach(p => {
-                        csv += `"${p.name}","${p.email}","${p.preferences.collectOrReceive}","${p.preferences.favoriteStore}","${p.preferences.hobby}","${p.preferences.wishlist}","${new Date(p.timestamp).toLocaleString()}"\n`;
+                        const potluck = p.potluckChoice || 'Not selected';
+                        csv += `"${p.name}","${p.email}","${p.preferences.collectOrReceive}","${p.preferences.favoriteStore}","${p.preferences.hobby}","${p.preferences.wishlist}","${potluck}","${new Date(p.timestamp).toLocaleString()}"\n`;
                     });
                     
                     const blob = new Blob([csv], { type: 'text/csv' });
@@ -475,6 +549,9 @@
                 statusDiv.style.display = 'none';
             }, 5000);
         }
+
+        // Refresh potluck summary every 30 seconds
+        setInterval(loadPotluckSummary, 30000);
     </script>
 </body>
 </html>
