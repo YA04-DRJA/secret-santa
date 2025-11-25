@@ -18,7 +18,7 @@ body {
     overflow-y: auto;
 }
 
-/* INTERACTIVE SNOW - MOVES WITH CURSOR */
+/* FALLING + INTERACTIVE SNOW */
 .snowflake {
     position: fixed;
     color: white;
@@ -26,24 +26,41 @@ body {
     user-select: none;
     z-index: 1;
     pointer-events: none;
-    transition: transform 0.3s ease-out;
+    animation: snowfall linear infinite;
 }
 
-/* CHRISTMAS TREES - VISIBLE */
+@keyframes snowfall {
+    0% {
+        transform: translateY(-10px) translateX(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) translateX(20px);
+        opacity: 0;
+    }
+}
+
+/* CHRISTMAS TREES - BIGGER */
 .tree {
     position: fixed;
     bottom: 0;
-    font-size: 150px;
+    font-size: 250px;
     z-index: 1;
-    opacity: 0.3;
+    opacity: 0.4;
 }
 
 .tree-left {
-    left: 50px;
+    left: 20px;
 }
 
 .tree-right {
-    right: 50px;
+    right: 20px;
 }
 
 /* CONTAINER */
@@ -372,7 +389,7 @@ body {
     }
     
     .tree {
-        font-size: 80px;
+        font-size: 150px;
     }
 }
 
@@ -384,5 +401,9 @@ body {
     
     .santa-center {
         font-size: 35px;
+    }
+    
+    .tree {
+        font-size: 100px;
     }
 }
