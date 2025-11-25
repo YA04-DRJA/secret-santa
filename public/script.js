@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function() {
         showSignup();
     }
 
-    // Password form - NO ANIMATION, INSTANT SWITCH
+    // Password form - INSTANT SWITCH
     passwordForm.addEventListener('submit', function(e) {
         e.preventDefault();
         
@@ -182,13 +182,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 signupError.textContent = result.error || 'Error! Try again.';
                 signupError.style.display = 'block';
                 btn.disabled = false;
-                btn.textContent = '🎄 JOIN SECRET SANTA 🎄';
+                btn.textContent = '🎄 JOIN THE CHRISTMAS FUN! 🎄';
             }
         } catch (error) {
             signupError.textContent = 'Network error! Try again.';
             signupError.style.display = 'block';
             btn.disabled = false;
-            btn.textContent = '🎄 JOIN SECRET SANTA 🎄';
+            btn.textContent = '🎄 JOIN THE CHRISTMAS FUN! 🎄';
         }
     });
 
