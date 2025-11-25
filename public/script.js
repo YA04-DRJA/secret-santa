@@ -1,15 +1,13 @@
 const PASSWORD = 'I90.SS2025';
 
-// Create REALISTIC interactive snow
+// Create CONTINUOUS interactive snow - always falling!
 function createInteractiveSnow() {
     const snowflakes = [];
-    const maxSnowflakes = 60;
+    const maxSnowflakes = 80;
     
-    // Create snowflakes with STAGGERED start times
+    // Create ALL snowflakes immediately at random positions
     for (let i = 0; i < maxSnowflakes; i++) {
-        setTimeout(function() {
-            createSingleSnowflake(snowflakes);
-        }, i * 100); // Stagger by 100ms each
+        createSingleSnowflake(snowflakes, true);
     }
     
     let mouseX = -1000;
@@ -38,9 +36,8 @@ function createInteractiveSnow() {
             // SMOOTH wind push - like real wind
             if (distance < 120 && distance > 0) {
                 const force = (120 - distance) / 120;
-                const pushStrength = force * force * 8; // Smooth acceleration
+                const pushStrength = force * force * 8;
                 
-                // Push away smoothly
                 snow.velocityX += (dx / distance) * pushStrength * 0.3;
                 snow.velocityY += (dy / distance) * pushStrength * 0.2;
             }
@@ -65,7 +62,7 @@ function createInteractiveSnow() {
                 snow.x = -20;
             }
             
-            // Reset when off bottom - create new snowflake at top
+            // Reset when off bottom - IMMEDIATELY create new at top
             if (snow.y > window.innerHeight + 20) {
                 resetSnowflake(snow);
             }
@@ -87,7 +84,7 @@ function createInteractiveSnow() {
 }
 
 // Create a single snowflake
-function createSingleSnowflake(snowflakes) {
+function createSingleSnowflake(snowflakes, randomStart) {
     const snowflake = document.createElement('div');
     snowflake.className = 'snowflake';
     snowflake.textContent = ['❄', '❅', '❆'][Math.floor(Math.random() * 3)];
@@ -97,15 +94,16 @@ function createSingleSnowflake(snowflakes) {
     const snow = {
         element: snowflake,
         x: Math.random() * window.innerWidth,
-        y: -20 - Math.random() * 100, // Start above screen at different heights
+        // If randomStart, place anywhere on screen, otherwise start at top
+        y: randomStart ? Math.random() * window.innerHeight : (-20 - Math.random() * 100),
         velocityX: 0,
         velocityY: Math.random() * 0.5 + 0.5,
         size: Math.random() * 10 + 15,
-        offset: Math.random() * 1000 // For natural drift
+        offset: Math.random() * 1000
     };
     
     snowflake.style.fontSize = snow.size + 'px';
-    snowflake.style.opacity = Math.random() * 0.4 + 0.6; // Varying opacity
+    snowflake.style.opacity = Math.random() * 0.4 + 0.6;
     snowflakes.push(snow);
 }
 
