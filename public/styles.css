@@ -239,49 +239,86 @@ body {
     gap: 10px;
 }
 
-/* I90 Deep Creek with REAL Christmas Lights Decoration */
+/* I90 Deep Creek - SNOWY/ICY EFFECT ❄️ */
 .company-name {
-    font-size: 2.2em;
-    font-weight: bold;
-    color: #C41E3A;
+    font-size: 2.5em;
+    font-weight: 900;
+    letter-spacing: 4px;
     position: relative;
-    padding: 25px 10px;
-    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
-    letter-spacing: 3px;
-    display: inline-block;
+    padding: 20px 10px;
+    
+    /* Icy gradient effect */
+    background: linear-gradient(180deg, 
+        #E0F7FF 0%,      /* Light ice blue top */
+        #B8E6F5 20%,     /* Lighter blue */
+        #7EC8E3 40%,     /* Medium ice blue */
+        #4A9FBF 60%,     /* Deeper blue */
+        #2E7D9A 80%,     /* Dark ice blue */
+        #1A5570 100%     /* Deep frozen blue */
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    
+    /* Frost shadow effect */
+    filter: drop-shadow(0 2px 3px rgba(255, 255, 255, 0.8))
+            drop-shadow(0 4px 8px rgba(135, 206, 235, 0.6))
+            drop-shadow(0 0 20px rgba(176, 224, 230, 0.4));
+    
+    /* Subtle animation */
+    animation: frostShimmer 3s ease-in-out infinite;
 }
 
-/* Christmas lights wrapped around the text */
+/* Snowflakes and frost decoration around the text */
 .company-name::before {
-    content: '🔴 🟢 🟡 🔵 🟠 🔴 🟢 🟡 🔵 🟠 🔴 🟢';
+    content: '❄️ ❅ ❄️ ❆ ❄️ ❅ ❄️';
     position: absolute;
-    top: 0;
+    top: -5px;
     left: 0;
     right: 0;
-    font-size: 0.35em;
-    letter-spacing: 8px;
-    animation: lightsGlow 1.5s ease-in-out infinite;
+    font-size: 0.4em;
+    letter-spacing: 20px;
+    opacity: 0.9;
+    -webkit-text-fill-color: #B8E6F5;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+    animation: snowDrift 4s ease-in-out infinite;
 }
 
 .company-name::after {
-    content: '🟢 🔴 🔵 🟡 🟠 🟢 🔴 🔵 🟡 🟠 🟢 🔴';
+    content: '❆ ❄️ ❅ ❄️ ❆ ❅ ❄️';
     position: absolute;
-    bottom: 0;
+    bottom: -5px;
     left: 0;
     right: 0;
-    font-size: 0.35em;
-    letter-spacing: 8px;
-    animation: lightsGlow 1.5s ease-in-out infinite 0.75s;
+    font-size: 0.4em;
+    letter-spacing: 20px;
+    opacity: 0.9;
+    -webkit-text-fill-color: #B8E6F5;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+    animation: snowDrift 4s ease-in-out infinite 2s;
 }
 
-@keyframes lightsGlow {
+@keyframes frostShimmer {
     0%, 100% { 
-        opacity: 1;
-        filter: brightness(1);
+        filter: drop-shadow(0 2px 3px rgba(255, 255, 255, 0.8))
+                drop-shadow(0 4px 8px rgba(135, 206, 235, 0.6))
+                drop-shadow(0 0 20px rgba(176, 224, 230, 0.4));
     }
     50% { 
-        opacity: 0.6;
-        filter: brightness(1.5);
+        filter: drop-shadow(0 2px 3px rgba(255, 255, 255, 1))
+                drop-shadow(0 4px 8px rgba(135, 206, 235, 0.8))
+                drop-shadow(0 0 25px rgba(176, 224, 230, 0.6));
+    }
+}
+
+@keyframes snowDrift {
+    0%, 100% { 
+        transform: translateX(0);
+        opacity: 0.9;
+    }
+    50% { 
+        transform: translateX(5px);
+        opacity: 0.7;
     }
 }
 
@@ -292,15 +329,23 @@ body {
     font-weight: 600;
     position: relative;
     display: inline-block;
-    padding-left: 35px;
+    padding-left: 0;
+}
+
+.subtitle-line::first-letter {
+    font-size: 1.2em;
+    color: #C41E3A;
+    font-weight: 700;
+    margin-right: -3px;
+    position: relative;
 }
 
 .subtitle-line::before {
     content: '🎅';
     position: absolute;
-    left: 0;
-    top: -8px;
-    font-size: 1.4em;
+    left: -8px;
+    top: -18px;
+    font-size: 1.3em;
     transform: rotate(-15deg);
 }
 
@@ -673,7 +718,7 @@ body {
     }
     
     .company-name {
-        font-size: 1.5em;
+        font-size: 1.8em;
     }
     
     .subtitle-line {
