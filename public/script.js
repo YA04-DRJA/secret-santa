@@ -1,395 +1,211 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+const PASSWORD = 'I90.SS2025';
 
-body {
-    font-family: 'Arial', sans-serif;
-    min-height: 100vh;
-    background: 
-        linear-gradient(135deg, #c41e3a 0%, #165b33 100%);
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 40px 20px;
-    position: relative;
-    overflow-x: hidden;
-    overflow-y: auto;
-}
-
-/* FALLING SNOW */
-.snowflake {
-    position: fixed;
-    color: white;
-    font-size: 24px;
-    user-select: none;
-    z-index: 1;
-    pointer-events: none;
-    will-change: transform;
-}
-
-/* CHRISTMAS TREES - MUCH BIGGER */
-.tree {
-    position: fixed;
-    bottom: -30px;
-    font-size: 350px;
-    z-index: 1;
-    opacity: 0.5;
-    line-height: 1;
-}
-
-.tree-left {
-    left: -50px;
-}
-
-.tree-right {
-    right: -50px;
-}
-
-/* CONTAINER */
-.container {
-    max-width: 650px;
-    width: 100%;
-    position: relative;
-    z-index: 5;
-}
-
-/* CARD */
-.card {
-    background: white;
-    border-radius: 20px;
-    padding: 40px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-    border: 8px solid #FFD700;
-    position: relative;
-    margin-bottom: 40px;
-}
-
-/* RED RIBBON - NO TEXT */
-.ribbon {
-    position: absolute;
-    top: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100px;
-    height: 120px;
-    background: #ff0000;
-    clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
-    z-index: 10;
-}
-
-.ribbon::before {
-    content: '🎁';
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 40px;
-}
-
-/* HEADER - EMPTY/DECORATIVE WITH MORE SPACE */
-.christmas-header {
-    background: linear-gradient(90deg, #ff0000, #c41e3a);
-    color: white;
-    padding: 20px;
-    margin: -40px -40px 40px -40px;
-    border-radius: 20px 20px 0 0;
-    text-align: center;
-    min-height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* TITLE */
-.main-title {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-/* I90 DEEP CREEK - ONE LINE WITH SPACE FROM TOP */
-.title-big {
-    font-size: 3em;
-    font-weight: 900;
-    color: #ff0000;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    text-shadow: 
-        3px 3px 0 #FFD700,
-        6px 6px 0 rgba(0,0,0,0.2);
-    margin-bottom: 15px;
-    margin-top: 10px;
-    white-space: nowrap;
-}
-
-/* SANTA HAT - CENTERED BETWEEN TITLES */
-.santa-center {
-    font-size: 60px;
-    margin: 15px 0;
-}
-
-.title-small {
-    font-size: 2em;
-    font-weight: 700;
-    color: #165b33;
-    margin-bottom: 10px;
-}
-
-.tagline {
-    color: #666;
-    font-size: 1.1em;
-}
-
-/* COUNTER - BETTER WORDING */
-.counter {
-    background: linear-gradient(90deg, #165b33, #0d4d2a);
-    color: white;
-    padding: 20px;
-    border-radius: 15px;
-    text-align: center;
-    font-weight: bold;
-    margin-bottom: 25px;
-    font-size: 1.3em;
-    border: 4px solid #FFD700;
-}
-
-.counter-number {
-    font-size: 2em;
-    color: #FFD700;
-}
-
-/* INFO BOX - ORIGINAL DETAILED VERSION */
-.info-box {
-    background: #fff8dc;
-    border: 5px solid #FFD700;
-    padding: 25px;
-    border-radius: 15px;
-    margin-bottom: 25px;
-}
-
-.info-box h3 {
-    color: #ff0000;
-    margin-bottom: 20px;
-    font-size: 1.5em;
-    text-align: center;
-}
-
-.info-box ul {
-    list-style: none;
-    padding: 0;
-}
-
-.info-box li {
-    padding: 10px 0;
-    font-size: 1.05em;
-    color: #333;
-    line-height: 1.6;
-}
-
-.info-box li::before {
-    content: '✨ ';
-    margin-right: 10px;
-}
-
-/* FORM */
-.form-group {
-    margin-bottom: 25px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: 700;
-    color: #333;
-    font-size: 1.1em;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 15px;
-    border: 3px solid #ddd;
-    border-radius: 10px;
-    font-size: 1.1em;
-}
-
-.form-group input:focus {
-    outline: none;
-    border-color: #FFD700;
-    box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.3);
-}
-
-.form-group small {
-    display: block;
-    margin-top: 8px;
-    color: #666;
-}
-
-/* DIVIDER */
-.divider {
-    text-align: center;
-    margin: 30px 0;
-    font-size: 1.4em;
-    font-weight: bold;
-    color: #ff0000;
-    text-transform: uppercase;
-    position: relative;
-}
-
-.divider::before {
-    content: '🎁';
-    margin-right: 15px;
-}
-
-.divider::after {
-    content: '🎁';
-    margin-left: 15px;
-}
-
-/* BUTTON */
-.btn {
-    width: 100%;
-    padding: 20px;
-    background: linear-gradient(45deg, #ff0000, #ff3333);
-    color: white;
-    border: none;
-    border-radius: 50px;
-    font-size: 1.4em;
-    font-weight: bold;
-    cursor: pointer;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    border: 4px solid #FFD700;
-    box-shadow: 0 10px 25px rgba(255, 0, 0, 0.5);
-    transition: all 0.3s;
-}
-
-.btn:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(255, 0, 0, 0.7);
-}
-
-.btn:active {
-    transform: translateY(0);
-}
-
-/* ERROR MESSAGE */
-.error {
-    background: #ffe6e6;
-    color: #ff0000;
-    padding: 15px;
-    border-radius: 10px;
-    margin-top: 20px;
-    text-align: center;
-    font-weight: 600;
-    border: 3px solid #ff0000;
-}
-
-/* THANK YOU PAGE */
-.event-box {
-    background: linear-gradient(135deg, #165b33, #0d4d2a);
-    color: white;
-    padding: 30px;
-    border-radius: 15px;
-    margin-top: 30px;
-    border: 5px solid #FFD700;
-}
-
-.event-box h3 {
-    text-align: center;
-    margin-bottom: 25px;
-    font-size: 2em;
-}
-
-.event-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    margin-bottom: 20px;
-}
-
-.event-item {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    border: 2px solid rgba(255,255,255,0.3);
-}
-
-.event-item strong {
-    display: block;
-    font-size: 1.2em;
-    margin-bottom: 10px;
-    color: #FFD700;
-}
-
-.countdown-box {
-    background: linear-gradient(135deg, #FFD700, #FFC400);
-    color: #333;
-    padding: 30px;
-    border-radius: 15px;
-    text-align: center;
-    margin-top: 25px;
-    border: 5px solid #ff0000;
-}
-
-.countdown-box .big-countdown {
-    font-size: 2.5em;
-    margin-top: 15px;
-    color: #ff0000;
-    font-weight: 900;
-}
-
-/* SHAKE ANIMATION */
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    10%, 30%, 50%, 70%, 90% { transform: translateX(-15px); }
-    20%, 40%, 60%, 80% { transform: translateX(15px); }
-}
-
-.shake {
-    animation: shake 0.5s;
-}
-
-/* RESPONSIVE */
-@media (max-width: 768px) {
-    body {
-        padding: 20px 10px;
+// Create CONTINUOUS interactive snow - always falling!
+function createInteractiveSnow() {
+    const snowflakes = [];
+    const maxSnowflakes = 80;
+    
+    // Create ALL snowflakes immediately at random positions
+    for (let i = 0; i < maxSnowflakes; i++) {
+        createSingleSnowflake(snowflakes, true);
     }
     
-    .title-big {
-        font-size: 2em;
-        letter-spacing: 2px;
+    let mouseX = -1000;
+    let mouseY = -1000;
+    
+    // Track mouse position
+    document.addEventListener('mousemove', function(e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+    
+    // Animation loop - REALISTIC physics
+    function animate() {
+        snowflakes.forEach(function(snow) {
+            // Natural falling - gentle gravity
+            snow.velocityY += 0.02;
+            
+            // Gentle side-to-side drift
+            snow.x += Math.sin(snow.y * 0.01 + snow.offset) * 0.3;
+            
+            // Calculate distance from mouse
+            const dx = snow.x - mouseX;
+            const dy = snow.y - mouseY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            // SMOOTH wind push - like real wind
+            if (distance < 120 && distance > 0) {
+                const force = (120 - distance) / 120;
+                const pushStrength = force * force * 8;
+                
+                snow.velocityX += (dx / distance) * pushStrength * 0.3;
+                snow.velocityY += (dy / distance) * pushStrength * 0.2;
+            }
+            
+            // Smooth friction - gradual slowdown
+            snow.velocityX *= 0.92;
+            snow.velocityY *= 0.98;
+            
+            // Keep vertical speed reasonable
+            if (snow.velocityY > 3) snow.velocityY = 3;
+            if (snow.velocityY < 0.3) snow.velocityY = 0.3;
+            
+            // Update position
+            snow.x += snow.velocityX;
+            snow.y += snow.velocityY;
+            
+            // Wrap around sides smoothly
+            if (snow.x < -20) {
+                snow.x = window.innerWidth + 20;
+            }
+            if (snow.x > window.innerWidth + 20) {
+                snow.x = -20;
+            }
+            
+            // Reset when off bottom - IMMEDIATELY create new at top
+            if (snow.y > window.innerHeight + 20) {
+                resetSnowflake(snow);
+            }
+            
+            // If pushed too far up, reset gently
+            if (snow.y < -100) {
+                resetSnowflake(snow);
+            }
+            
+            // Update DOM position
+            snow.element.style.left = snow.x + 'px';
+            snow.element.style.top = snow.y + 'px';
+        });
+        
+        requestAnimationFrame(animate);
     }
     
-    .santa-center {
-        font-size: 40px;
-    }
-    
-    .title-small {
-        font-size: 1.5em;
-    }
-    
-    .event-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .tree {
-        font-size: 200px;
-    }
+    animate();
 }
 
-@media (max-width: 480px) {
-    .title-big {
-        font-size: 1.5em;
-        letter-spacing: 1px;
-    }
+// Create a single snowflake
+function createSingleSnowflake(snowflakes, randomStart) {
+    const snowflake = document.createElement('div');
+    snowflake.className = 'snowflake';
+    snowflake.textContent = ['❄', '❅', '❆'][Math.floor(Math.random() * 3)];
     
-    .santa-center {
-        font-size: 35px;
-    }
+    document.body.appendChild(snowflake);
     
-    .tree {
-        font-size: 150px;
-    }
+    const snow = {
+        element: snowflake,
+        x: Math.random() * window.innerWidth,
+        // If randomStart, place anywhere on screen, otherwise start at top
+        y: randomStart ? Math.random() * window.innerHeight : (-20 - Math.random() * 100),
+        velocityX: 0,
+        velocityY: Math.random() * 0.5 + 0.5,
+        size: Math.random() * 10 + 15,
+        offset: Math.random() * 1000
+    };
+    
+    snowflake.style.fontSize = snow.size + 'px';
+    snowflake.style.opacity = Math.random() * 0.4 + 0.6;
+    snowflakes.push(snow);
 }
+
+// Reset snowflake to top
+function resetSnowflake(snow) {
+    snow.x = Math.random() * window.innerWidth;
+    snow.y = -20 - Math.random() * 50;
+    snow.velocityX = 0;
+    snow.velocityY = Math.random() * 0.5 + 0.5;
+    snow.offset = Math.random() * 1000;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize interactive snow
+    createInteractiveSnow();
+    
+    const passwordCard = document.getElementById('passwordCard');
+    const signupCard = document.getElementById('signupCard');
+    const passwordForm = document.getElementById('passwordForm');
+    const passwordInput = document.getElementById('passwordInput');
+    const passwordError = document.getElementById('passwordError');
+    const signupForm = document.getElementById('signupForm');
+    const signupError = document.getElementById('signupError');
+
+    // Check if already logged in
+    if (sessionStorage.getItem('authenticated') === 'true') {
+        showSignup();
+    }
+
+    // Password form - NO ANIMATION, INSTANT SWITCH
+    passwordForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        if (passwordInput.value === PASSWORD) {
+            sessionStorage.setItem('authenticated', 'true');
+            showSignup();
+        } else {
+            passwordError.textContent = '❌ Wrong password! Try again.';
+            passwordError.style.display = 'block';
+            passwordCard.classList.add('shake');
+            setTimeout(() => passwordCard.classList.remove('shake'), 500);
+            passwordInput.value = '';
+        }
+    });
+
+    // Signup form
+    signupForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const btn = signupForm.querySelector('.btn');
+        btn.disabled = true;
+        btn.textContent = 'Sending to Santa... 🎅';
+        
+        const data = {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            preferences: {
+                collectOrReceive: document.getElementById('q1').value,
+                favoriteStore: document.getElementById('q2').value,
+                hobby: document.getElementById('q3').value,
+                wishlist: document.getElementById('q4').value || 'No specific items'
+            }
+        };
+        
+        try {
+            const response = await fetch('/.netlify/functions/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            
+            if (response.ok) {
+                window.location.href = '/thankyou.html';
+            } else {
+                const result = await response.json();
+                signupError.textContent = result.error || 'Error! Try again.';
+                signupError.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = '🎄 JOIN SECRET SANTA 🎄';
+            }
+        } catch (error) {
+            signupError.textContent = 'Network error! Try again.';
+            signupError.style.display = 'block';
+            btn.disabled = false;
+            btn.textContent = '🎄 JOIN SECRET SANTA 🎄';
+        }
+    });
+
+    function showSignup() {
+        passwordCard.style.display = 'none';
+        signupCard.style.display = 'block';
+        loadCount();
+    }
+
+    async function loadCount() {
+        try {
+            const response = await fetch('/.netlify/functions/getParticipants');
+            const data = await response.json();
+            const count = data.participants ? data.participants.length : 0;
+            document.getElementById('participantCount').textContent = count;
+        } catch (error) {
+            document.getElementById('participantCount').textContent = '0';
+        }
+    }
+});
