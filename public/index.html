@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Santa Sleigh Background Animation -->
+    <div class="santa-sleigh-bg">🎅🦌🦌🦌</div>
+
     <!-- Animated Snowflakes -->
     <div class="snowflakes" aria-hidden="true">
         <div class="snowflake">❅</div>
@@ -24,11 +27,6 @@
     <!-- Christmas Tree Silhouettes -->
     <div class="tree-left"></div>
     <div class="tree-right"></div>
-
-    <!-- Countdown Timer -->
-    <div class="countdown-timer" id="countdownTimer">
-        🎅 Gift Exchange in <span id="countdown">calculating...</span>
-    </div>
 
     <div class="container">
         <!-- PASSWORD SCREEN -->
@@ -108,23 +106,6 @@
                 </ul>
             </div>
 
-            <!-- Event Details -->
-            <div class="event-details">
-                <h3>🎄 MARK YOUR CALENDARS! 🎄</h3>
-                <div class="event-grid">
-                    <div class="event-item">📅 <strong>December 19th, 2025</strong></div>
-                    <div class="event-item">⏰ <strong>1:00 PM</strong></div>
-                    <div class="event-item">📍 <strong>Main Office</strong></div>
-                    <div class="event-item">💰 <strong>Budget: ~$25</strong></div>
-                </div>
-                <div class="potluck-notice">
-                    🍕 <strong>Potluck Style:</strong> Bring a dish to share!
-                </div>
-                <div class="deadline-notice">
-                    ⏰ <strong>Sign up by December 5th!</strong>
-                </div>
-            </div>
-
             <form id="signupForm">
                 <div class="form-group">
                     <label for="name">Full Name</label>
@@ -171,6 +152,28 @@
             </form>
 
             <div id="message" class="message"></div>
+
+            <!-- Event Details & Countdown MOVED TO BOTTOM -->
+            <div class="event-details">
+                <h3>🎄 MARK YOUR CALENDARS! 🎄</h3>
+                <div class="event-grid">
+                    <div class="event-item">📅 <strong>December 19th, 2025</strong></div>
+                    <div class="event-item">⏰ <strong>1:00 PM</strong></div>
+                    <div class="event-item">📍 <strong>Main Office</strong></div>
+                    <div class="event-item">💰 <strong>Budget: ~$25</strong></div>
+                </div>
+                <div class="potluck-notice">
+                    🍕 <strong>Potluck Style:</strong> Bring a dish to share!
+                </div>
+                <div class="deadline-notice">
+                    ⏰ <strong>Sign up by December 5th!</strong>
+                </div>
+            </div>
+
+            <!-- Countdown Timer -->
+            <div class="countdown-timer" id="countdownTimer">
+                🎅 Gift Exchange in <span id="countdown">calculating...</span>
+            </div>
         </div>
     </div>
 
