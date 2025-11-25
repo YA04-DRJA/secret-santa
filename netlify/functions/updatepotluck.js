@@ -26,16 +26,16 @@ exports.handler = async (event) => {
     const client = new MongoClient(uri);
 
     try {
-        const { email, foodType } = JSON.parse(event.body);
+        const { email, potluckChoice } = JSON.parse(event.body);
 
-        if (!email || !foodType) {
+        if (!email || !potluckChoice) {
             return {
                 statusCode: 400,
                 headers: {
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*'
                 },
-                body: JSON.stringify({ error: 'Email and food type are required' })
+                body: JSON.stringify({ error: 'Email and potluck choice are required' })
             };
         }
 
@@ -46,7 +46,7 @@ exports.handler = async (event) => {
         // Update the participant's potluck choice
         const result = await collection.updateOne(
             { email: email },
-            { $set: { potluckChoice: foodType } }
+            { $set: { potluckChoice: potluckChoice } }
         );
 
         await client.close();
@@ -70,7 +70,7 @@ exports.handler = async (event) => {
             },
             body: JSON.stringify({ 
                 message: 'Potluck choice saved successfully',
-                foodType: foodType
+                potluckChoice: potluckChoice
             })
         };
 
