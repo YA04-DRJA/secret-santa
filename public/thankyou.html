@@ -160,13 +160,6 @@
             box-shadow: 0 6px 20px rgba(255, 140, 0, 0.6);
         }
 
-        @media (max-width: 768px) {
-            .event-grid, .food-options {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* ADD THESE 3 NEW STYLES HERE */
         .percentage-bar {
             width: 100%;
             height: 8px;
@@ -191,9 +184,7 @@
             font-weight: bold;
             color: #ff8c00;
         }
-    </style>
-</head>
-        
+
         @media (max-width: 768px) {
             .event-grid, .food-options {
                 grid-template-columns: 1fr;
@@ -255,7 +246,7 @@
                         <li>🎲 Once everyone signs up (by Dec 5th), we'll randomly assign Secret Santas</li>
                         <li>💌 You'll receive an email with your assigned person's name and their gift preferences</li>
                         <li>🎁 Shop for your Secret Santa (remember: ~$25 budget!)</li>
-                        <li>🎀 Wrap your gift beautifully and bring it to the party on Dec 19th!</li>
+                        <li>🎀 Wrap your gift in red wrapping paper and bring it to the party on Dec 19th!</li>
                         <li>🎉 Join us for food, fun, and gift exchange at 1:00 PM!</li>
                     </ul>
                 </div>
@@ -266,75 +257,75 @@
             </div>
 
             <!-- POTLUCK SECTION -->
-<div class="potluck-section">
-    <h3>🍕 Potluck Contribution 🍕</h3>
-    <p style="text-align: center; font-size: 16px; margin-bottom: 20px;">
-        We're having a potluck-style party on <strong>December 19th</strong>! To make sure we have a great variety of food, please let us know what type of dish you'd like to bring. This way, we won't end up with 10 desserts and no main courses! 😄
-    </p>
+            <div class="potluck-section">
+                <h3>🍕 Potluck Contribution 🍕</h3>
+                <p style="text-align: center; font-size: 16px; margin-bottom: 20px;">
+                    We're having a potluck-style party on <strong>December 19th</strong>! To make sure we have a great variety of food, please let us know what type of dish you'd like to bring. This way, we won't end up with 10 desserts and no main courses! 😄
+                </p>
 
-    <form id="potluckForm">
-        <input type="hidden" id="potluckEmail" value="">
-        
-        <div class="food-options">
-            <div class="food-option" onclick="document.getElementById('main').checked = true;">
-                <input type="radio" id="main" name="foodType" value="Main Course" required>
-                <label for="main">🍗 Main Course</label>
-                <div class="percentage-bar">
-                    <div class="percentage-fill" id="percent-main" style="width: 0%"></div>
-                </div>
-                <small class="percentage-text" id="text-main">0%</small>
-            </div>
-            <div class="food-option" onclick="document.getElementById('appetizer').checked = true;">
-                <input type="radio" id="appetizer" name="foodType" value="Appetizer">
-                <label for="appetizer">🥗 Appetizer</label>
-                <div class="percentage-bar">
-                    <div class="percentage-fill" id="percent-appetizer" style="width: 0%"></div>
-                </div>
-                <small class="percentage-text" id="text-appetizer">0%</small>
-            </div>
-            <div class="food-option" onclick="document.getElementById('dessert').checked = true;">
-                <input type="radio" id="dessert" name="foodType" value="Dessert">
-                <label for="dessert">🍰 Dessert</label>
-                <div class="percentage-bar">
-                    <div class="percentage-fill" id="percent-dessert" style="width: 0%"></div>
-                </div>
-                <small class="percentage-text" id="text-dessert">0%</small>
-            </div>
-            <div class="food-option" onclick="document.getElementById('snacks').checked = true;">
-                <input type="radio" id="snacks" name="foodType" value="Snacks">
-                <label for="snacks">🍿 Snacks</label>
-                <div class="percentage-bar">
-                    <div class="percentage-fill" id="percent-snacks" style="width: 0%"></div>
-                </div>
-                <small class="percentage-text" id="text-snacks">0%</small>
-            </div>
-            <div class="food-option" onclick="document.getElementById('drinks').checked = true;">
-                <input type="radio" id="drinks" name="foodType" value="Drinks">
-                <label for="drinks">🥤 Drinks</label>
-                <div class="percentage-bar">
-                    <div class="percentage-fill" id="percent-drinks" style="width: 0%"></div>
-                </div>
-                <small class="percentage-text" id="text-drinks">0%</small>
-            </div>
-            <div class="food-option" onclick="document.getElementById('notbringing').checked = true;">
-                <input type="radio" id="notbringing" name="foodType" value="Not Bringing Food">
-                <label for="notbringing">❌ Can't Bring Food</label>
-                <div class="percentage-bar">
-                    <div class="percentage-fill" id="percent-notbringing" style="width: 0%"></div>
-                </div>
-                <small class="percentage-text" id="text-notbringing">0%</small>
-            </div>
-        </div>
+                <form id="potluckForm">
+                    <input type="hidden" id="potluckEmail" value="">
+                    
+                    <div class="food-options">
+                        <div class="food-option" onclick="document.getElementById('main').checked = true;">
+                            <input type="radio" id="main" name="foodType" value="Main Course" required>
+                            <label for="main">🍗 Main Course</label>
+                            <div class="percentage-bar">
+                                <div class="percentage-fill" id="percent-main" style="width: 0%"></div>
+                            </div>
+                            <small class="percentage-text" id="text-main">0%</small>
+                        </div>
+                        <div class="food-option" onclick="document.getElementById('appetizer').checked = true;">
+                            <input type="radio" id="appetizer" name="foodType" value="Appetizer">
+                            <label for="appetizer">🥗 Appetizer</label>
+                            <div class="percentage-bar">
+                                <div class="percentage-fill" id="percent-appetizer" style="width: 0%"></div>
+                            </div>
+                            <small class="percentage-text" id="text-appetizer">0%</small>
+                        </div>
+                        <div class="food-option" onclick="document.getElementById('dessert').checked = true;">
+                            <input type="radio" id="dessert" name="foodType" value="Dessert">
+                            <label for="dessert">🍰 Dessert</label>
+                            <div class="percentage-bar">
+                                <div class="percentage-fill" id="percent-dessert" style="width: 0%"></div>
+                            </div>
+                            <small class="percentage-text" id="text-dessert">0%</small>
+                        </div>
+                        <div class="food-option" onclick="document.getElementById('snacks').checked = true;">
+                            <input type="radio" id="snacks" name="foodType" value="Snacks">
+                            <label for="snacks">🍿 Snacks</label>
+                            <div class="percentage-bar">
+                                <div class="percentage-fill" id="percent-snacks" style="width: 0%"></div>
+                            </div>
+                            <small class="percentage-text" id="text-snacks">0%</small>
+                        </div>
+                        <div class="food-option" onclick="document.getElementById('drinks').checked = true;">
+                            <input type="radio" id="drinks" name="foodType" value="Drinks">
+                            <label for="drinks">🥤 Drinks</label>
+                            <div class="percentage-bar">
+                                <div class="percentage-fill" id="percent-drinks" style="width: 0%"></div>
+                            </div>
+                            <small class="percentage-text" id="text-drinks">0%</small>
+                        </div>
+                        <div class="food-option" onclick="document.getElementById('notbringing').checked = true;">
+                            <input type="radio" id="notbringing" name="foodType" value="Not Bringing Food">
+                            <label for="notbringing">❌ Can't Bring Food</label>
+                            <div class="percentage-bar">
+                                <div class="percentage-fill" id="percent-notbringing" style="width: 0%"></div>
+                            </div>
+                            <small class="percentage-text" id="text-notbringing">0%</small>
+                        </div>
+                    </div>
 
-        <div style="text-align: center;">
-            <button type="submit" class="submit-potluck-btn">🎉 SUBMIT MY CHOICE 🎉</button>
-        </div>
+                    <div style="text-align: center;">
+                        <button type="submit" class="submit-potluck-btn">🎉 SUBMIT MY CHOICE 🎉</button>
+                    </div>
 
-        <div id="potluckSuccess" style="display: none; text-align: center; margin-top: 20px; color: #28a745; font-weight: bold;">
-            ✅ Thank you! Your potluck choice has been saved!
-        </div>
-    </form>
-</div>
+                    <div id="potluckSuccess" style="display: none; text-align: center; margin-top: 20px; color: #28a745; font-weight: bold;">
+                        ✅ Thank you! Your potluck choice has been saved!
+                    </div>
+                </form>
+            </div>
 
             <!-- DRESS CODE -->
             <div class="dress-code-box">
@@ -347,16 +338,13 @@
                 </p>
             </div>
 
-<!-- GIFT WRAPPING NOTE -->
-<div style="background: #e8f5e9; border: 2px solid #4caf50; border-radius: 15px; padding: 25px; margin: 25px 0;">
-    <h3 style="color: #2e7d32; text-align: center; margin-bottom: 15px;">🎁 Gift Wrapping Reminder 🎁</h3>
-    <p style="text-align: center; font-size: 16px; line-height: 1.8;">
-        Please wrap your Secret Santa gift before bringing it to the party! Part of the fun is the surprise and presentation. <strong style="color: #c41e3a;">Red wrapping paper is a MUST!</strong> 🎀 Add ribbons, bows, and festive decorations to make it look magical! ✨
-    </p>
-    <p style="text-align: center; font-size: 14px; margin-top: 10px; font-style: italic; color: #c41e3a;">
-        🚨 Remember: RED wrapping paper only! Let's keep it uniform and festive! 🎄
-    </p>
-</div>
+            <!-- GIFT WRAPPING NOTE -->
+            <div style="background: #e8f5e9; border: 2px solid #4caf50; border-radius: 15px; padding: 25px; margin: 25px 0;">
+                <h3 style="color: #2e7d32; text-align: center; margin-bottom: 15px;">🎁 Gift Wrapping Reminder 🎁</h3>
+                <p style="text-align: center; font-size: 16px; line-height: 1.8;">
+                    Please wrap your Secret Santa gift in red wrapping paper before bringing it to the party! Part of the fun is the surprise and presentation – let's keep it festive and uniform with a beautiful red theme! Add ribbons and bows to make it look magical! 🎀✨
+                </p>
+            </div>
 
             <!-- TOP SECRET WARNING -->
             <div class="warning-box">
@@ -387,6 +375,8 @@
             </div>
         </div>
     </div>
+
+    <script>
         // Load potluck stats
         async function loadPotluckStats() {
             try {
@@ -394,7 +384,6 @@
                 const data = await response.json();
                 
                 if (data.percentages) {
-                    // Update percentage bars
                     updatePercentage('main', data.percentages['Main Course']);
                     updatePercentage('appetizer', data.percentages['Appetizer']);
                     updatePercentage('dessert', data.percentages['Dessert']);
@@ -416,15 +405,12 @@
             }
         }
 
-        // Load stats on page load
         loadPotluckStats();
 
-        // Store email from URL parameter or sessionStorage
         const urlParams = new URLSearchParams(window.location.search);
         const userEmail = urlParams.get('email') || sessionStorage.getItem('userEmail') || '';
         document.getElementById('potluckEmail').value = userEmail;
 
-        // Potluck form submission
         document.getElementById('potluckForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -453,7 +439,6 @@
                     btn.textContent = '✅ Saved!';
                     btn.style.background = '#28a745';
                     
-                    // Reload stats after submission
                     setTimeout(() => {
                         loadPotluckStats();
                     }, 500);
@@ -466,9 +451,8 @@
                 btn.textContent = '🎉 SUBMIT MY CHOICE 🎉';
             }
         });
-   
 
-        // Create CONTINUOUS interactive snow
+        // Snow animation
         function createInteractiveSnow() {
             const snowflakes = [];
             const maxSnowflakes = 80;
@@ -554,11 +538,7 @@
             snow.offset = Math.random() * 1000;
         }
 
-        // Start snow animation
         createInteractiveSnow();
     </script>
 </body>
 </html>
-
-
-
