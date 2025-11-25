@@ -1,28 +1,15 @@
-const faunadb = require('faunadb');
-const q = faunadb.query;
+const { MongoClient } = require('mongodb');
 
-exports.handler = async (event, context) => {
-    // Only allow GET requests
-    if (event.httpMethod !== 'GET') {
-        return {
-            statusCode: 405,
-            body: JSON.stringify({ error: 'Method not allowed' })
-        };
-    }
+const uri = process.env.MONGODB_URI;
+const client = new MongoClient(uri);
 
-    const client = new faunadb.Client({
-        secret: process.env.FAUNA_SECRET_KEY
-    });
-
+exports.handler = async (event) => {
     try {
-        const result = await client.query(
-            q.Map(
-                q.Paginate(q.Documents(q.Collection('participants'))),
-                q.Lambda('ref', q.Get(q.Var('ref')))
-            )
-        );
+        await client.connect();
+        const database = client.db('secretsanta');
+        const collection = database.collection('participants');
 
-        const participants = result.data.map(doc => doc.data);
+        const participants = await collection.find({}).toArray();
 
         return {
             statusCode: 200,
@@ -30,13 +17,23 @@ exports.handler = async (event, context) => {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*'
             },
-            body: JSON.stringify({ participants })
+            body: JSON.stringify({
+                count: participants.length,
+                participants: participants
+            })
         };
+
     } catch (error) {
-        console.error('Error fetching participants:', error);
+        console.error('Get participants error:', error);
         return {
             statusCode: 500,
-            body: JSON.stringify({ error: 'Failed to fetch participants', participants: [] })
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            body: JSON.stringify({ error: error.message })
         };
+    } finally {
+        await client.close();
     }
 };
