@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aecon Secret Santa 2025 🎅</title>
+    <title>I90 Deep Creek - Aecon Secret Santa 2025 🎅</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Animated Snowflakes -->
     <div class="snowflakes" aria-hidden="true">
         <div class="snowflake">❅</div>
         <div class="snowflake">❆</div>
@@ -16,32 +17,85 @@
         <div class="snowflake">❆</div>
         <div class="snowflake">❅</div>
         <div class="snowflake">❆</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
+    </div>
+
+    <!-- Christmas Tree Silhouettes -->
+    <div class="tree-left"></div>
+    <div class="tree-right"></div>
+
+    <!-- Countdown Timer -->
+    <div class="countdown-timer" id="countdownTimer">
+        🎅 Gift Exchange in <span id="countdown">calculating...</span>
     </div>
 
     <div class="container">
         <!-- PASSWORD SCREEN -->
         <div class="card" id="passwordScreen">
+            <!-- Santa Header Banner -->
+            <div class="santa-banner">
+                <div class="sleigh">🛷</div>
+                <div class="gift gift-1">🎁</div>
+                <div class="gift gift-2">🎁</div>
+                <div class="star star-1">⭐</div>
+                <div class="star star-2">✨</div>
+                <div class="ornament ornament-1">🔴</div>
+                <div class="ornament ornament-2">🟡</div>
+            </div>
+
             <div class="header">
-                <h1>🎅 Aecon Secret Santa 2025 🎄</h1>
-                <p class="subtitle">Enter the password to join!</p>
+                <h1 class="main-title">
+                    <span class="company-name">I90 Deep Creek</span>
+                    <span class="subtitle-line">Aecon Secret Santa 2025</span>
+                </h1>
+                <p class="subtitle">Enter the password to join the fun!</p>
             </div>
 
             <form id="passwordForm">
                 <div class="form-group">
-                    <label for="accessPassword">Access Password</label>
+                    <label for="accessPassword">🔐 Access Password</label>
                     <input type="password" id="accessPassword" placeholder="Enter password" required>
                 </div>
-                <button type="submit" class="btn-submit">🎄 Enter 🎄</button>
+                <button type="submit" class="btn-submit">🎄 Enter the Party! 🎄</button>
             </form>
 
             <div id="passwordError" class="message error" style="display: none;"></div>
+            <div id="hohoho" class="hohoho-message">🎅 HO HO HO! Welcome to the party! 🎅</div>
         </div>
 
         <!-- SIGNUP FORM (Hidden until password is correct) -->
         <div class="card" id="signupCard" style="display: none;">
+            <!-- Santa Header Banner -->
+            <div class="santa-banner">
+                <div class="sleigh">🛷</div>
+                <div class="gift gift-1">🎁</div>
+                <div class="gift gift-2">🎁</div>
+                <div class="star star-1">⭐</div>
+                <div class="star star-2">✨</div>
+                <div class="ornament ornament-1">🔴</div>
+                <div class="ornament ornament-2">🟡</div>
+            </div>
+
             <div class="header">
-                <h1>🎅 Aecon Secret Santa 2025 🎄</h1>
+                <h1 class="main-title">
+                    <span class="company-name">I90 Deep Creek</span>
+                    <span class="subtitle-line">Aecon Secret Santa 2025</span>
+                </h1>
                 <p class="subtitle">Ho Ho Ho! Let's make this holiday season magical!</p>
+            </div>
+
+            <!-- Live Participant Counter -->
+            <div class="participant-counter">
+                🎄 <span id="participantCount">Loading...</span> crew members are in!
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="progress-container" id="progressContainer" style="display: none;">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text" id="progressText">Let's get started! 🎅</div>
             </div>
 
             <div class="info-box">
@@ -51,20 +105,38 @@
                     <li>🎯 Answer a few quick questions to help your Secret Santa</li>
                     <li>🎲 Once everyone signs up, names will be drawn</li>
                     <li>📧 You'll receive an email with your assigned person and their preferences</li>
-                    <li>💰 Budget: Around <strong>$25</strong></li>
                 </ul>
+            </div>
+
+            <!-- Event Details -->
+            <div class="event-details">
+                <h3>🎄 MARK YOUR CALENDARS! 🎄</h3>
+                <div class="event-grid">
+                    <div class="event-item">📅 <strong>December 19th, 2025</strong></div>
+                    <div class="event-item">⏰ <strong>1:00 PM</strong></div>
+                    <div class="event-item">📍 <strong>Main Office</strong></div>
+                    <div class="event-item">💰 <strong>Budget: ~$25</strong></div>
+                </div>
+                <div class="potluck-notice">
+                    🍕 <strong>Potluck Style:</strong> Bring a dish to share!
+                </div>
+                <div class="deadline-notice">
+                    ⏰ <strong>Sign up by December 5th!</strong>
+                </div>
             </div>
 
             <form id="signupForm">
                 <div class="form-group">
                     <label for="name">Full Name</label>
                     <input type="text" id="name" name="name" placeholder="Santa Claus" required>
+                    <span class="sparkle" style="display: none;">✨</span>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Personal Email Address</label>
                     <input type="email" id="email" name="email" placeholder="santa@northpole.com" required>
                     <small>Please use your personal email so you don't miss the assignment!</small>
+                    <span class="sparkle" style="display: none;">✨</span>
                 </div>
 
                 <div class="divider">
@@ -74,26 +146,25 @@
                 <div class="form-group">
                     <label for="q1">What's something you collect or love to receive?</label>
                     <input type="text" id="q1" name="q1" placeholder="e.g., candles, mugs, books" required>
+                    <span class="sparkle" style="display: none;">✨</span>
                 </div>
 
                 <div class="form-group">
                     <label for="q2">Favorite store or brand?</label>
                     <input type="text" id="q2" name="q2" placeholder="e.g., Target, Starbucks, Amazon" required>
+                    <span class="sparkle" style="display: none;">✨</span>
                 </div>
 
                 <div class="form-group">
-                    <label for="q3">Coffee, tea, or neither?</label>
-                    <input type="text" id="q3" name="q3" placeholder="Your preference" required>
+                    <label for="q3">What's your favorite hobby or interest?</label>
+                    <input type="text" id="q3" name="q3" placeholder="e.g., reading, gaming, cooking" required>
+                    <span class="sparkle" style="display: none;">✨</span>
                 </div>
 
                 <div class="form-group">
-                    <label for="q4">What's your favorite hobby or interest?</label>
-                    <input type="text" id="q4" name="q4" placeholder="e.g., reading, gaming, cooking" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="q5">Any wish list items under $25? (Optional)</label>
-                    <input type="text" id="q5" name="q5" placeholder="Specific ideas welcome!">
+                    <label for="q4">Any wish list items under $25? (Optional)</label>
+                    <input type="text" id="q4" name="q4" placeholder="Specific ideas welcome!">
+                    <span class="sparkle" style="display: none;">✨</span>
                 </div>
 
                 <button type="submit" class="btn-submit">🎄 Join the Secret Santa! 🎄</button>
@@ -103,78 +174,6 @@
         </div>
     </div>
 
-    <script>
-        const SIGNUP_PASSWORD = 'Aecon.SS2025';
-
-        // Check if already authenticated
-        if (sessionStorage.getItem('authenticated') === 'true') {
-            document.getElementById('passwordScreen').style.display = 'none';
-            document.getElementById('signupCard').style.display = 'block';
-        }
-
-        // Password form handling
-        document.getElementById('passwordForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const password = document.getElementById('accessPassword').value;
-            const errorDiv = document.getElementById('passwordError');
-            
-            if (password === SIGNUP_PASSWORD) {
-                sessionStorage.setItem('authenticated', 'true');
-                document.getElementById('passwordScreen').style.display = 'none';
-                document.getElementById('signupCard').style.display = 'block';
-            } else {
-                errorDiv.textContent = '❌ Incorrect password. Please try again.';
-                errorDiv.style.display = 'block';
-                document.getElementById('accessPassword').value = '';
-            }
-        });
-
-        // Signup form handling
-        document.getElementById('signupForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const messageDiv = document.getElementById('message');
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            
-            submitBtn.disabled = true;
-            submitBtn.textContent = '🎅 Signing you up...';
-            
-            const formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                preferences: {
-                    collectOrReceive: document.getElementById('q1').value,
-                    favoriteStore: document.getElementById('q2').value,
-                    coffeeTea: document.getElementById('q3').value,
-                    hobby: document.getElementById('q4').value,
-                    wishlist: document.getElementById('q5').value || 'No specific items'
-                }
-            };
-            
-            try {
-                const response = await fetch('/.netlify/functions/signup', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
-                });
-                
-                const data = await response.json();
-                
-                if (response.ok) {
-                    window.location.href = '/thankyou.html';
-                } else {
-                    messageDiv.textContent = data.error || 'Something went wrong. Please try again!';
-                    messageDiv.className = 'message error';
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = '🎄 Join the Secret Santa! 🎄';
-                }
-            } catch (error) {
-                messageDiv.textContent = 'Network error. Please check your connection and try again.';
-                messageDiv.className = 'message error';
-                submitBtn.disabled = false;
-                submitBtn.textContent = '🎄 Join the Secret Santa! 🎄';
-            }
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
