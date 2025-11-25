@@ -1,6 +1,9 @@
 const SIGNUP_PASSWORD = 'I90.SS2025';
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Create dynamic snow
+    createSnow();
+    
     // Elements
     const passwordScreen = document.getElementById('passwordScreen');
     const signupCard = document.getElementById('signupCard');
@@ -11,7 +14,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const signupForm = document.getElementById('signupForm');
     const messageEl = document.getElementById('message');
 
-    // Show signup card function
+    function createSnow() {
+        const container = document.getElementById('snowContainer');
+        if (!container) return;
+        
+        for (let i = 0; i < 50; i++) {
+            const snow = document.createElement('div');
+            snow.className = 'snowflake';
+            snow.style.left = Math.random() * 100 + '%';
+            snow.style.width = Math.random() * 4 + 2 + 'px';
+            snow.style.height = snow.style.width;
+            snow.style.animationDuration = Math.random() * 5 + 5 + 's';
+            snow.style.animationDelay = Math.random() * 5 + 's';
+            container.appendChild(snow);
+        }
+    }
+
     function showSignupCard() {
         passwordScreen.style.display = 'none';
         signupCard.style.display = 'block';
@@ -37,9 +55,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(function() {
                     sessionStorage.setItem('authenticated', 'true');
                     showSignupCard();
-                }, 1500);
+                }, 2000);
             } else {
-                passwordError.textContent = '❌ Wrong password! Try again.';
+                passwordError.textContent = '❌ Wrong password! The elves say try again.';
                 passwordError.style.display = 'block';
                 passwordInput.value = '';
                 
@@ -72,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const submitBtn = signupForm.querySelector('button');
             submitBtn.disabled = true;
-            submitBtn.textContent = 'Sending to Santa...';
+            submitBtn.textContent = 'Sending to Santa... 🎅';
             
             const formData = {
                 name: document.getElementById('name').value,
@@ -97,16 +115,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (response.ok) {
                     window.location.href = '/thankyou.html';
                 } else {
-                    messageEl.textContent = data.error || 'Error! Please try again.';
+                    messageEl.textContent = data.error || 'Christmas magic failed! Please try again.';
                     messageEl.style.display = 'block';
                     submitBtn.disabled = false;
-                    submitBtn.textContent = '🎄 Join Secret Santa! 🎄';
+                    submitBtn.textContent = '🎄 JOIN THE CHRISTMAS FUN! 🎄';
                 }
             } catch (error) {
-                messageEl.textContent = 'Network error. Try again!';
+                messageEl.textContent = 'Network error. The reindeer are resting! Try again.';
                 messageEl.style.display = 'block';
                 submitBtn.disabled = false;
-                submitBtn.textContent = '🎄 Join Secret Santa! 🎄';
+                submitBtn.textContent = '🎄 JOIN THE CHRISTMAS FUN! 🎄';
             }
         });
     }
