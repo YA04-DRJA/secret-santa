@@ -66,15 +66,14 @@
     </div>
 
     <script>
-        // Create REALISTIC interactive snow
+        // Create CONTINUOUS interactive snow - always falling!
         function createInteractiveSnow() {
             const snowflakes = [];
-            const maxSnowflakes = 60;
+            const maxSnowflakes = 80;
             
+            // Create ALL snowflakes immediately at random positions
             for (let i = 0; i < maxSnowflakes; i++) {
-                setTimeout(function() {
-                    createSingleSnowflake(snowflakes);
-                }, i * 100);
+                createSingleSnowflake(snowflakes, true);
             }
             
             let mouseX = -1000;
@@ -136,7 +135,7 @@
             animate();
         }
 
-        function createSingleSnowflake(snowflakes) {
+        function createSingleSnowflake(snowflakes, randomStart) {
             const snowflake = document.createElement('div');
             snowflake.className = 'snowflake';
             snowflake.textContent = ['❄', '❅', '❆'][Math.floor(Math.random() * 3)];
@@ -146,7 +145,7 @@
             const snow = {
                 element: snowflake,
                 x: Math.random() * window.innerWidth,
-                y: -20 - Math.random() * 100,
+                y: randomStart ? Math.random() * window.innerHeight : (-20 - Math.random() * 100),
                 velocityX: 0,
                 velocityY: Math.random() * 0.5 + 0.5,
                 size: Math.random() * 10 + 15,
