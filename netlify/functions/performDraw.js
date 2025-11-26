@@ -95,12 +95,14 @@ exports.handler = async (event) => {
                             
                             <h3 style="color: #165b33;">📝 Their Gift Preferences:</h3>
                             
-                            <div style="background: #f0f0f0; padding: 15px; border-radius: 10px; margin: 15px 0;">
-                                <p><strong>💝 What they'd love:</strong><br>${assignment.receiverPreferences.collectOrReceive}</p>
-                                <p><strong>🏪 Favorite store:</strong><br>${assignment.receiverPreferences.favoriteStore}</p>
-                                <p><strong>🎨 Hobbies:</strong><br>${assignment.receiverPreferences.hobby}</p>
-                                <p><strong>🎁 Specific wishlist:</strong><br>${assignment.receiverPreferences.wishlist}</p>
-                            </div>
+                        <div style="background: #f0f0f0; padding: 15px; border-radius: 10px; margin: 15px 0;">
+                            <p><strong>💝 What they'd love:</strong><br>${assignment.receiverPreferences.collectOrReceive}</p>
+                            <p><strong>🏪 Favorite store:</strong><br>${assignment.receiverPreferences.favoriteStore}</p>
+                            <p><strong>🎨 Hobbies:</strong><br>${assignment.receiverPreferences.hobby}</p>
+                            <p><strong>👕 Shirt Size:</strong> ${assignment.receiverPreferences.shirtSize || 'Not provided'}</p>
+                            <p><strong>👟 Shoe Size:</strong> ${assignment.receiverPreferences.shoeSize || 'Not provided'}</p>
+                            <p><strong>🎁 Specific wishlist:</strong><br>${assignment.receiverPreferences.wishlist}</p>
+                         </div>
                             
                             <h3 style="color: #ff0000;">🎄 Important Reminders:</h3>
                             <ul style="line-height: 1.8;">
@@ -161,3 +163,4 @@ exports.handler = async (event) => {
         await client.close();
     }
 };
+
