@@ -191,8 +191,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const result = await response.json();
             
             if (response.ok) {
-                // SUCCESS - Redirect to thank you page
-                window.location.href = '/thankyou.html';
+                // Store email in sessionStorage as backup
+                sessionStorage.setItem('userEmail', emailValue);
+                // SUCCESS - Redirect to thank you page WITH email parameter
+                window.location.href = '/thankyou.html?email=' + encodeURIComponent(emailValue);
             } else {
                 // Show error
                 signupError.textContent = result.error || 'Something went wrong. Please try again.';
