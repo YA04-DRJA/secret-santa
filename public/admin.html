@@ -365,7 +365,44 @@
             loadParticipants();
             loadPotluckSummary();
         });
+// Helper function to format date from various field names
+function formatDate(participant) {
+    const dateValue = participant.timestamp || 
+                      participant.createdAt || 
+                      participant.joinedAt || 
+                      participant._id;
+    
+    if (!dateValue) {
+        return 'Unknown';
+    }
+    
+    // If it's a MongoDB ObjectId, extract the timestamp
+    if (typeof dateValue === 'object' && dateValue.$oid) {
+        const timestamp = parseInt(dateValue.$oid.substring(0, 8), 16) * 1000;
+        return new Date(timestamp).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        });
+    }
+    
+    // Try to parse as regular date
+    const date = new Date(dateValue);
+    if (!isNaN(date.getTime())) {
+        return date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    }
+    
+    return 'Unknown';
+}
 
+// Load participants
+async function loadParticipants() {
         // Load participants
         async function loadParticipants() {
             try {
@@ -420,7 +457,7 @@
                             <strong>Wishlist:</strong> ${p.preferences.wishlist}
                         </td>
                         <td>${potluckDisplay}</td>
-                        <td>${new Date(p.timestamp).toLocaleDateString()}</td>
+                        <td>${formatDate(p)}</td>
                     `;
                     tbody.appendChild(row);
                 });
@@ -555,4 +592,5 @@
     </script>
 </body>
 </html>
+
 
