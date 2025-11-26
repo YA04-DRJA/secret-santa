@@ -396,7 +396,7 @@ body {
 /* How It Works - Updated */
 .info-box {
     padding-left: 40px;
-    padding-right: 40px;
+    padding-right: 38px;
 }
 
 .info-box h3 {
@@ -406,7 +406,7 @@ body {
 
 .info-box ul {
     font-size: 18px;
-    line-height: 1.8;
+    line-height: 1.5;
     font-weight: 500;
     list-style: none;  /* Removes bullets */
 }
@@ -418,5 +418,6 @@ body {
 .info-box ul li::before {
     content: none !important;  /* Removes the stars */
 }
+
 
 
