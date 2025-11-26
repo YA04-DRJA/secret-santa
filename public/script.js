@@ -220,7 +220,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function loadCount() {
         try {
-            const response = await fetch('/.netlify/functions/getParticipants');
+            const response = await fetch('/.netlify/functions/ge-participants');
             const data = await response.json();
             const count = data.participants ? data.participants.length : 0;
             document.getElementById('participantCount').textContent = count;
