@@ -3,7 +3,6 @@ const { MongoClient } = require('mongodb');
 const uri = process.env.MONGODB_URI;
 
 exports.handler = async (event) => {
-    // Handle CORS
     if (event.httpMethod === 'OPTIONS') {
         return {
             statusCode: 200,
@@ -19,6 +18,10 @@ exports.handler = async (event) => {
     if (event.httpMethod !== 'POST') {
         return {
             statusCode: 405,
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
             body: JSON.stringify({ error: 'Method not allowed' })
         };
     }
@@ -26,7 +29,10 @@ exports.handler = async (event) => {
     const client = new MongoClient(uri);
 
     try {
-        const { email, potluckChoice } = JSON.parse(event.body);
+        // Accept either foodType or potluckChoice
+        const body = JSON.parse(event.body || '{}');
+        const email = body.email;
+        const potluckChoice = body.potluckChoice || body.foodType;
 
         if (!email || !potluckChoice) {
             return {
@@ -43,10 +49,9 @@ exports.handler = async (event) => {
         const database = client.db('secretsanta');
         const collection = database.collection('participants');
 
-        // Update the participant's potluck choice
         const result = await collection.updateOne(
-            { email: email },
-            { $set: { potluckChoice: potluckChoice } }
+            { email },
+            { $set: { potluckChoice } }
         );
 
         await client.close();
@@ -68,9 +73,9 @@ exports.handler = async (event) => {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*'
             },
-            body: JSON.stringify({ 
+            body: JSON.stringify({
                 message: 'Potluck choice saved successfully',
-                potluckChoice: potluckChoice
+                potluckChoice
             })
         };
 
