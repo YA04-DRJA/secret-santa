@@ -369,7 +369,7 @@
         // Load participants
         async function loadParticipants() {
             try {
-                const response = await fetch('/.netlify/functions/getParticipants');
+                const response = await fetch('/.netlify/functions/get-participants');
                 const data = await response.json();
                 
                 const participants = data.participants || [];
@@ -512,7 +512,7 @@
 
         // Export data
         function exportData() {
-            fetch('/.netlify/functions/getParticipants')
+            fetch('/.netlify/functions/get-participants')
                 .then(res => res.json())
                 .then(data => {
                     const participants = data.participants || [];
@@ -555,3 +555,4 @@
     </script>
 </body>
 </html>
+
