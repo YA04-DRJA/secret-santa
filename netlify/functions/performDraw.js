@@ -96,34 +96,28 @@ exports.handler = async (event) => {
                             <h3 style="color: #165b33;">📝 Their Gift Preferences:</h3>
                             
                             <div style="background: #f0f0f0; padding: 20px; border-radius: 10px; margin: 15px 0;">
-                                <p style="margin-bottom: 15px; line-height: 1.6;">
-                                    <strong style="display: block; margin-bottom: 5px;">💝 What they'd love:</strong>
-                                    ${assignment.receiverPreferences.collectOrReceive}
+                                <p style="margin-bottom: 12px;">
+                                    <strong>💝 What they'd love:</strong> ${assignment.receiverPreferences.collectOrReceive}
                                 </p>
                                 
-                                <p style="margin-bottom: 15px; line-height: 1.6;">
-                                    <strong style="display: block; margin-bottom: 5px;">🏪 Favorite store:</strong>
-                                    ${assignment.receiverPreferences.favoriteStore}
+                                <p style="margin-bottom: 12px;">
+                                    <strong>🏪 Favorite store:</strong> ${assignment.receiverPreferences.favoriteStore}
                                 </p>
                                 
-                                <p style="margin-bottom: 15px; line-height: 1.6;">
-                                    <strong style="display: block; margin-bottom: 5px;">🎨 Hobbies:</strong>
-                                    ${assignment.receiverPreferences.hobby}
+                                <p style="margin-bottom: 12px;">
+                                    <strong>🎨 Hobbies:</strong> ${assignment.receiverPreferences.hobby}
                                 </p>
                                 
-                                <p style="margin-bottom: 15px; line-height: 1.6;">
-                                    <strong style="display: block; margin-bottom: 5px;">👕 Shirt Size:</strong>
-                                    ${assignment.receiverPreferences.shirtSize || 'Not provided'}
+                                <p style="margin-bottom: 12px;">
+                                    <strong>👕 Shirt Size:</strong> ${assignment.receiverPreferences.shirtSize || 'Not provided'}
                                 </p>
                                 
-                                <p style="margin-bottom: 15px; line-height: 1.6;">
-                                    <strong style="display: block; margin-bottom: 5px;">👟 Shoe Size:</strong>
-                                    ${assignment.receiverPreferences.shoeSize || 'Not provided'}
+                                <p style="margin-bottom: 12px;">
+                                    <strong>👟 Shoe Size:</strong> ${assignment.receiverPreferences.shoeSize || 'Not provided'}
                                 </p>
                                 
-                                <p style="margin-bottom: 0; line-height: 1.6;">
-                                    <strong style="display: block; margin-bottom: 5px;">🎁 Specific wishlist:</strong>
-                                    ${assignment.receiverPreferences.wishlist}
+                                <p style="margin-bottom: 0;">
+                                    <strong>🎁 Specific wishlist:</strong> ${assignment.receiverPreferences.wishlist}
                                 </p>
                             </div>
                             
@@ -186,5 +180,6 @@ exports.handler = async (event) => {
         await client.close();
     }
 };
+
 
 
