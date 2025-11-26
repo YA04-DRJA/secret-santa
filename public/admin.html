@@ -264,333 +264,334 @@
         </table>
     </div>
 
-    <script>
-        // Create snow effect
-        function createInteractiveSnow() {
-            const snowflakes = [];
-            const maxSnowflakes = 80;
-            
-            for (let i = 0; i < maxSnowflakes; i++) {
-                createSingleSnowflake(snowflakes, true);
-            }
-            
-            let mouseX = -1000;
-            let mouseY = -1000;
-            
-            document.addEventListener('mousemove', function(e) {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
+<script>
+    // Create snow effect
+    function createInteractiveSnow() {
+        const snowflakes = [];
+        const maxSnowflakes = 80;
+        
+        for (let i = 0; i < maxSnowflakes; i++) {
+            createSingleSnowflake(snowflakes, true);
+        }
+        
+        let mouseX = -1000;
+        let mouseY = -1000;
+        
+        document.addEventListener('mousemove', function(e) {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        
+        function animate() {
+            snowflakes.forEach(function(snow) {
+                snow.velocityY += 0.02;
+                snow.x += Math.sin(snow.y * 0.01 + snow.offset) * 0.3;
+                
+                const dx = snow.x - mouseX;
+                const dy = snow.y - mouseY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < 120 && distance > 0) {
+                    const force = (120 - distance) / 120;
+                    const pushStrength = force * force * 8;
+                    
+                    snow.velocityX += (dx / distance) * pushStrength * 0.3;
+                    snow.velocityY += (dy / distance) * pushStrength * 0.2;
+                }
+                
+                snow.velocityX *= 0.92;
+                snow.velocityY *= 0.98;
+                
+                if (snow.velocityY > 3) snow.velocityY = 3;
+                if (snow.velocityY < 0.3) snow.velocityY = 0.3;
+                
+                snow.x += snow.velocityX;
+                snow.y += snow.velocityY;
+                
+                if (snow.x < -20) snow.x = window.innerWidth + 20;
+                if (snow.x > window.innerWidth + 20) snow.x = -20;
+                
+                if (snow.y > window.innerHeight + 20) {
+                    resetSnowflake(snow);
+                }
+                
+                if (snow.y < -100) {
+                    resetSnowflake(snow);
+                }
+                
+                snow.element.style.left = snow.x + 'px';
+                snow.element.style.top = snow.y + 'px';
             });
             
-            function animate() {
-                snowflakes.forEach(function(snow) {
-                    snow.velocityY += 0.02;
-                    snow.x += Math.sin(snow.y * 0.01 + snow.offset) * 0.3;
-                    
-                    const dx = snow.x - mouseX;
-                    const dy = snow.y - mouseY;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    
-                    if (distance < 120 && distance > 0) {
-                        const force = (120 - distance) / 120;
-                        const pushStrength = force * force * 8;
-                        
-                        snow.velocityX += (dx / distance) * pushStrength * 0.3;
-                        snow.velocityY += (dy / distance) * pushStrength * 0.2;
-                    }
-                    
-                    snow.velocityX *= 0.92;
-                    snow.velocityY *= 0.98;
-                    
-                    if (snow.velocityY > 3) snow.velocityY = 3;
-                    if (snow.velocityY < 0.3) snow.velocityY = 0.3;
-                    
-                    snow.x += snow.velocityX;
-                    snow.y += snow.velocityY;
-                    
-                    if (snow.x < -20) snow.x = window.innerWidth + 20;
-                    if (snow.x > window.innerWidth + 20) snow.x = -20;
-                    
-                    if (snow.y > window.innerHeight + 20) {
-                        resetSnowflake(snow);
-                    }
-                    
-                    if (snow.y < -100) {
-                        resetSnowflake(snow);
-                    }
-                    
-                    snow.element.style.left = snow.x + 'px';
-                    snow.element.style.top = snow.y + 'px';
-                });
-                
-                requestAnimationFrame(animate);
-            }
-            
-            animate();
+            requestAnimationFrame(animate);
         }
+        
+        animate();
+    }
 
-        function createSingleSnowflake(snowflakes, randomStart) {
-            const snowflake = document.createElement('div');
-            snowflake.className = 'snowflake';
-            snowflake.textContent = ['❄', '❅', '❆'][Math.floor(Math.random() * 3)];
-            
-            document.body.appendChild(snowflake);
-            
-            const snow = {
-                element: snowflake,
-                x: Math.random() * window.innerWidth,
-                y: randomStart ? Math.random() * window.innerHeight : (-20 - Math.random() * 100),
-                velocityX: 0,
-                velocityY: Math.random() * 0.5 + 0.5,
-                size: Math.random() * 10 + 15,
-                offset: Math.random() * 1000
-            };
-            
-            snowflake.style.fontSize = snow.size + 'px';
-            snowflake.style.opacity = Math.random() * 0.4 + 0.6;
-            snowflakes.push(snow);
+    function createSingleSnowflake(snowflakes, randomStart) {
+        const snowflake = document.createElement('div');
+        snowflake.className = 'snowflake';
+        snowflake.textContent = ['❄', '❅', '❆'][Math.floor(Math.random() * 3)];
+        
+        document.body.appendChild(snowflake);
+        
+        const snow = {
+            element: snowflake,
+            x: Math.random() * window.innerWidth,
+            y: randomStart ? Math.random() * window.innerHeight : (-20 - Math.random() * 100),
+            velocityX: 0,
+            velocityY: Math.random() * 0.5 + 0.5,
+            size: Math.random() * 10 + 15,
+            offset: Math.random() * 1000
+        };
+        
+        snowflake.style.fontSize = snow.size + 'px';
+        snowflake.style.opacity = Math.random() * 0.4 + 0.6;
+        snowflakes.push(snow);
+    }
+
+    function resetSnowflake(snow) {
+        snow.x = Math.random() * window.innerWidth;
+        snow.y = -20 - Math.random() * 50;
+        snow.velocityX = 0;
+        snow.velocityY = Math.random() * 0.5 + 0.5;
+        snow.offset = Math.random() * 1000;
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+        createInteractiveSnow();
+        loadParticipants();
+        loadPotluckSummary();
+    });
+
+    // Helper function to format date
+    function formatDate(participant) {
+        const dateValue = participant.timestamp || 
+                          participant.createdAt || 
+                          participant.joinedAt || 
+                          participant._id;
+        
+        if (!dateValue) {
+            return 'Unknown';
         }
-
-        function resetSnowflake(snow) {
-            snow.x = Math.random() * window.innerWidth;
-            snow.y = -20 - Math.random() * 50;
-            snow.velocityX = 0;
-            snow.velocityY = Math.random() * 0.5 + 0.5;
-            snow.offset = Math.random() * 1000;
+        
+        // If it's a MongoDB ObjectId, extract the timestamp
+        if (typeof dateValue === 'object' && dateValue.$oid) {
+            const timestamp = parseInt(dateValue.$oid.substring(0, 8), 16) * 1000;
+            return new Date(timestamp).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
         }
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            createInteractiveSnow();
-            loadParticipants();
-            loadPotluckSummary();
-        });
-// Helper function to format date from various field names
-function formatDate(participant) {
-    const dateValue = participant.timestamp || 
-                      participant.createdAt || 
-                      participant.joinedAt || 
-                      participant._id;
-    
-    if (!dateValue) {
+        
+        // Try to parse as regular date
+        const date = new Date(dateValue);
+        if (!isNaN(date.getTime())) {
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+        
         return 'Unknown';
     }
-    
-    // If it's a MongoDB ObjectId, extract the timestamp
-    if (typeof dateValue === 'object' && dateValue.$oid) {
-        const timestamp = parseInt(dateValue.$oid.substring(0, 8), 16) * 1000;
-        return new Date(timestamp).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric'
-        });
-    }
-    
-    // Try to parse as regular date
-    const date = new Date(dateValue);
-    if (!isNaN(date.getTime())) {
-        return date.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        });
-    }
-    
-    return 'Unknown';
-}
 
-// Load participants
-async function loadParticipants() {
-        // Load participants
-        async function loadParticipants() {
-            try {
-                const response = await fetch('/.netlify/functions/get-participants');
-                const data = await response.json();
+    // Load participants
+    async function loadParticipants() {
+        try {
+            const response = await fetch('/.netlify/functions/get-participants');
+            const data = await response.json();
+            
+            const participants = data.participants || [];
+            const drawCompleted = data.drawCompleted || false;
+            
+            document.getElementById('totalCount').textContent = participants.length;
+            document.getElementById('drawStatus').textContent = drawCompleted ? '✅' : '❌';
+            document.getElementById('emailsSent').textContent = drawCompleted ? participants.length : '0';
+            
+            const drawStatusBox = document.getElementById('drawStatusBox');
+            const drawStatusText = document.getElementById('drawStatusText');
+            
+            if (drawCompleted) {
+                drawStatusBox.classList.add('completed');
+                drawStatusText.textContent = '✅ Draw completed! All participants have been matched and emails sent.';
+            } else {
+                drawStatusBox.classList.remove('completed');
+                drawStatusText.textContent = '⏳ Waiting for draw to be performed...';
+            }
+            
+            const tbody = document.getElementById('participantsBody');
+            tbody.innerHTML = '';
+            
+            participants.forEach((p, index) => {
+                // Format potluck choice with emoji
+                let potluckDisplay = '<span style="color: #999;">Not selected</span>';
+                if (p.potluckChoice) {
+                    const emojiMap = {
+                        'Main Course': '🍗',
+                        'Appetizer': '🥗',
+                        'Dessert': '🍰',
+                        'Snacks': '🍿',
+                        'Drinks': '🥤',
+                        'Not Bringing Food': '❌'
+                    };
+                    potluckDisplay = `<span style="font-weight: bold; color: #ff8c00;">${emojiMap[p.potluckChoice] || ''} ${p.potluckChoice}</span>`;
+                }
                 
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td><strong>${p.name}</strong></td>
+                    <td>${p.email}</td>
+                    <td class="preferences-cell">
+                        <strong>Likes:</strong> ${p.preferences.collectOrReceive}<br>
+                        <strong>Store:</strong> ${p.preferences.favoriteStore}<br>
+                        <strong>Hobby:</strong> ${p.preferences.hobby}<br>
+                        <strong>Wishlist:</strong> ${p.preferences.wishlist}
+                    </td>
+                    <td>${potluckDisplay}</td>
+                    <td>${formatDate(p)}</td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('participantsTable').style.display = 'table';
+            
+        } catch (error) {
+            showMessage('Error loading participants: ' + error.message, 'error');
+        }
+    }
+
+    // Load potluck summary
+    async function loadPotluckSummary() {
+        try {
+            const response = await fetch('/.netlify/functions/getpotluckstats');
+            const data = await response.json();
+            
+            const summaryDiv = document.getElementById('potluckSummary');
+            summaryDiv.innerHTML = '';
+            
+            const categories = [
+                { name: 'Main Course', emoji: '🍗', color: '#ff6b6b' },
+                { name: 'Appetizer', emoji: '🥗', color: '#4ecdc4' },
+                { name: 'Dessert', emoji: '🍰', color: '#ff8c00' },
+                { name: 'Snacks', emoji: '🍿', color: '#ffd93d' },
+                { name: 'Drinks', emoji: '🥤', color: '#6bcf7f' },
+                { name: 'Not Bringing Food', emoji: '❌', color: '#95a5a6' }
+            ];
+            
+            categories.forEach(cat => {
+                const count = data.stats[cat.name] || 0;
+                const percent = data.percentages[cat.name] || 0;
+                
+                const card = document.createElement('div');
+                card.style.cssText = `
+                    background: white;
+                    border: 2px solid ${cat.color};
+                    border-radius: 10px;
+                    padding: 15px;
+                    text-align: center;
+                `;
+                
+                card.innerHTML = `
+                    <div style="font-size: 32px; margin-bottom: 10px;">${cat.emoji}</div>
+                    <div style="font-weight: bold; color: ${cat.color}; margin-bottom: 5px;">${cat.name}</div>
+                    <div style="font-size: 24px; font-weight: bold; color: #333;">${count} people</div>
+                    <div style="font-size: 14px; color: #666;">${percent}%</div>
+                `;
+                
+                summaryDiv.appendChild(card);
+            });
+            
+        } catch (error) {
+            console.error('Error loading potluck summary:', error);
+        }
+    }
+
+    // Perform draw
+    async function performDraw() {
+        if (!confirm('Are you sure you want to perform the Secret Santa draw? This will send emails to all participants!')) {
+            return;
+        }
+        
+        const btn = event.target;
+        btn.disabled = true;
+        btn.textContent = '🎲 Drawing names...';
+        
+        try {
+            const response = await fetch('/.netlify/functions/performDraw', {
+                method: 'POST'
+            });
+            
+            const result = await response.json();
+            
+            if (response.ok) {
+                showMessage('✅ Draw completed successfully! All emails have been sent.', 'success');
+                loadParticipants();
+            } else {
+                showMessage('❌ Error: ' + result.error, 'error');
+            }
+        } catch (error) {
+            showMessage('❌ Network error: ' + error.message, 'error');
+        } finally {
+            btn.disabled = false;
+            btn.textContent = '🎲 Perform Secret Santa Draw';
+        }
+    }
+
+    // Export data
+    function exportData() {
+        fetch('/.netlify/functions/get-participants')
+            .then(res => res.json())
+            .then(data => {
                 const participants = data.participants || [];
-                const drawCompleted = data.drawCompleted || false;
                 
-                document.getElementById('totalCount').textContent = participants.length;
-                document.getElementById('drawStatus').textContent = drawCompleted ? '✅' : '❌';
-                document.getElementById('emailsSent').textContent = drawCompleted ? participants.length : '0';
+                let csv = 'Name,Email,Likes,Favorite Store,Hobby,Wishlist,Potluck Choice,Joined Date\n';
                 
-                const drawStatusBox = document.getElementById('drawStatusBox');
-                const drawStatusText = document.getElementById('drawStatusText');
-                
-                if (drawCompleted) {
-                    drawStatusBox.classList.add('completed');
-                    drawStatusText.textContent = '✅ Draw completed! All participants have been matched and emails sent.';
-                } else {
-                    drawStatusBox.classList.remove('completed');
-                    drawStatusText.textContent = '⏳ Waiting for draw to be performed...';
-                }
-                
-                const tbody = document.getElementById('participantsBody');
-                tbody.innerHTML = '';
-                
-                participants.forEach((p, index) => {
-                    // Format potluck choice with emoji
-                    let potluckDisplay = '<span style="color: #999;">Not selected</span>';
-                    if (p.potluckChoice) {
-                        const emojiMap = {
-                            'Main Course': '🍗',
-                            'Appetizer': '🥗',
-                            'Dessert': '🍰',
-                            'Snacks': '🍿',
-                            'Drinks': '🥤',
-                            'Not Bringing Food': '❌'
-                        };
-                        potluckDisplay = `<span style="font-weight: bold; color: #ff8c00;">${emojiMap[p.potluckChoice] || ''} ${p.potluckChoice}</span>`;
-                    }
-                    
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${index + 1}</td>
-                        <td><strong>${p.name}</strong></td>
-                        <td>${p.email}</td>
-                        <td class="preferences-cell">
-                            <strong>Likes:</strong> ${p.preferences.collectOrReceive}<br>
-                            <strong>Store:</strong> ${p.preferences.favoriteStore}<br>
-                            <strong>Hobby:</strong> ${p.preferences.hobby}<br>
-                            <strong>Wishlist:</strong> ${p.preferences.wishlist}
-                        </td>
-                        <td>${potluckDisplay}</td>
-                        <td>${formatDate(p)}</td>
-                    `;
-                    tbody.appendChild(row);
+                participants.forEach(p => {
+                    const potluck = p.potluckChoice || 'Not selected';
+                    const joinDate = formatDate(p);
+                    csv += `"${p.name}","${p.email}","${p.preferences.collectOrReceive}","${p.preferences.favoriteStore}","${p.preferences.hobby}","${p.preferences.wishlist}","${potluck}","${joinDate}"\n`;
                 });
                 
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('participantsTable').style.display = 'table';
+                const blob = new Blob([csv], { type: 'text/csv' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'secret-santa-participants.csv';
+                a.click();
                 
-            } catch (error) {
-                showMessage('Error loading participants: ' + error.message, 'error');
-            }
-        }
+                showMessage('✅ Data exported successfully!', 'success');
+            })
+            .catch(error => {
+                showMessage('❌ Export failed: ' + error.message, 'error');
+            });
+    }
 
-        // Load potluck summary
-        async function loadPotluckSummary() {
-            try {
-                const response = await fetch('/.netlify/functions/getpotluckstats');
-                const data = await response.json();
-                
-                const summaryDiv = document.getElementById('potluckSummary');
-                summaryDiv.innerHTML = '';
-                
-                const categories = [
-                    { name: 'Main Course', emoji: '🍗', color: '#ff6b6b' },
-                    { name: 'Appetizer', emoji: '🥗', color: '#4ecdc4' },
-                    { name: 'Dessert', emoji: '🍰', color: '#ff8c00' },
-                    { name: 'Snacks', emoji: '🍿', color: '#ffd93d' },
-                    { name: 'Drinks', emoji: '🥤', color: '#6bcf7f' },
-                    { name: 'Not Bringing Food', emoji: '❌', color: '#95a5a6' }
-                ];
-                
-                categories.forEach(cat => {
-                    const count = data.stats[cat.name] || 0;
-                    const percent = data.percentages[cat.name] || 0;
-                    
-                    const card = document.createElement('div');
-                    card.style.cssText = `
-                        background: white;
-                        border: 2px solid ${cat.color};
-                        border-radius: 10px;
-                        padding: 15px;
-                        text-align: center;
-                    `;
-                    
-                    card.innerHTML = `
-                        <div style="font-size: 32px; margin-bottom: 10px;">${cat.emoji}</div>
-                        <div style="font-weight: bold; color: ${cat.color}; margin-bottom: 5px;">${cat.name}</div>
-                        <div style="font-size: 24px; font-weight: bold; color: #333;">${count} people</div>
-                        <div style="font-size: 14px; color: #666;">${percent}%</div>
-                    `;
-                    
-                    summaryDiv.appendChild(card);
-                });
-                
-            } catch (error) {
-                console.error('Error loading potluck summary:', error);
-            }
-        }
+    // Show status message
+    function showMessage(message, type) {
+        const statusDiv = document.getElementById('statusMessage');
+        statusDiv.textContent = message;
+        statusDiv.className = 'status-message status-' + type;
+        statusDiv.style.display = 'block';
+        
+        setTimeout(() => {
+            statusDiv.style.display = 'none';
+        }, 5000);
+    }
 
-        // Perform draw
-        async function performDraw() {
-            if (!confirm('Are you sure you want to perform the Secret Santa draw? This will send emails to all participants!')) {
-                return;
-            }
-            
-            const btn = event.target;
-            btn.disabled = true;
-            btn.textContent = '🎲 Drawing names...';
-            
-            try {
-                const response = await fetch('/.netlify/functions/performDraw', {
-                    method: 'POST'
-                });
-                
-                const result = await response.json();
-                
-                if (response.ok) {
-                    showMessage('✅ Draw completed successfully! All emails have been sent.', 'success');
-                    loadParticipants();
-                } else {
-                    showMessage('❌ Error: ' + result.error, 'error');
-                }
-            } catch (error) {
-                showMessage('❌ Network error: ' + error.message, 'error');
-            } finally {
-                btn.disabled = false;
-                btn.textContent = '🎲 Perform Secret Santa Draw';
-            }
-        }
-
-        // Export data
-        function exportData() {
-            fetch('/.netlify/functions/get-participants')
-                .then(res => res.json())
-                .then(data => {
-                    const participants = data.participants || [];
-                    
-                    let csv = 'Name,Email,Likes,Favorite Store,Hobby,Wishlist,Potluck Choice,Joined Date\n';
-                    
-                    participants.forEach(p => {
-                        const potluck = p.potluckChoice || 'Not selected';
-                        csv += `"${p.name}","${p.email}","${p.preferences.collectOrReceive}","${p.preferences.favoriteStore}","${p.preferences.hobby}","${p.preferences.wishlist}","${potluck}","${new Date(p.timestamp).toLocaleString()}"\n`;
-                    });
-                    
-                    const blob = new Blob([csv], { type: 'text/csv' });
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'secret-santa-participants.csv';
-                    a.click();
-                    
-                    showMessage('✅ Data exported successfully!', 'success');
-                })
-                .catch(error => {
-                    showMessage('❌ Export failed: ' + error.message, 'error');
-                });
-        }
-
-        // Show status message
-        function showMessage(message, type) {
-            const statusDiv = document.getElementById('statusMessage');
-            statusDiv.textContent = message;
-            statusDiv.className = 'status-message status-' + type;
-            statusDiv.style.display = 'block';
-            
-            setTimeout(() => {
-                statusDiv.style.display = 'none';
-            }, 5000);
-        }
-
-        // Refresh potluck summary every 30 seconds
-        setInterval(loadPotluckSummary, 30000);
-    </script>
+    // Refresh potluck summary every 30 seconds
+    setInterval(loadPotluckSummary, 30000);
+</script>
 </body>
 </html>
+
 
 
