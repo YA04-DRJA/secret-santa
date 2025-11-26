@@ -11,7 +11,7 @@
     <div class="tree tree-left">🎄</div>
     <div class="tree tree-right">🎄</div>
 
-    <div class="container">a
+    <div class="container">
         <!-- PASSWORD SCREEN -->
         <div class="card" id="passwordCard">
             <div class="ribbon"></div>
@@ -52,6 +52,11 @@
                 <div class="tagline">Spread Joy This Holiday Season! 🎄</div>
             </div>
 
+            <!-- NEW DEADLINE BANNER -->
+            <div style="background: linear-gradient(135deg, #ff0000, #c41e3a); color: white; padding: 18px 25px; text-align: center; border-radius: 15px; margin: 20px 0; border: 4px solid #FFD700; box-shadow: 0 8px 20px rgba(255, 0, 0, 0.3); animation: pulse 2s infinite;">
+                <strong style="font-size: 1.2em;">🎅 Ho Ho Ho! Registration closes December 5th - Join the festive fun before it's too late! 🎄</strong>
+            </div>
+
             <div class="counter">
                 🎅 <span class="counter-number" id="participantCount">0</span> Secret Santas Joined So Far!
             </div>
@@ -67,94 +72,60 @@
                 </ul>
             </div>
 
-<!-- SIGNUP SCREEN -->
-<div class="card" id="signupCard" style="display: none;">
-    <div class="ribbon"></div>
-    
-    <!-- EMPTY RED HEADER - JUST DECORATION -->
-    <div class="christmas-header"></div>
+            <form id="signupForm">
+                <div class="form-group">
+                    <label>🎅 Your Full Name</label>
+                    <input type="text" id="name" placeholder="Enter your full name" required>
+                </div>
 
-    <div class="main-title">
-        <div class="title-big">I90 DEEP CREEK</div>
-        <div class="santa-center">🎅</div>
-        <div class="title-small">Aecon Secret Santa 2025</div>
-        <div class="tagline">Spread Joy This Holiday Season! 🎄</div>
+                <div class="form-group">
+                    <label>📧 Your Personal Email</label>
+                    <input type="email" id="email" placeholder="your.email@gmail.com" required>
+                    <small>⚠️ Use your personal email so you don't miss the big reveal!</small>
+                </div>
+
+                <div class="divider">Help Your Secret Santa Find The Perfect Gift</div>
+
+                <div class="form-group">
+                    <label>🎁 What do you like to collect or receive as gifts?</label>
+                    <input type="text" id="q1" placeholder="e.g., Books, gadgets, coffee mugs, plants..." required>
+                </div>
+
+                <div class="form-group">
+                    <label>🏪 What's your favorite store or brand?</label>
+                    <input type="text" id="q2" placeholder="e.g., Amazon, Target, Starbucks..." required>
+                </div>
+
+                <div class="form-group">
+                    <label>🎨 What are your hobbies or interests?</label>
+                    <input type="text" id="q3" placeholder="e.g., Reading, gaming, cooking, hiking..." required>
+                </div>
+
+                <div class="form-group">
+                    <label>👕 Shirt Size (Optional)</label>
+                    <input type="text" id="shirtSize" placeholder="e.g., S, M, L, XL, XXL">
+                    <small>💡 In case your Secret Santa wants to get you clothing!</small>
+                </div>
+
+                <div class="form-group">
+                    <label>👟 Shoe Size (Optional)</label>
+                    <input type="text" id="shoeSize" placeholder="e.g., 8, 9.5, 10">
+                    <small>💡 Just in case!</small>
+                </div>
+
+                <div class="form-group">
+                    <label>✨ Any specific items on your wishlist?</label>
+                    <input type="text" id="q4" placeholder="Be specific! This helps your Secret Santa find the perfect gift">
+                    <small>💡 Optional, but very helpful!</small>
+                </div>
+
+                <button type="submit" class="btn">🎄 JOIN SECRET SANTA 🎄</button>
+
+                <div id="signupError" class="error" style="display: none;"></div>
+            </form>
+        </div>
     </div>
-
-    <!-- NEW DEADLINE BANNER -->
-    <div style="background: linear-gradient(135deg, #ff0000, #c41e3a); color: white; padding: 18px 25px; text-align: center; border-radius: 15px; margin: 20px 0; border: 4px solid #FFD700; box-shadow: 0 8px 20px rgba(255, 0, 0, 0.3); animation: pulse 2s infinite;">
-        <strong style="font-size: 1.2em;">🎅 Ho Ho Ho! Registration closes December 5th - Join the festive fun before it's too late! 🎄</strong>
-    </div>
-
-    <div class="counter">
-        🎅 <span class="counter-number" id="participantCount">0</span> Secret Santas Joined So Far!
-    </div>
-
-    <div class="info-box">
-        <h3>🎁 How It Works:</h3>
-        <ul>
-            <li>✨ Enter your name and personal email below</li>
-            <li>🎨 Answer a few quick questions to help your Secret Santa</li>
-            <li>🎲 Once everyone signs up, names will be drawn</li>
-            <li>💌 You'll receive an email with your assigned person and their preferences</li>
-            <li>💰 Budget is around $25 (but if you're feeling extra generous, we won't stop you! 😊)</li>
-        </ul>
-    </div>
-
-    <form id="signupForm">
-        <div class="form-group">
-            <label>🎅 Your Full Name</label>
-            <input type="text" id="name" placeholder="Enter your full name" required>
-        </div>
-
-        <div class="form-group">
-            <label>📧 Your Personal Email</label>
-            <input type="email" id="email" placeholder="your.email@gmail.com" required>
-            <small>⚠️ Use your personal email so you don't miss the big reveal!</small>
-        </div>
-
-        <div class="divider">Help Your Secret Santa Find The Perfect Gift</div>
-
-        <div class="form-group">
-            <label>🎁 What do you like to collect or receive as gifts?</label>
-            <input type="text" id="q1" placeholder="e.g., Books, gadgets, coffee mugs, plants..." required>
-        </div>
-
-        <div class="form-group">
-            <label>🏪 What's your favorite store or brand?</label>
-            <input type="text" id="q2" placeholder="e.g., Amazon, Target, Starbucks..." required>
-        </div>
-
-        <div class="form-group">
-            <label>🎨 What are your hobbies or interests?</label>
-            <input type="text" id="q3" placeholder="e.g., Reading, gaming, cooking, hiking..." required>
-        </div>
-
-        <div class="form-group">
-            <label>👕 Shirt Size (Optional)</label>
-            <input type="text" id="shirtSize" placeholder="e.g., S, M, L, XL, XXL">
-            <small>💡 In case your Secret Santa wants to get you clothing!</small>
-        </div>
-
-        <div class="form-group">
-            <label>👟 Shoe Size (Optional)</label>
-            <input type="text" id="shoeSize" placeholder="e.g., 8, 9.5, 10">
-            <small>💡 Just in case!</small>
-        </div>
-
-        <div class="form-group">
-            <label>✨ Any specific items on your wishlist?</label>
-            <input type="text" id="q4" placeholder="Be specific! This helps your Secret Santa find the perfect gift">
-            <small>💡 Optional, but very helpful!</small>
-        </div>
-
-        <button type="submit" class="btn">🎄 JOIN SECRET SANTA 🎄</button>
-
-        <div id="signupError" class="error" style="display: none;"></div>
-    </form>
-</div>
 
     <script src="script.js"></script>
 </body>
 </html>
-
