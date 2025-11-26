@@ -407,10 +407,12 @@
 
         loadPotluckStats();
 
+        // Get user email from URL or session
         const urlParams = new URLSearchParams(window.location.search);
         const userEmail = urlParams.get('email') || sessionStorage.getItem('userEmail') || '';
         document.getElementById('potluckEmail').value = userEmail;
 
+        // Handle potluck form submit
         document.getElementById('potluckForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -420,9 +422,19 @@
                 return;
             }
 
+            if (!userEmail) {
+                alert('Missing email. Please open this page from your signup link.');
+                return;
+            }
+
             const btn = e.target.querySelector('.submit-potluck-btn');
             btn.disabled = true;
             btn.textContent = 'Saving... 🎄';
+
+            console.log('Submitting potluck with:', {
+                email: userEmail,
+                potluckChoice: selectedFood.value
+            });
 
             try {
                 const response = await fetch('/.netlify/functions/updatepotluck', {
@@ -430,9 +442,12 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         email: userEmail,
-                        foodType: selectedFood.value
+                        potluckChoice: selectedFood.value     // IMPORTANT: correct field name
                     })
                 });
+
+                const text = await response.text();
+                console.log('updatepotluck response:', response.status, text);
 
                 if (response.ok) {
                     document.getElementById('potluckSuccess').style.display = 'block';
@@ -443,9 +458,10 @@
                         loadPotluckStats();
                     }, 500);
                 } else {
-                    throw new Error('Failed to save');
+                    throw new Error(text || 'Failed to save');
                 }
             } catch (error) {
+                console.error('Error saving potluck choice:', error);
                 alert('Error saving your choice. Please try again!');
                 btn.disabled = false;
                 btn.textContent = '🎉 SUBMIT MY CHOICE 🎉';
@@ -542,4 +558,3 @@
     </script>
 </body>
 </html>
-
