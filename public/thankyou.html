@@ -413,29 +413,66 @@
         document.getElementById('potluckEmail').value = userEmail;
 
         // Handle potluck form submit
-        document.getElementById('potluckForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const selectedFood = document.querySelector('input[name="foodType"]:checked');
-            if (!selectedFood) {
-                alert('Please select a food option!');
-                return;
-            }
+document.getElementById('potluckForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    // Re-read email in case it changed
+    const email = urlParams.get('email') || sessionStorage.getItem('userEmail') || document.getElementById('potluckEmail').value || '';
+    
+    const selectedFood = document.querySelector('input[name="foodType"]:checked');
+    
+    if (!selectedFood) {
+        alert('Please select a food option!');
+        return;
+    }
 
-            if (!userEmail) {
-                alert('Missing email. Please open this page from your signup link.');
-                return;
-            }
+    if (!email || email.trim() === '') {
+        alert('Missing email. Please open this page from your signup confirmation email link.');
+        return;
+    }
 
-            const btn = e.target.querySelector('.submit-potluck-btn');
-            btn.disabled = true;
-            btn.textContent = 'Saving... 🎄';
+    const btn = e.target.querySelector('.submit-potluck-btn');
+    btn.disabled = true;
+    btn.textContent = 'Saving... 🎄';
 
-            console.log('Submitting potluck with:', {
-                email: userEmail,
+    console.log('Submitting potluck:', { email, potluckChoice: selectedFood.value });
+
+    try {
+        const response = await fetch('/.netlify/functions/updatepotluck', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                email: email,
                 potluckChoice: selectedFood.value
-            });
+            })
+        });
 
+        const text = await response.text();
+        console.log('Response:', response.status, text);
+
+        if (response.ok) {
+            document.getElementById('potluckSuccess').style.display = 'block';
+            btn.textContent = '✅ Saved!';
+            btn.style.background = '#28a745';
+            
+            // Disable all options
+            document.querySelectorAll('input[name="foodType"]').forEach(input => {
+                input.disabled = true;
+            });
+            
+            setTimeout(() => {
+                loadPotluckStats();
+            }, 500);
+        } else {
+            throw new Error(text || 'Server returned error');
+        }
+    } catch (error) {
+        console.error('Potluck save error:', error);
+        alert('Error saving your choice. Please try again!');
+        btn.disabled = false;
+        btn.textContent = '🎉 SUBMIT MY CHOICE 🎉';
+    }
+});
             try {
                 const response = await fetch('/.netlify/functions/updatepotluck', {
                     method: 'POST',
@@ -558,3 +595,4 @@
     </script>
 </body>
 </html>
+
