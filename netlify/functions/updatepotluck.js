@@ -3,6 +3,7 @@ const { MongoClient } = require('mongodb');
 const uri = process.env.MONGODB_URI;
 
 exports.handler = async (event) => {
+    // Handle CORS preflight
     if (event.httpMethod === 'OPTIONS') {
         return {
             statusCode: 200,
@@ -29,12 +30,16 @@ exports.handler = async (event) => {
     const client = new MongoClient(uri);
 
     try {
-        // Accept either foodType or potluckChoice
+        // Parse body safely and accept both potluckChoice and foodType
         const body = JSON.parse(event.body || '{}');
         const email = body.email;
         const potluckChoice = body.potluckChoice || body.foodType;
 
+        console.log('updatepotluck body:', body);
+        console.log('email:', email, 'potluckChoice:', potluckChoice);
+
         if (!email || !potluckChoice) {
+            console.log('Missing email or potluckChoice');
             return {
                 statusCode: 400,
                 headers: {
@@ -42,6 +47,18 @@ exports.handler = async (event) => {
                     'Access-Control-Allow-Origin': '*'
                 },
                 body: JSON.stringify({ error: 'Email and potluck choice are required' })
+            };
+        }
+
+        if (!uri) {
+            console.error('MONGODB_URI is not set');
+            return {
+                statusCode: 500,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                body: JSON.stringify({ error: 'Server configuration error (MONGODB_URI missing)' })
             };
         }
 
@@ -53,6 +70,8 @@ exports.handler = async (event) => {
             { email },
             { $set: { potluckChoice } }
         );
+
+        console.log('Mongo update result:', result);
 
         await client.close();
 
@@ -80,15 +99,24 @@ exports.handler = async (event) => {
         };
 
     } catch (error) {
-        console.error('Error:', error);
-        await client.close();
+        console.error('updatepotluck ERROR:', error);
+
+        try {
+            await client.close();
+        } catch (e) {
+            console.error('Error closing Mongo client:', e);
+        }
+
         return {
             statusCode: 500,
             headers: {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*'
             },
-            body: JSON.stringify({ error: 'Failed to save potluck choice' })
+            body: JSON.stringify({
+                error: 'Failed to save potluck choice',
+                details: error.message || String(error)
+            })
         };
     }
 };
