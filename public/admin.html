@@ -456,6 +456,8 @@ function formatDate(participant) {
                         <strong>Likes:</strong> ${p.preferences.collectOrReceive}<br>
                         <strong>Store:</strong> ${p.preferences.favoriteStore}<br>
                         <strong>Hobby:</strong> ${p.preferences.hobby}<br>
+                        <strong>👕 Shirt Size:</strong> ${p.preferences.shirtSize || 'N/A'}<br>
+                        <strong>👟 Shoe Size:</strong> ${p.preferences.shoeSize || 'N/A'}
                         <strong>Wishlist:</strong> ${p.preferences.wishlist}
                     </td>
                     <td>${potluckDisplay}</td>
@@ -556,12 +558,12 @@ function formatDate(participant) {
             .then(data => {
                 const participants = data.participants || [];
                 
-                let csv = 'Name,Email,Likes,Favorite Store,Hobby,Wishlist,Potluck Choice,Joined Date\n';
+                let csv = 'Name,Email,Likes,Favorite Store,Hobby,Wishlist,Shirt Size,Shoe Size,Potluck Choice,Joined Date\n';
                 
                 participants.forEach(p => {
                     const potluck = p.potluckChoice || 'Not selected';
                     const joinDate = formatDate(p);
-                    csv += `"${p.name}","${p.email}","${p.preferences.collectOrReceive}","${p.preferences.favoriteStore}","${p.preferences.hobby}","${p.preferences.wishlist}","${potluck}","${joinDate}"\n`;
+                    csv += `"${p.name}","${p.email}","${p.preferences.collectOrReceive}","${p.preferences.favoriteStore}","${p.preferences.hobby}","${p.preferences.wishlist}","${p.preferences.shirtSize || 'N/A'}","${p.preferences.shoeSize || 'N/A'}","${potluck}","${joinDate}"\n`;
                 });
                 
                 const blob = new Blob([csv], { type: 'text/csv' });
@@ -595,6 +597,7 @@ function formatDate(participant) {
 </script>
 </body>
 </html>
+
 
 
 
