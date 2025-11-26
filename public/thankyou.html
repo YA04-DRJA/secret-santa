@@ -376,223 +376,198 @@
         </div>
     </div>
 
-    <script>
-        // Load potluck stats
-        async function loadPotluckStats() {
-            try {
-                const response = await fetch('/.netlify/functions/getPotluckStats');
-                const data = await response.json();
+<script>
+    // Load potluck stats
+    async function loadPotluckStats() {
+        try {
+            const response = await fetch('/.netlify/functions/getpotluckstats');
+            const data = await response.json();
+            
+            if (data.percentages) {
+                updatePercentage('main', data.percentages['Main Course'] || 0);
+                updatePercentage('appetizer', data.percentages['Appetizer'] || 0);
+                updatePercentage('dessert', data.percentages['Dessert'] || 0);
+                updatePercentage('snacks', data.percentages['Snacks'] || 0);
+                updatePercentage('drinks', data.percentages['Drinks'] || 0);
+                updatePercentage('notbringing', data.percentages['Not Bringing Food'] || 0);
+            }
+        } catch (error) {
+            console.error('Error loading stats:', error);
+        }
+    }
+
+    function updatePercentage(id, percent) {
+        const fill = document.getElementById('percent-' + id);
+        const text = document.getElementById('text-' + id);
+        if (fill && text) {
+            fill.style.width = percent + '%';
+            text.textContent = percent + '%';
+        }
+    }
+
+    // Load stats when page loads
+    loadPotluckStats();
+    
+    // Refresh stats every 10 seconds
+    setInterval(loadPotluckStats, 10000);
+
+    // Get user email from URL or session
+    const urlParams = new URLSearchParams(window.location.search);
+    const userEmail = urlParams.get('email') || sessionStorage.getItem('userEmail') || '';
+    document.getElementById('potluckEmail').value = userEmail;
+
+    // Handle potluck form submit
+    document.getElementById('potluckForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Get email (check URL params first, then session, then hidden field)
+        const email = urlParams.get('email') || sessionStorage.getItem('userEmail') || document.getElementById('potluckEmail').value || '';
+        
+        const selectedFood = document.querySelector('input[name="foodType"]:checked');
+        
+        if (!selectedFood) {
+            alert('Please select a food option!');
+            return;
+        }
+
+        if (!email || email.trim() === '') {
+            alert('Missing email. Please open this page from your signup confirmation email link.');
+            return;
+        }
+
+        const btn = e.target.querySelector('.submit-potluck-btn');
+        btn.disabled = true;
+        btn.textContent = 'Saving... 🎄';
+
+        console.log('Submitting potluck:', { email, potluckChoice: selectedFood.value });
+
+        try {
+            const response = await fetch('/.netlify/functions/updatepotluck', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: email,
+                    potluckChoice: selectedFood.value
+                })
+            });
+
+            const text = await response.text();
+            console.log('Response:', response.status, text);
+
+            if (response.ok) {
+                document.getElementById('potluckSuccess').style.display = 'block';
+                btn.textContent = '✅ Saved!';
+                btn.style.background = '#28a745';
                 
-                if (data.percentages) {
-                    updatePercentage('main', data.percentages['Main Course']);
-                    updatePercentage('appetizer', data.percentages['Appetizer']);
-                    updatePercentage('dessert', data.percentages['Dessert']);
-                    updatePercentage('snacks', data.percentages['Snacks']);
-                    updatePercentage('drinks', data.percentages['Drinks']);
-                    updatePercentage('notbringing', data.percentages['Not Bringing Food']);
-                }
-            } catch (error) {
-                console.error('Error loading stats:', error);
-            }
-        }
-
-        function updatePercentage(id, percent) {
-            const fill = document.getElementById('percent-' + id);
-            const text = document.getElementById('text-' + id);
-            if (fill && text) {
-                fill.style.width = percent + '%';
-                text.textContent = percent + '%';
-            }
-        }
-
-        loadPotluckStats();
-
-        // Get user email from URL or session
-        const urlParams = new URLSearchParams(window.location.search);
-        const userEmail = urlParams.get('email') || sessionStorage.getItem('userEmail') || '';
-        document.getElementById('potluckEmail').value = userEmail;
-
-        // Handle potluck form submit
-document.getElementById('potluckForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    // Re-read email in case it changed
-    const email = urlParams.get('email') || sessionStorage.getItem('userEmail') || document.getElementById('potluckEmail').value || '';
-    
-    const selectedFood = document.querySelector('input[name="foodType"]:checked');
-    
-    if (!selectedFood) {
-        alert('Please select a food option!');
-        return;
-    }
-
-    if (!email || email.trim() === '') {
-        alert('Missing email. Please open this page from your signup confirmation email link.');
-        return;
-    }
-
-    const btn = e.target.querySelector('.submit-potluck-btn');
-    btn.disabled = true;
-    btn.textContent = 'Saving... 🎄';
-
-    console.log('Submitting potluck:', { email, potluckChoice: selectedFood.value });
-
-    try {
-        const response = await fetch('/.netlify/functions/updatepotluck', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                email: email,
-                potluckChoice: selectedFood.value
-            })
-        });
-
-        const text = await response.text();
-        console.log('Response:', response.status, text);
-
-        if (response.ok) {
-            document.getElementById('potluckSuccess').style.display = 'block';
-            btn.textContent = '✅ Saved!';
-            btn.style.background = '#28a745';
-            
-            // Disable all options
-            document.querySelectorAll('input[name="foodType"]').forEach(input => {
-                input.disabled = true;
-            });
-            
-            setTimeout(() => {
-                loadPotluckStats();
-            }, 500);
-        } else {
-            throw new Error(text || 'Server returned error');
-        }
-    } catch (error) {
-        console.error('Potluck save error:', error);
-        alert('Error saving your choice. Please try again!');
-        btn.disabled = false;
-        btn.textContent = '🎉 SUBMIT MY CHOICE 🎉';
-    }
-});
-            try {
-                const response = await fetch('/.netlify/functions/updatepotluck', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        email: userEmail,
-                        potluckChoice: selectedFood.value     // IMPORTANT: correct field name
-                    })
-                });
-
-                const text = await response.text();
-                console.log('updatepotluck response:', response.status, text);
-
-                if (response.ok) {
-                    document.getElementById('potluckSuccess').style.display = 'block';
-                    btn.textContent = '✅ Saved!';
-                    btn.style.background = '#28a745';
-                    
-                    setTimeout(() => {
-                        loadPotluckStats();
-                    }, 500);
-                } else {
-                    throw new Error(text || 'Failed to save');
-                }
-            } catch (error) {
-                console.error('Error saving potluck choice:', error);
-                alert('Error saving your choice. Please try again!');
-                btn.disabled = false;
-                btn.textContent = '🎉 SUBMIT MY CHOICE 🎉';
-            }
-        });
-
-        // Snow animation
-        function createInteractiveSnow() {
-            const snowflakes = [];
-            const maxSnowflakes = 80;
-            
-            for (let i = 0; i < maxSnowflakes; i++) {
-                createSingleSnowflake(snowflakes, true);
-            }
-            
-            let mouseX = -1000;
-            let mouseY = -1000;
-            
-            document.addEventListener('mousemove', function(e) {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-            });
-            
-            function animate() {
-                snowflakes.forEach(function(snow) {
-                    snow.velocityY += 0.02;
-                    snow.x += Math.sin(snow.y * 0.01 + snow.offset) * 0.3;
-                    
-                    const dx = snow.x - mouseX;
-                    const dy = snow.y - mouseY;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    
-                    if (distance < 120 && distance > 0) {
-                        const force = (120 - distance) / 120;
-                        const pushStrength = force * force * 8;
-                        snow.velocityX += (dx / distance) * pushStrength * 0.3;
-                        snow.velocityY += (dy / distance) * pushStrength * 0.2;
-                    }
-                    
-                    snow.velocityX *= 0.92;
-                    snow.velocityY *= 0.98;
-                    
-                    if (snow.velocityY > 3) snow.velocityY = 3;
-                    if (snow.velocityY < 0.3) snow.velocityY = 0.3;
-                    
-                    snow.x += snow.velocityX;
-                    snow.y += snow.velocityY;
-                    
-                    if (snow.x < -20) snow.x = window.innerWidth + 20;
-                    if (snow.x > window.innerWidth + 20) snow.x = -20;
-                    if (snow.y > window.innerHeight + 20) resetSnowflake(snow);
-                    if (snow.y < -100) resetSnowflake(snow);
-                    
-                    snow.element.style.left = snow.x + 'px';
-                    snow.element.style.top = snow.y + 'px';
+                // Disable all radio buttons after successful submit
+                document.querySelectorAll('input[name="foodType"]').forEach(input => {
+                    input.disabled = true;
                 });
                 
-                requestAnimationFrame(animate);
+                // Reload stats after 500ms to show updated percentages
+                setTimeout(() => {
+                    loadPotluckStats();
+                }, 500);
+            } else {
+                throw new Error(text || 'Server returned error');
             }
-            
-            animate();
+        } catch (error) {
+            console.error('Potluck save error:', error);
+            alert('Error saving your choice. Please try again!');
+            btn.disabled = false;
+            btn.textContent = '🎉 SUBMIT MY CHOICE 🎉';
         }
+    });
 
-        function createSingleSnowflake(snowflakes, randomStart) {
-            const snowflake = document.createElement('div');
-            snowflake.className = 'snowflake';
-            snowflake.textContent = ['❄', '❅', '❆'][Math.floor(Math.random() * 3)];
-            document.body.appendChild(snowflake);
-            
-            const snow = {
-                element: snowflake,
-                x: Math.random() * window.innerWidth,
-                y: randomStart ? Math.random() * window.innerHeight : (-20 - Math.random() * 100),
-                velocityX: 0,
-                velocityY: Math.random() * 0.5 + 0.5,
-                size: Math.random() * 10 + 15,
-                offset: Math.random() * 1000
-            };
-            
-            snowflake.style.fontSize = snow.size + 'px';
-            snowflake.style.opacity = Math.random() * 0.4 + 0.6;
-            snowflakes.push(snow);
+    // Snow animation
+    function createInteractiveSnow() {
+        const snowflakes = [];
+        const maxSnowflakes = 80;
+        
+        for (let i = 0; i < maxSnowflakes; i++) {
+            createSingleSnowflake(snowflakes, true);
         }
-
-        function resetSnowflake(snow) {
-            snow.x = Math.random() * window.innerWidth;
-            snow.y = -20 - Math.random() * 50;
-            snow.velocityX = 0;
-            snow.velocityY = Math.random() * 0.5 + 0.5;
-            snow.offset = Math.random() * 1000;
+        
+        let mouseX = -1000;
+        let mouseY = -1000;
+        
+        document.addEventListener('mousemove', function(e) {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        
+        function animate() {
+            snowflakes.forEach(function(snow) {
+                snow.velocityY += 0.02;
+                snow.x += Math.sin(snow.y * 0.01 + snow.offset) * 0.3;
+                
+                const dx = snow.x - mouseX;
+                const dy = snow.y - mouseY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < 120 && distance > 0) {
+                    const force = (120 - distance) / 120;
+                    const pushStrength = force * force * 8;
+                    snow.velocityX += (dx / distance) * pushStrength * 0.3;
+                    snow.velocityY += (dy / distance) * pushStrength * 0.2;
+                }
+                
+                snow.velocityX *= 0.92;
+                snow.velocityY *= 0.98;
+                
+                if (snow.velocityY > 3) snow.velocityY = 3;
+                if (snow.velocityY < 0.3) snow.velocityY = 0.3;
+                
+                snow.x += snow.velocityX;
+                snow.y += snow.velocityY;
+                
+                if (snow.x < -20) snow.x = window.innerWidth + 20;
+                if (snow.x > window.innerWidth + 20) snow.x = -20;
+                if (snow.y > window.innerHeight + 20) resetSnowflake(snow);
+                if (snow.y < -100) resetSnowflake(snow);
+                
+                snow.element.style.left = snow.x + 'px';
+                snow.element.style.top = snow.y + 'px';
+            });
+            
+            requestAnimationFrame(animate);
         }
+        
+        animate();
+    }
 
-        createInteractiveSnow();
-    </script>
+    function createSingleSnowflake(snowflakes, randomStart) {
+        const snowflake = document.createElement('div');
+        snowflake.className = 'snowflake';
+        snowflake.textContent = ['❄', '❅', '❆'][Math.floor(Math.random() * 3)];
+        document.body.appendChild(snowflake);
+        
+        const snow = {
+            element: snowflake,
+            x: Math.random() * window.innerWidth,
+            y: randomStart ? Math.random() * window.innerHeight : (-20 - Math.random() * 100),
+            velocityX: 0,
+            velocityY: Math.random() * 0.5 + 0.5,
+            size: Math.random() * 10 + 15,
+            offset: Math.random() * 1000
+        };
+        
+        snowflake.style.fontSize = snow.size + 'px';
+        snowflake.style.opacity = Math.random() * 0.4 + 0.6;
+        snowflakes.push(snow);
+    }
+
+    function resetSnowflake(snow) {
+        snow.x = Math.random() * window.innerWidth;
+        snow.y = -20 - Math.random() * 50;
+        snow.velocityX = 0;
+        snow.velocityY = Math.random() * 0.5 + 0.5;
+        snow.offset = Math.random() * 1000;
+    }
+
+    createInteractiveSnow();
+</script>
 </body>
 </html>
+
 
