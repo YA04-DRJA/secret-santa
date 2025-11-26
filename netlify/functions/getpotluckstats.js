@@ -27,7 +27,7 @@ exports.handler = async (event) => {
         const participants = await collection.find({}).toArray();
         
         // Count food choices
-        const stats = {
+        const counts = {
             'Main Course': 0,
             'Appetizer': 0,
             'Dessert': 0,
@@ -41,17 +41,17 @@ exports.handler = async (event) => {
 
         participants.forEach(p => {
             if (p.potluckChoice) {
-                stats[p.potluckChoice]++;
+                counts[p.potluckChoice]++;
                 total++;
             } else {
-                stats['Not Selected']++;
+                counts['Not Selected']++;
             }
         });
 
-        // Calculate percentages
+        // Calculate percentages (keeping for backwards compatibility if needed)
         const percentages = {};
-        Object.keys(stats).forEach(key => {
-            percentages[key] = total > 0 ? Math.round((stats[key] / total) * 100) : 0;
+        Object.keys(counts).forEach(key => {
+            percentages[key] = total > 0 ? Math.round((counts[key] / total) * 100) : 0;
         });
 
         await client.close();
@@ -63,7 +63,7 @@ exports.handler = async (event) => {
                 'Access-Control-Allow-Origin': '*'
             },
             body: JSON.stringify({ 
-                stats: stats,
+                counts: counts,           // ← Changed from 'stats' to 'counts'
                 percentages: percentages,
                 total: total
             })
