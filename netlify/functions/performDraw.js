@@ -97,7 +97,7 @@ exports.handler = async (event) => {
                             
                             <div style="background: #f0f0f0; padding: 20px; border-radius: 10px; margin: 15px 0;">
                                 <p style="margin-bottom: 12px;">
-                                    <strong>💝 What they'd love:</strong> ${assignment.receiverPreferences.collectOrReceive}
+                                    <strong>💝 What they love:</strong> ${assignment.receiverPreferences.collectOrReceive}
                                 </p>
                                 
                                 <p style="margin-bottom: 12px;">
@@ -125,8 +125,9 @@ exports.handler = async (event) => {
                             <ul style="line-height: 1.8;">
                                 <li>Budget: Around <strong>$25</strong></li>
                                 <li>Keep it a SECRET! 🤫</li>
-                                <li>Wrap your gift nicely 🎁</li>
+                                <li>Wrap your gift beautifully - <strong>red color is strongly advised!</strong> 🎁❤️</li>
                                 <li>Bring it to the party on <strong>December 19th</strong></li>
+                                <li>Dress Code: <strong>Festive attire!</strong> Think red, green, or ugly Christmas sweaters! 🎅</li>
                             </ul>
                             
                             <div style="background: linear-gradient(135deg, #165b33, #0d4d2a); color: white; padding: 20px; border-radius: 10px; text-align: center; margin-top: 30px;">
@@ -180,6 +181,7 @@ exports.handler = async (event) => {
         await client.close();
     }
 };
+
 
 
 
