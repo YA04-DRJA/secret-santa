@@ -395,8 +395,8 @@ body {
 
 /* How It Works - Updated */
 .info-box {
-    padding-left: 40px;  /* Increases left margin */
-    padding-right: 40px;  /* Increases right margin */
+    padding-left: 40px;
+    padding-right: 40px;
 }
 
 .info-box h3 {
@@ -406,11 +406,17 @@ body {
 
 .info-box ul {
     font-size: 18px;
-    line-height: 1.8;  /* Reduced from 2.2 to 1.8 */
-    font-weight: 500;  /* Makes it slightly bold */
+    line-height: 1.8;
+    font-weight: 500;
+    list-style: none;  /* Removes bullets */
 }
 
 .info-box ul li {
-    margin-bottom: 8px;  /* Reduced from 12px */
+    margin-bottom: 8px;
 }
+
+.info-box ul li::before {
+    content: none !important;  /* Removes the stars */
+}
+
 
