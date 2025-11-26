@@ -393,7 +393,12 @@ body {
     }
 }
 
-/* How It Works - Larger Font */
+/* How It Works - Updated */
+.info-box {
+    padding-left: 40px;  /* Increases left margin */
+    padding-right: 40px;  /* Increases right margin */
+}
+
 .info-box h3 {
     font-size: 28px;
     margin-bottom: 20px;
@@ -401,9 +406,11 @@ body {
 
 .info-box ul {
     font-size: 18px;
-    line-height: 2.2;
+    line-height: 1.8;  /* Reduced from 2.2 to 1.8 */
+    font-weight: 500;  /* Makes it slightly bold */
 }
 
 .info-box ul li {
-    margin-bottom: 12px;
+    margin-bottom: 8px;  /* Reduced from 12px */
 }
+
