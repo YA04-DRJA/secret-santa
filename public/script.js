@@ -218,14 +218,15 @@ document.addEventListener('DOMContentLoaded', function() {
         loadCount();
     }
 
-    async function loadCount() {
-        try {
-            const response = await fetch('/.netlify/functions/ge-participants');
-            const data = await response.json();
-            const count = data.participants ? data.participants.length : 0;
-            document.getElementById('participantCount').textContent = count;
-        } catch (error) {
-            document.getElementById('participantCount').textContent = '0';
-        }
+async function loadCount() {
+    try {
+        const response = await fetch('/.netlify/functions/get-participants');
+        const data = await response.json();
+        const count = data.count || 0;  // Use data.count instead!
+        document.getElementById('participantCount').textContent = count;
+    } catch (error) {
+        console.error('Load count error:', error);
+        document.getElementById('participantCount').textContent = '0';
     }
+}
 });
