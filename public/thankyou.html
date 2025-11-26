@@ -160,29 +160,16 @@
             box-shadow: 0 6px 20px rgba(255, 140, 0, 0.6);
         }
 
-        .percentage-bar {
-            width: 100%;
-            height: 8px;
-            background: #e0e0e0;
-            border-radius: 10px;
+        .count-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff8c00, #ff6b00);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
             margin-top: 8px;
-            overflow: hidden;
-        }
-
-        .percentage-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #ff8c00, #ff6b00);
-            transition: width 0.5s ease;
-            border-radius: 10px;
-        }
-
-        .percentage-text {
-            display: block;
-            text-align: center;
-            margin-top: 5px;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: bold;
-            color: #ff8c00;
+            box-shadow: 0 2px 5px rgba(255, 140, 0, 0.3);
         }
 
         @media (max-width: 768px) {
@@ -270,50 +257,32 @@
                         <div class="food-option" onclick="document.getElementById('main').checked = true;">
                             <input type="radio" id="main" name="foodType" value="Main Course" required>
                             <label for="main">🍗 Main Course</label>
-                            <div class="percentage-bar">
-                                <div class="percentage-fill" id="percent-main" style="width: 0%"></div>
-                            </div>
-                            <small class="percentage-text" id="text-main">0%</small>
+                            <div class="count-badge" id="count-main">0 people</div>
                         </div>
                         <div class="food-option" onclick="document.getElementById('appetizer').checked = true;">
                             <input type="radio" id="appetizer" name="foodType" value="Appetizer">
                             <label for="appetizer">🥗 Appetizer</label>
-                            <div class="percentage-bar">
-                                <div class="percentage-fill" id="percent-appetizer" style="width: 0%"></div>
-                            </div>
-                            <small class="percentage-text" id="text-appetizer">0%</small>
+                            <div class="count-badge" id="count-appetizer">0 people</div>
                         </div>
                         <div class="food-option" onclick="document.getElementById('dessert').checked = true;">
                             <input type="radio" id="dessert" name="foodType" value="Dessert">
                             <label for="dessert">🍰 Dessert</label>
-                            <div class="percentage-bar">
-                                <div class="percentage-fill" id="percent-dessert" style="width: 0%"></div>
-                            </div>
-                            <small class="percentage-text" id="text-dessert">0%</small>
+                            <div class="count-badge" id="count-dessert">0 people</div>
                         </div>
                         <div class="food-option" onclick="document.getElementById('snacks').checked = true;">
                             <input type="radio" id="snacks" name="foodType" value="Snacks">
                             <label for="snacks">🍿 Snacks</label>
-                            <div class="percentage-bar">
-                                <div class="percentage-fill" id="percent-snacks" style="width: 0%"></div>
-                            </div>
-                            <small class="percentage-text" id="text-snacks">0%</small>
+                            <div class="count-badge" id="count-snacks">0 people</div>
                         </div>
                         <div class="food-option" onclick="document.getElementById('drinks').checked = true;">
                             <input type="radio" id="drinks" name="foodType" value="Drinks">
                             <label for="drinks">🥤 Drinks</label>
-                            <div class="percentage-bar">
-                                <div class="percentage-fill" id="percent-drinks" style="width: 0%"></div>
-                            </div>
-                            <small class="percentage-text" id="text-drinks">0%</small>
+                            <div class="count-badge" id="count-drinks">0 people</div>
                         </div>
                         <div class="food-option" onclick="document.getElementById('notbringing').checked = true;">
                             <input type="radio" id="notbringing" name="foodType" value="Not Bringing Food">
                             <label for="notbringing">❌ Can't Bring Food</label>
-                            <div class="percentage-bar">
-                                <div class="percentage-fill" id="percent-notbringing" style="width: 0%"></div>
-                            </div>
-                            <small class="percentage-text" id="text-notbringing">0%</small>
+                            <div class="count-badge" id="count-notbringing">0 people</div>
                         </div>
                     </div>
 
@@ -342,7 +311,7 @@
             <div style="background: #e8f5e9; border: 2px solid #4caf50; border-radius: 15px; padding: 25px; margin: 25px 0;">
                 <h3 style="color: #2e7d32; text-align: center; margin-bottom: 15px;">🎁 Gift Wrapping Reminder 🎁</h3>
                 <p style="text-align: center; font-size: 16px; line-height: 1.8;">
-                    Please wrap your Secret Santa gift in red wrapping paper before bringing it to the party! Part of the fun is the surprise and presentation – let's keep it festive and uniform with a beautiful red theme! Add ribbons and bows to make it look magical! 🎀✨
+                    Please wrap your Secret Santa gift in <strong>red wrapping paper</strong> before bringing it to the party! Part of the fun is the surprise and presentation – let's keep it festive and uniform with a beautiful red theme! Add ribbons and bows to make it look magical! 🎀✨
                 </p>
             </div>
 
@@ -383,25 +352,24 @@
             const response = await fetch('/.netlify/functions/getpotluckstats');
             const data = await response.json();
             
-            if (data.percentages) {
-                updatePercentage('main', data.percentages['Main Course'] || 0);
-                updatePercentage('appetizer', data.percentages['Appetizer'] || 0);
-                updatePercentage('dessert', data.percentages['Dessert'] || 0);
-                updatePercentage('snacks', data.percentages['Snacks'] || 0);
-                updatePercentage('drinks', data.percentages['Drinks'] || 0);
-                updatePercentage('notbringing', data.percentages['Not Bringing Food'] || 0);
+            if (data.counts) {
+                updateCount('main', data.counts['Main Course'] || 0);
+                updateCount('appetizer', data.counts['Appetizer'] || 0);
+                updateCount('dessert', data.counts['Dessert'] || 0);
+                updateCount('snacks', data.counts['Snacks'] || 0);
+                updateCount('drinks', data.counts['Drinks'] || 0);
+                updateCount('notbringing', data.counts['Not Bringing Food'] || 0);
             }
         } catch (error) {
             console.error('Error loading stats:', error);
         }
     }
 
-    function updatePercentage(id, percent) {
-        const fill = document.getElementById('percent-' + id);
-        const text = document.getElementById('text-' + id);
-        if (fill && text) {
-            fill.style.width = percent + '%';
-            text.textContent = percent + '%';
+    function updateCount(id, count) {
+        const countElement = document.getElementById('count-' + id);
+        if (countElement) {
+            const text = count === 1 ? '1 person' : count + ' people';
+            countElement.textContent = text;
         }
     }
 
@@ -464,7 +432,7 @@
                     input.disabled = true;
                 });
                 
-                // Reload stats after 500ms to show updated percentages
+                // Reload stats after 500ms to show updated counts
                 setTimeout(() => {
                     loadPotluckStats();
                 }, 500);
@@ -569,7 +537,3 @@
 </script>
 </body>
 </html>
-
-
-
-
