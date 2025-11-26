@@ -16,7 +16,7 @@ exports.handler = async (event) => {
         };
     }
 
-    const client = new MongoClient(uri);  // Create client INSIDE handler
+    const client = new MongoClient(uri);
 
     try {
         console.log('Connecting to MongoDB...');
@@ -25,10 +25,15 @@ exports.handler = async (event) => {
         
         const database = client.db('secretsanta');
         const collection = database.collection('participants');
+        const configCollection = database.collection('config');
 
         console.log('Fetching participants...');
         const participants = await collection.find({}).toArray();
         console.log('Found participants:', participants.length);
+
+        // CHECK IF DRAW WAS COMPLETED - READ FROM DATABASE!
+        const config = await configCollection.findOne({ key: 'drawCompleted' });
+        const drawCompleted = config && config.value === true;
 
         await client.close();
 
@@ -41,7 +46,7 @@ exports.handler = async (event) => {
             body: JSON.stringify({
                 count: participants.length,
                 participants: participants,
-                drawCompleted: false  // You'll update this when you implement the draw
+                drawCompleted: drawCompleted  // NOW IT'S DYNAMIC!
             })
         };
 
