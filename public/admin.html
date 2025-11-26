@@ -366,41 +366,44 @@
         loadPotluckSummary();
     });
 
-    // Helper function to format date
-    function formatDate(participant) {
-        const dateValue = participant.timestamp || 
-                          participant.createdAt || 
-                          participant.joinedAt || 
-                          participant._id;
-        
-        if (!dateValue) {
+// Helper function to format date
+function formatDate(participant) {
+    // Check for signupDate first (that's what your DB uses)
+    const dateValue = participant.signupDate || 
+                      participant.timestamp || 
+                      participant.createdAt || 
+                      participant.joinedAt;
+    
+    if (!dateValue) {
+        // Fallback to MongoDB ObjectId timestamp
+        try {
+            if (participant._id) {
+                const timestamp = parseInt(participant._id.toString().substring(0, 8), 16) * 1000;
+                return new Date(timestamp).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+            }
+        } catch (e) {
             return 'Unknown';
         }
-        
-        // If it's a MongoDB ObjectId, extract the timestamp
-        if (typeof dateValue === 'object' && dateValue.$oid) {
-            const timestamp = parseInt(dateValue.$oid.substring(0, 8), 16) * 1000;
-            return new Date(timestamp).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric'
-            });
-        }
-        
-        // Try to parse as regular date
-        const date = new Date(dateValue);
-        if (!isNaN(date.getTime())) {
-            return date.toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-        }
-        
-        return 'Unknown';
     }
+    
+    // Parse the ISO date string
+    const date = new Date(dateValue);
+    if (!isNaN(date.getTime())) {
+        return date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    }
+    
+    return 'Unknown';
+}
 
     // Load participants
     async function loadParticipants() {
@@ -592,6 +595,7 @@
 </script>
 </body>
 </html>
+
 
 
 
